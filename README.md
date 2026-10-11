@@ -24,13 +24,14 @@ css/ js/ assets/   stylesheet, script, logos, favicon and photos
 email/             standalone HTML email template (see email/README.md), published at /email/
 DESIGN.md          design system: colors, type, spacing, accessibility floor
 dist/             build output (not committed)
+.github/           the build-and-deploy workflow and Dependabot settings (see Deploy)
 ```
 
 ## Build and preview
 
 ```sh
 python3 build.py
-python3 -m http.server --directory dist 8000
+python3 -m http.server --bind 127.0.0.1 --directory dist 8000
 ```
 
 Then open <http://localhost:8000>. Each build empties `dist/` and writes it again: the seven
@@ -79,9 +80,58 @@ To add a page, create a module in `generator/pages/` with a `FILENAME` and a `re
 function, add it to `PAGES` in `generator/pages/__init__.py`, and add a menu entry to
 `data/nav.json` if it belongs in the menu.
 
-## Deploying
+## Deploy
 
-Deploys are moving to GitHub Actions, which will run the same `python3 build.py` and publish
-`dist/` to GitHub Pages; generated HTML will no longer be committed. Until that switch lands,
-GitHub Pages serves the HTML committed at the repo root, so edits to `data/` reach the live
-site only after it.
+GitHub Actions builds the site and publishes it to GitHub Pages. Generated HTML is never
+committed. The workflow is `.github/workflows/deploy.yml`.
+
+- **Every push to `main`**, including a merged pull request, runs `python3 build.py` and
+  deploys `dist/`. Runs on `main` take turns: each one builds and deploys before the next
+  starts, and none is cut off midway. If several merges land close together, a newer waiting
+  run replaces an older waiting one, so the newest commit deploys last. If the live site ever
+  lags behind `main`, rebuild by hand (below).
+- **Every pull request** runs the same build and attaches the finished site to the run as a
+  downloadable artifact named `github-pages`, kept for 14 days. A new push to the pull request
+  cancels its older run. To preview it, open the run from the pull request's checks, download
+  `github-pages` from the run's summary page, and unzip it outside the repository folder (for
+  example in Downloads, so the built pages can't be committed by mistake). Then, in that
+  folder, unpack the `artifact.tar` inside and serve it to this computer only:
+
+  ```sh
+  mkdir preview && python3 -c "import tarfile; tarfile.open('artifact.tar').extractall('preview', filter='data')"
+  python3 -m http.server --bind 127.0.0.1 --directory preview 8000
+  ```
+
+  Only preview pull requests opened by you or a collaborator you trust: a pull request from a
+  fork runs its own copy of the workflow, so its artifact can contain anything. The `data`
+  filter refuses links and paths that lead outside `preview/`, which plain `tar -xf` would
+  unpack and the server would then hand to the page. The filter needs Python 3.12 or newer
+  (3.9 to 3.11 have it from 3.9.17, 3.10.12 and 3.11.4); older versions stop with an error
+  and unpack nothing.
+
+- **If the build fails, nothing deploys** and the last good site stays live. The run's log
+  shows the same message as a local build.
+- **To rebuild by hand**, use Actions > Build and deploy site > Run workflow. On `main` it
+  builds and deploys; on any other branch it only builds.
+
+The upload leaves out hidden files, such as the `.site-build` marker.
+
+Repository settings:
+
+- **Settings > Pages > Source** must be **GitHub Actions**. With "Deploy from a branch", Pages
+  would publish the repository's source files (README and all) instead of the built site.
+- **Settings > Pages > Custom domain** holds the domain. With the GitHub Actions source, a
+  `CNAME` file in the repository is ignored, so don't add one. Verify the domain first, under your
+  GitHub profile's Settings > Pages, so no other account can use it, and tick **Enforce
+  HTTPS** once GitHub has issued the certificate.
+- **Settings > Environments > github-pages > Deployment branches** should allow only `main`.
+  Remove any other branch, such as `gh-pages`: a branch the environment allows could deploy
+  with an edited copy of the workflow.
+- **Settings > Actions > General**: turn on **Require actions to be pinned to a full-length
+  commit SHA**, so an edit that adds an unpinned action fails instead of running.
+
+Every action in the workflow is pinned to a full commit SHA, with its version in a comment.
+Dependabot (`.github/dependabot.yml`) checks for new versions weekly, waits until a release has
+been out for 7 days, and opens one pull request with that week's updates. Its build checks the
+new versions of the build actions. The deploy action only runs after merging, so after merging
+an update that changes `deploy-pages`, check that the next deploy succeeded.

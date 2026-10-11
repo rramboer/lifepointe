@@ -1,0 +1,65 @@
+name: Build and deploy site
+
+# Every pull request and every push to main builds the site. Only main deploys.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Whole runs for the same branch or pull request take turns, so the runs on main build and
+# deploy in the order they started, and a newer waiting run replaces an older waiting one.
+# A new push to a pull request cancels that pull request's older run.
+# Keep its name different from the deploy job's "pages" group: GitHub cancels a run that
+# waits on one group at both levels, as a deadlock.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Show the Python version
+        run: python3 --version
+
+      # Stops with a non-zero exit on any data or output problem, so nothing deploys.
+      - name: Build the site into dist/
+        run: python3 build.py
+
+      # On a pull request, download "github-pages" from the run's summary page to preview it.
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: dist
+          # Pull request previews stay downloadable for two weeks; a deploy needs its copy only briefly.
+          retention-days: ${{ github.event_name == 'pull_request' && 14 || 1 }}
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    # One Pages deploy at a time, and none cancelled midway.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
