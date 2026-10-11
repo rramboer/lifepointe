@@ -1,4 +1,11 @@
-"""The chrome every page shares: head, header, footer, page hero, closing CTA band."""
+"""The chrome every page shares: head, header, footer, page hero, closing CTA band.
+
+`base` goes in front of every link to the site's own files. '' keeps links relative to the
+page, so a copy of the site works in any folder (such as the github.io preview). '/' makes
+them root-absolute, for the 404 page, which GitHub Pages serves at whatever address was
+missing, at any depth.
+"""
+from . import seo
 from .helpers import esc
 from .hours import hours_summary
 from .icons import svg
@@ -6,7 +13,9 @@ from .icons import svg
 V = '<span class="vertebra" aria-hidden="true"></span>'
 
 
-def head(title, description):
+def head(title, description, base='', extra=''):
+    """extra is trusted HTML for the end of <head> (robots, canonical and sharing tags, JSON-LD)."""
+    extra_html = f'\n  {extra}' if extra else ''
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,25 +23,25 @@ def head(title, description):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(description)}">
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="{base}assets/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="{base}css/site.css">{extra_html}
 </head>'''
 
 
-def header(site, active):
+def header(site, active, base=''):
     links = []
     for item in site.nav:
         current = ' aria-current="page"' if item.href == active else ''
-        links.append(f'<li><a href="{esc(item.href)}"{current}>{esc(item.label)}</a></li>')
+        links.append(f'<li><a href="{esc(base + item.href)}"{current}>{esc(item.label)}</a></li>')
     return f'''
 <a class="skip-link" href="#main">Skip to main content</a>
 <header class="site-header">
   <div class="wrap site-header__bar">
-    <a class="site-header__logo" href="index.html" aria-label="Lifepointe Chiropractic and Wellness Center — home">
-      <img src="assets/logo-full-color.svg" alt="Lifepointe Chiropractic and Wellness Center" width="180" height="61">
+    <a class="site-header__logo" href="{base}index.html" aria-label="Lifepointe Chiropractic and Wellness Center — home">
+      <img src="{base}assets/logo-full-color.svg" alt="Lifepointe Chiropractic and Wellness Center" width="180" height="61">
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
@@ -42,7 +51,7 @@ def header(site, active):
       <ul>{''.join(links)}</ul>
     </nav>
     <div class="site-header__cta">
-      <a class="btn btn--primary btn--sm" href="contact.html#appointment">Request an appointment</a>
+      <a class="btn btn--primary btn--sm" href="{base}contact.html#appointment">Request an appointment</a>
     </div>
   </div>
 </header>'''
@@ -62,7 +71,7 @@ def page_hero(eyebrow, h1, lede=''):
 
 
 def cta_band(site, heading='Don&rsquo;t wait any longer to get relief from your pain.',
-             sub='Call, or send a request and a member of our team will reach out to you soon.'):
+             sub='Call, or send a request and a member of our team will reach out to you soon.', base=''):
     """Closing call-to-action band. heading and sub are trusted HTML."""
     phone = site.practice.phone
     return f'''
@@ -71,17 +80,17 @@ def cta_band(site, heading='Don&rsquo;t wait any longer to get relief from your 
     <h2 class="display-2 measure-center">{heading}</h2>
     <p class="lede measure-center">{sub}</p>
     <div class="btn-row btn-row--center">
-      <a class="btn btn--primary" href="contact.html#appointment">Request an appointment</a>
+      <a class="btn btn--primary" href="{base}contact.html#appointment">Request an appointment</a>
       <a class="btn btn--ghost" href="{esc('tel:' + phone.tel)}">Call {esc(phone.display)}</a>
     </div>
   </div>
 </section>'''
 
 
-def footer(site):
+def footer(site, base=''):
     p = site.practice
     explore = '\n'.join(
-        f'          <li><a href="{esc(item.href)}">{esc(getattr(item, "footer_label", item.label))}</a></li>'
+        f'          <li><a href="{esc(base + item.href)}">{esc(getattr(item, "footer_label", item.label))}</a></li>'
         for item in site.nav)
     hours = '\n'.join(f'          <li>{line}</li>' for line in hours_summary(site.hours))
     old_site = esc(p.legacy.old_site)
@@ -90,8 +99,8 @@ def footer(site):
   <div class="wrap">
     <div class="site-footer__grid">
       <div>
-        <a class="site-footer__logo" href="index.html" aria-label="Lifepointe Chiropractic — home">
-          <img src="assets/logo-reversed.svg" alt="Lifepointe Chiropractic and Wellness Center" width="190" height="63">
+        <a class="site-footer__logo" href="{base}index.html" aria-label="Lifepointe Chiropractic — home">
+          <img src="{base}assets/logo-reversed.svg" alt="Lifepointe Chiropractic and Wellness Center" width="190" height="63">
         </a>
         <p class="site-footer__tagline">Family wellness and chiropractic care for every age &mdash; serving Clarkston since 2001.</p>
         <div class="social-row">
@@ -127,10 +136,17 @@ def footer(site):
     </div>
   </div>
 </footer>
-<script src="js/site.js"></script>'''
+<script src="{base}js/site.js"></script>'''
 
 
-def page(site, filename, title, description, body):
-    """A complete HTML document. title and description are plain text; body is HTML."""
-    return (head(title, description) + '\n<body>' + header(site, filename)
-            + f'\n<main id="main">{body}</main>' + footer(site) + '\n</body>\n</html>')
+def page(site, filename, title, description, body, *, head_extra='', base='', indexable=True):
+    """A complete HTML document. title and description are plain text; body and head_extra
+    are HTML. An indexable page gets its canonical URL and sharing tags (seo.py); any other
+    is marked noindex and has neither."""
+    if indexable:
+        tags = seo.head_tags(site, filename, title, description)
+    else:
+        tags = '<meta name="robots" content="noindex">'
+    extra = tags + (f'\n  {head_extra}' if head_extra else '')
+    return (head(title, description, base, extra) + '\n<body>' + header(site, filename, base)
+            + f'\n<main id="main">{body}</main>' + footer(site, base) + '\n</body>\n</html>')

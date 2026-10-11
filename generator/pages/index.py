@@ -3,6 +3,7 @@ from ..helpers import esc
 from ..hours import hours_table
 from ..icons import icon, svg
 from ..layout import V, cta_band, page
+from ..seo import local_business
 
 FILENAME = 'index.html'
 
@@ -150,4 +151,4 @@ def render(site):
     return page(site, FILENAME,
                 f'{p.name} | Clarkston, MI',
                 'Family chiropractic and wellness care in Clarkston, MI since 2001. Gentle adjustments, massage therapy, digital X-ray, and nutrition — for every age.',
-                body)
+                body, head_extra=local_business(site))
