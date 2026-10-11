@@ -175,7 +175,9 @@ def _check_practice(c, raw):
     if site_url and not SITE_URL.fullmatch(site_url):
         c.fail('site_url', f'must be just https:// and the domain, in lowercase, with no path or '
                            f'trailing slash, like https://example.com (got "{site_url}")')
-    # The /card page (business-card QR code) sends people here; null means the contact page.
+    # The online booking page. When set, the contact page's appointment section leads with a
+    # "Book online" button and the /card page (business-card QR code) sends people here;
+    # null means /card goes to the contact page.
     if 'booking_url' not in p:
         c.fail('booking_url', 'missing (use null to send /card to the contact page)')
     elif p['booking_url'] is not None:
@@ -186,7 +188,7 @@ def _check_practice(c, raw):
     social = c.obj(p.get('social'), 'social', ('facebook', 'instagram'))
     c.url(social, 'facebook', 'social')
     c.url(social, 'instagram', 'social')
-    links = ('old_site', 'appointment_form', 'appointment_form_script', 'adult_forms', 'child_forms', 'video')
+    links = ('old_site', 'adult_forms', 'child_forms', 'video')
     legacy = c.obj(p.get('legacy'), 'legacy', links + ('pamphlets',))
     for key in links:
         c.url(legacy, key, 'legacy')

@@ -67,6 +67,12 @@ success-stories: topic chips jump to one section per category (heading = categor
 vertebra each, alternating background, a "Back to topics" link). Quotes of uneven length flow
 in up to three columns (`.quote-columns`), read top to bottom; the home page keeps three
 cards in a row.
+contact: the `#appointment` section pairs the hours table with a booking card: a green
+"Call" button, a ghost "Email us" button (a mailto with the subject and a name / phone /
+preferred times template filled in) and a note to leave health details out of email. When
+practice.json has a `booking_url`, a green "Book online" button leads and Call turns ghost,
+so the card keeps one primary action. No form, no embed: nothing on the site collects health
+information or loads a third-party widget.
 Shared header (sticky, green CTA → contact#appointment) + footer (navy-ink, white logo).
 The closing CTA band is shared verbatim on five pages; new-patients tailors it ("Ready for
 your first visit?") and contact omits it — deliberate: never CTA to the page you're on.
@@ -93,5 +99,5 @@ styling in css/site.css, behavior in js/site.js.
 ## Known placeholders
 - Links that still point at the old website or services tied to it, all kept under `legacy` in
   data/practice.json: the footer privacy and accessibility links, the adult and child
-  new-patient forms, the two service pamphlets, the video link on the about page, and the
-  contact page's appointment form. Later changes replace or remove each one.
+  new-patient forms, the two service pamphlets and the video link on the about page. Later
+  changes replace or remove each one.

@@ -21,8 +21,9 @@ generator/         the generator itself
   card.py          the /card redirect behind the business-card QR code (see below)
   hours.py         office-hours table and footer summary
   icons.py         inline SVG icons, by name
-  helpers.py       esc(), which escapes every data value placed into HTML, and
-                   number_word() for counts in running text
+  helpers.py       esc(), which escapes every data value placed into HTML,
+                   mailto() for links that open a new email with the subject and
+                   body filled in, and number_word() for counts in running text
   static.py        the folders copied into the site as-is
   checks.py        scans the finished site for text that must never appear
 css/ js/ assets/   stylesheet, script, logos, favicon and photos
@@ -66,7 +67,7 @@ The build stops with a non-zero exit and a message naming the file and field whe
 
 | File | What it holds |
 |---|---|
-| `data/practice.json` | Practice name and legal name, the doctor's name and credentials, phone (display and dialing), fax, email, address (`street, city, ST 12345`), map link and the coordinates of its pin (`geo`), social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `booking_url` is where the business-card QR code goes (see below); `null` means the contact page. `legacy` holds links that still point at the old website's hosting; they are being replaced. |
+| `data/practice.json` | Practice name and legal name, the doctor's name and credentials, phone (display and dialing), fax, email, address (`street, city, ST 12345`), map link and the coordinates of its pin (`geo`), social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `booking_url` is the online booking page: when it is set, the contact page's appointment section leads with a "Book online" button and the business-card QR code goes there (see below); `null` means the QR code goes to the contact page. `legacy` holds links that still point at the old website's hosting; they are being replaced. |
 | `data/nav.json` | The header menu, in order. `footer_label` changes an entry's text in the footer's Explore list. |
 | `data/hours.json` | Office hours, Monday through Sunday, in 24-hour `HH:MM`. `"hours": []` means closed. This one list feeds both hours tables (home and contact) and the footer summary. |
 | `data/services.json` | `home_cards` (home page "What we do"), `services` (services page; `pamphlet` adds a download link from `practice.json`) and `products`. |
@@ -140,7 +141,8 @@ Printed cards last for years, so that address must always work.
   that does the same. If neither runs, it shows the logo and a button to the same place. It
   loads nothing from other sites.
 - **To change where it goes, set `booking_url`** in `data/practice.json` to a full `https://`
-  address, such as the online booking page once there is one. While `booking_url` is `null`,
+  address, such as the online booking page once there is one. That also adds a "Book online"
+  button to the contact page's appointment section. While `booking_url` is `null`,
   it goes to the contact page's appointment section, `/contact.html#appointment`, so keep
   `id="appointment"` on that section; the build stops if it is gone. The page itself is
   `generator/card.py`, and no other page may use the file name `card.html`.

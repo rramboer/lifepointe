@@ -23,8 +23,6 @@
   "booking_url": null,
   "legacy": {
     "old_site": "https://lifepointechiropractic.com",
-    "appointment_form": "https://api.leadconnectorhq.com/widget/form/f8vb0aCndV7BQySGJTI7",
-    "appointment_form_script": "https://link.msgsndr.com/js/form_embed.js",
     "adult_forms": "https://res2.yourwebsite.life/res/62f173898d9d30000fa9b6b9/62f53d6f602bec000da85f13",
     "child_forms": "https://res2.yourwebsite.life/res/62f173898d9d30000fa9b6b9/62f53d8125203f000dcbf00d",
     "video": "https://vimeo.com/737699204",

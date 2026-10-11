@@ -1,9 +1,26 @@
 import html
+from urllib.parse import quote
 
 
 def esc(value):
     """Escape a data value for HTML text or a quoted attribute. Use it on every value from data/."""
     return html.escape(str(value), quote=True)
+
+
+def mailto(address, subject='', body=''):
+    """A mailto: link (RFC 6068) that opens a new email with the subject and body filled in.
+
+    Every part is percent-encoded (spaces as %20, never +) and every line break in the body
+    (LF, CRLF or a lone CR) is written as CRLF, as the RFC asks. The result is a URL, not
+    HTML: pass it through esc() like any value.
+    """
+    fields = []
+    if subject:
+        fields.append('subject=' + quote(subject, safe=''))
+    if body:
+        lines = body.replace('\r\n', '\n').replace('\r', '\n').split('\n')
+        fields.append('body=' + quote('\r\n'.join(lines), safe=''))
+    return 'mailto:' + quote(address, safe='@+') + ('?' + '&'.join(fields) if fields else '')
 
 
 _NUMBER_WORDS = ('zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
