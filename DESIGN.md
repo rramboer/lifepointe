@@ -60,7 +60,13 @@ spacing — new one-offs should become classes.
 
 ## Pages
 index, about, services, new-patients, success-stories, recipe-book, contact. The practice's
-own pages and wording only, nothing invented (testimonials are verbatim).
+own pages and wording only, nothing invented. Testimonials are taken verbatim from archived
+copies of the old site (typo fixes only); entries that name former staff or speak of the
+practice's doctors in the plural are left out, never edited.
+success-stories: topic chips jump to one section per category (heading = category name, one
+vertebra each, alternating background, a "Back to topics" link). Quotes of uneven length flow
+in up to three columns (`.quote-columns`), read top to bottom; the home page keeps three
+cards in a row.
 Shared header (sticky, green CTA → contact#appointment) + footer (navy-ink, white logo).
 The closing CTA band is shared verbatim on five pages; new-patients tailors it ("Ready for
 your first visit?") and contact omits it — deliberate: never CTA to the page you're on.
@@ -86,7 +92,6 @@ styling in css/site.css, behavior in js/site.js.
 
 ## Known placeholders
 - Links that still point at the old website or services tied to it, all kept under `legacy` in
-  data/practice.json: the ten success-story categories not yet on this site (marked ↗; the
-  other five are on-page), the footer privacy and accessibility links, the adult and child
+  data/practice.json: the footer privacy and accessibility links, the adult and child
   new-patient forms, the two service pamphlets, the video link on the about page, and the
   contact page's appointment form. Later changes replace or remove each one.

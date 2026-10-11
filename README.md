@@ -21,7 +21,8 @@ generator/         the generator itself
   card.py          the /card redirect behind the business-card QR code (see below)
   hours.py         office-hours table and footer summary
   icons.py         inline SVG icons, by name
-  helpers.py       esc(), which escapes every data value placed into HTML
+  helpers.py       esc(), which escapes every data value placed into HTML, and
+                   number_word() for counts in running text
   static.py        the folders copied into the site as-is
   checks.py        scans the finished site for text that must never appear
 css/ js/ assets/   stylesheet, script, logos, favicon and photos
@@ -49,9 +50,12 @@ The build stops with a non-zero exit and a message naming the file and field whe
 
 - a data file is not valid JSON, or repeats a key;
 - a required field is missing or empty;
-- an id is used twice, or a quote or section points at a category that doesn't exist;
+- an id is used twice, or a home-page quote names a testimonial that doesn't exist;
 - an icon name is unknown, or a menu entry points at a page the build doesn't make;
 - a data value contains HTML markup or an entity;
+- a testimonial has a straight `'` or `"`, or is wrapped in quote marks (the page adds its own);
+- a success-story category id is already used on that page (`topics`, `topics-h`, `main`,
+  `site-nav`, or another category's id or heading id, `<category id>-h`);
 - the address, fax, dialing number or map coordinates can't be used in the home page's
   JSON-LD, the coordinates don't match the pin in the map link, or the link-preview image is
   missing or a different size (see Search engines and link previews);
@@ -66,8 +70,8 @@ The build stops with a non-zero exit and a message naming the file and field whe
 | `data/nav.json` | The header menu, in order. `footer_label` changes an entry's text in the footer's Explore list. |
 | `data/hours.json` | Office hours, Monday through Sunday, in 24-hour `HH:MM`. `"hours": []` means closed. This one list feeds both hours tables (home and contact) and the footer summary. |
 | `data/services.json` | `home_cards` (home page "What we do"), `services` (services page; `pamphlet` adds a download link from `practice.json`) and `products`. |
-| `data/testimonials.json` | Success-story `categories` (chip order) and the on-site `sections`, each with its heading and testimonials. A category either has a section or an `old_site_path`. |
-| `data/home-quotes.json` | The quotes on the home page. `category` is an id from `testimonials.json`. |
+| `data/testimonials.json` | The success stories, by category, in page order. Each category has an `id` (its anchor, as in `success-stories.html#back-pain`), a `label` (its chip and heading) and its `testimonials`, each with a stable `id` (category id plus the patient's name), the `quote` and the `author`. The home page and the success-stories intro count the categories, so their wording follows this list. |
+| `data/home-quotes.json` | The testimonials shown on the home page, as a list of testimonial ids from `testimonials.json`. Each card's label line is its testimonial's category. |
 | `data/recipe-staples.json` | Staple ingredients on the recipe book page. |
 | `data/team.json` | Staff cards and professional memberships on the about page. |
 
@@ -80,6 +84,10 @@ Rules for data files:
 - Icon names are the keys of `ICONS` in `generator/icons.py`.
 - Keep the practice's own wording and fix typos only. Don't add claims, statistics, reviews,
   testimonials or quotes the practice didn't write.
+- Testimonials are the patients' exact words, typos fixed. Leave out the quote marks around
+  them, since the page adds its own, and use ’ “ ” for apostrophes and quotes inside them. Leave
+  out any testimonial that names former staff, says "Drs." or speaks of the practice's doctors
+  in the plural. Never edit one to make it fit.
 
 Text that appears on only one page and needs markup (links, emphasis, line breaks) lives in
 that page's module in `generator/pages/`. The shared header, footer and CTA band are in

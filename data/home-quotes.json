@@ -1,17 +1,5 @@
 [
-  {
-    "quote": "After 3 weeks, my headaches are virtually gone! My head has not felt this clear in years!",
-    "author": "Deb C.",
-    "category": "headaches"
-  },
-  {
-    "quote": "I had low-grade pain for 6–8 months with a loss of mobility… my back is the best it has been in 20 years!",
-    "author": "Mike A.",
-    "category": "back-pain"
-  },
-  {
-    "quote": "I can breathe normally now, and have not used an inhaler since my first adjustment — 2½ years now!",
-    "author": "Gail H.",
-    "category": "allergies-asthma"
-  }
+  "headaches-deb-c",
+  "back-pain-mike-a",
+  "allergies-asthma-gail-h"
 ]

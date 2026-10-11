@@ -1,87 +1,535 @@
 {
   "categories": [
-    { "id": "allergies-asthma", "label": "Allergies & asthma" },
-    { "id": "back-pain", "label": "Back pain" },
-    { "id": "children", "label": "Children", "old_site_path": "/patient-success-stories/children-chiropractic-treatment" },
-    { "id": "chronic-pain-fatigue", "label": "Chronic pain & fatigue", "old_site_path": "/patient-success-stories/chronic-pain-fatigue-care" },
-    { "id": "depression-anxiety", "label": "Depression & anxiety", "old_site_path": "/patient-success-stories/depression-anxiety-care" },
-    { "id": "digestive-issues", "label": "Digestive issues", "old_site_path": "/patient-success-stories/digestive-issues-treatment" },
-    { "id": "disc-herniations", "label": "Disc herniations", "old_site_path": "/patient-success-stories/disc-herniation-treatment" },
-    { "id": "extremity-pain", "label": "Extremity pain", "old_site_path": "/patient-success-stories/extremity-pain-care" },
-    { "id": "fertility", "label": "Fertility & female issues" },
-    { "id": "headaches", "label": "Headaches & migraines" },
-    { "id": "immune-function", "label": "Immune function", "old_site_path": "/patient-success-stories/immune-function-treatment" },
-    { "id": "neck-pain", "label": "Neck pain", "old_site_path": "/patient-success-stories/neck-pain-care" },
-    { "id": "optimal-health", "label": "Optimal health", "old_site_path": "/patient-success-stories/optimal-health-treatment" },
-    { "id": "scoliosis", "label": "Scoliosis", "old_site_path": "/patient-success-stories/scoliosis-treatment" },
-    { "id": "little-ones", "label": "Words from our little ones" }
-  ],
-  "sections": [
     {
-      "category": "back-pain",
-      "heading": "Moving again, without the meds",
+      "id": "allergies-asthma",
+      "label": "Allergies & asthma",
       "testimonials": [
         {
-          "quote": "I had low-grade pain for 6–8 months with a loss of mobility… my back is the best it has been in 20 years!",
+          "id": "allergies-asthma-amy-b",
+          "quote": "I was taking 6 medications and had already had 3 surgeries for my allergies and sinus problems. I decided to try chiropractic care, but was very skeptical. Since I started getting adjusted, I have eliminated ALL SIX MEDICATIONS! The time commitment is minimal compared to the benefits! I feel better than ever!",
+          "author": "Amy B."
+        },
+        {
+          "id": "allergies-asthma-lori-w",
+          "quote": "Just like my friend who referred me here, I was bothered by allergies and sinus problems. I figured, if it worked for her, maybe it would work for me. I was skeptical at first, but here I am, a year later and no allergy and sinus medication!",
+          "author": "Lori W."
+        },
+        {
+          "id": "allergies-asthma-kim-h",
+          "quote": "I have suffered from allergies most of my adult life. I have taken medication regularly for 20 years. Since getting adjusted, I no longer suffer from these severe allergy symptoms. Medication is now a thing of the past!",
+          "author": "Kim H."
+        },
+        {
+          "id": "allergies-asthma-gail-h",
+          "quote": "I am 62 years old and have used rescue inhalers, regular inhalers and breathing treatments for my asthma since I was 12 years old. Since starting care, chiropractic has changed everything for me. I can breathe normally now, and have not used an inhaler since my first adjustment (it has been 2 1/2 years now)!",
+          "author": "Gail H."
+        },
+        {
+          "id": "allergies-asthma-scott-s",
+          "quote": "I used to have 2–3 asthma episodes per week before I started chiropractic care. Now, I have had only 2 episodes since I started care! I also sleep better and feel like I have more energy!",
+          "author": "Scott S."
+        }
+      ]
+    },
+    {
+      "id": "back-pain",
+      "label": "Back pain",
+      "testimonials": [
+        {
+          "id": "back-pain-mike-a",
+          "quote": "I had low grade pain for 6–8 months with a loss of mobility. I decided to try chiropractic because I wanted to find a long-term solution. When I first started, I was feeling skeptical, but since I started care, my back is the best it has been in 20 years!",
           "author": "Mike A."
         },
         {
-          "quote": "My lower back would hurt so bad that I couldn’t sit, stand or walk… my back is feeling great!",
+          "id": "back-pain-jennifer-i",
+          "quote": "At 25 years old, I would come home from work in so much pain in my back and neck that I would have to medicate and lay down to rest. I was lucky if I got to spend one hour with my family at night. I was in too much pain to hold my child. After meeting with Dr. Greg, I was reluctant because of a bad experience I had before with another chiropractor, but desperate for relief. Unlike before, I found myself looking forward to adjustments and feeling better afterwards. They made me believe that my body could heal again, and helped me focus on making my own health a priority. Now I look at health differently and I feel like I am on the road to being optimally healthy. I no longer medicate, EVER! A year ago I would have never thought it possible. I feel like I have reclaimed my life. I can now give people I care about a referral that I have complete confidence in! I know this is the right place for my family!",
+          "author": "Jennifer I."
+        },
+        {
+          "id": "back-pain-melissa-d",
+          "quote": "I had been having neck and back pain off and on now for 10–15 years. I had seen a few different doctors and was getting nowhere with treatment. I have seen the success of chiropractic care with my horses, so I felt it was the right step for me to regain my own health. Lifepointe is the friendliest, most welcoming office I have ever been to! Since starting care, my life has changed! My allergy and sinus problems have improved, I am able to ride my horse longer without pain, my posture is better, I have more energy and am feeling better overall! I plan to stay under chiropractic care for life!",
+          "author": "Melissa D."
+        },
+        {
+          "id": "back-pain-ryan-h",
+          "quote": "My lower back would hurt so bad that I couldn’t sit, stand or walk. I even had to wear a brace for awhile. My mom brought me one day to Lifepointe. I have noticed that even with my new lifting job, my back is feeling great! And even better, I’m correcting a problem that would have affected me for the rest of my life.",
           "author": "Ryan H."
         },
         {
-          "quote": "Because of the severity of my back, I was told there was no hope… What a difference chiropractors make!",
+          "id": "back-pain-don-l",
+          "quote": "I had suffered from low back and neck pain for over 30 years. I had been to a chiropractor before, but none with the recommendation of making a correction to the problem. I decided to give it a try. Since I started the program, my health has improved greatly, and my state of mind and wellness has also improved! I am physically and mentally much better!",
+          "author": "Don L."
+        },
+        {
+          "id": "back-pain-bill-l",
+          "quote": "Because of the severity of my back, I was told over the years that there was no hope of improvement, just getting progressively worse. Back surgery was looking like the only option. I was referred to Lifepointe and had nothing to lose. What a difference Chiropractors make! All I can say is that the results have far exceeded any of my expectations. I can definitely say that I feel 100% better!",
           "author": "Bill L."
+        },
+        {
+          "id": "back-pain-jeff-b",
+          "quote": "I had back and neck problems and very limited movement in my neck. I didn’t think much would happen after seeing so many doctors already with not much improvement. Wow, wow, wow. Now I do everything I want with no pain and more movement than I have had in the past 15 years! I thank God and chiropractic.",
+          "author": "Jeff B."
+        },
+        {
+          "id": "back-pain-phil-w",
+          "quote": "I had ongoing low back pain for several years, and it was only getting worse. I was not ready to consider surgery, so I decided to try chiropractic. My back pain and leg numbness subsided within 2 weeks and my back feels as strong as ever! I am able to do things now that I have not been able to, my overall health has increased and I sleep better!",
+          "author": "Phil W."
+        },
+        {
+          "id": "back-pain-christina-q",
+          "quote": "After a car accident, I had back pain almost 24/7. The medication made me tired and I couldn’t take it when I went to work, so I spent most of my days in pain. At the time, I didn’t really believe in chiropractic care, but I decided it couldn’t get any worse, so I called for an appointment. One month after starting care, I no longer needed the medication! To this day, three years later, I have not taken another pill. Aside from feeling physically better, I also feel emotionally and mentally healthier! My 2 1/2 year old daughter is now under care too! I suggest that everyone be checked by a chiropractor!",
+          "author": "Christina Q."
         }
       ]
     },
     {
-      "category": "headaches",
-      "heading": "Clear heads, back to daily life",
+      "id": "children",
+      "label": "Children",
       "testimonials": [
         {
-          "quote": "After 3 weeks, my headaches are virtually gone! My head has not felt this clear in years!",
-          "author": "Deb C."
+          "id": "children-nicole-p",
+          "quote": "I thought chiropractic may help my daughter with asthmatic symptoms and my son who was having chronic ear infections. My children were often at a pediatrician or specialist’s office. I decided to try chiropractic because I wanted to eliminate the cause of the problem instead of just covering it up with medication. Since my family started care, my son no longer has ear problems and my daughter no longer has asthmatic symptoms. My whole family is healthier!",
+          "author": "Nicole P."
         },
         {
-          "quote": "I am now free to enjoy my husband and children instead of hiding in a dark room.",
-          "author": "Carmen L."
+          "id": "children-jen-m",
+          "quote": "Since starting them with chiropractic care, both girls have not had any health issues! Reese has not had one ear infection and we have not even purchased Motrin or Benadryl in almost a year (both of which each girl was taking regularly).",
+          "author": "Jen M."
         },
         {
-          "quote": "I had been suffering from headaches, sometimes migraines, for 7 years… I have not had ANY headaches!",
-          "author": "Mary R."
+          "id": "children-megan-r-age-11",
+          "quote": "After a few adjustments, my headaches went away. I also have gotten sick very few times since I started care. My whole family sees the chiropractor. I have been under care for years now and plan to be for the rest of my life. The idea of not being a chiropractic patient is weird!",
+          "author": "Megan R. (age 11)"
+        },
+        {
+          "id": "children-carol-q",
+          "quote": "My oldest child suffered from ongoing ear infections every other month of his life. He took antibiotics on a regular basis, which led to other problems. He ‘appeared’ sick, and that was just normal for him. After starting at Lifepointe, the infections improved and five months later he hasn’t had another ear infection since! He’s no longer that sick little boy. My younger son, by 14 months of age, had also suffered from several ear infections and was given antibiotics. He also has not had another ear infection since!",
+          "author": "Carol Q."
+        },
+        {
+          "id": "children-mandy-b",
+          "quote": "I brought my son to Lifepointe because he was sick all the time. I was desperate to boost his immune system. A friend of mine recommended Lifepointe. Since starting care, he is much healthier and has a stronger immune system, and my second son is healthier all-around too. He’s been adjusted since he was 6 weeks old.",
+          "author": "Mandy B."
+        },
+        {
+          "id": "children-ian-n",
+          "quote": "Chiropractic is good for all families because it would help them live happier lives.",
+          "author": "Ian N."
+        },
+        {
+          "id": "children-griffin-r",
+          "quote": "Dr. Greg has helped my ears get better.",
+          "author": "Griffin R."
+        },
+        {
+          "id": "children-rochelle-m-mom",
+          "quote": "We brought Patrick to Lifepointe mostly because of his ear concerns, but we were also hoping his speech delay would improve, too. Not only has it improved his chronic ear infections, his articulation and speech/language delay have dramatically improved! We will continue to bring Patrick to the chiropractor throughout childhood.",
+          "author": "Rochelle M. (mom)"
+        },
+        {
+          "id": "children-alyssa-h",
+          "quote": "Since I’ve been going to the chiropractor, I sleep better and I feel more energy. I learned that it affects my whole body if one small bone is out of place.",
+          "author": "Alyssa H."
+        },
+        {
+          "id": "children-larissa-m",
+          "quote": "Chiropractic is good for everyone, people should try it! I feel much better, I don’t miss as much school, and I get better faster when I’m sick.",
+          "author": "Larissa M."
+        },
+        {
+          "id": "children-melissa-s",
+          "quote": "My 3 year old daughter was having difficulty having bowel movements from the time she was 6 months old. Her MD wanted to put her on MiraLAX, but I refused. After she started getting adjusted, I noticed an immediate change, the more adjustments, the more regular she became!",
+          "author": "Melissa S."
         }
       ]
     },
     {
-      "category": "fertility",
-      "heading": "Growing families",
+      "id": "chronic-pain-fatigue",
+      "label": "Chronic pain & fatigue",
       "testimonials": [
         {
-          "quote": "My husband and I had been trying to get pregnant when my cousin suggested Lifepointe… Two months after starting care, we got pregnant!",
+          "id": "chronic-pain-fatigue-burton-g",
+          "quote": "I had back pain for 51 years before consulting Lifepointe. I was very impressed with Lifepointe since the beginning of my treatment. Since starting care, I have less pain and stiffness. Chiropractic keeps me young and as active as I can be for 92 years old!",
+          "author": "Burton G."
+        },
+        {
+          "id": "chronic-pain-fatigue-kathy-l",
+          "quote": "I had been in severe pain in my arm and hand and decided to try chiropractic to see if there was something wrong. I had already tried other treatments and medications with no relief. After a few adjustments, I have had great improvement! I can continue with my daily job and housework!",
+          "author": "Kathy L."
+        },
+        {
+          "id": "chronic-pain-fatigue-katie-l",
+          "quote": "I consulted Lifepointe for pain, numbness and tingling in both my arms, and pain in my lower back and legs. I was unable to sleep because of the pain. I was skeptical, but started a program of care. Unbelievable! I noticed a tremendous difference after the first week of adjustments alone! Within 2 weeks, the pain and numbness was completely gone! I can sleep at night!",
+          "author": "Katie L."
+        },
+        {
+          "id": "chronic-pain-fatigue-duke-and-marge-s",
+          "quote": "We both started coming to Lifepointe because of chronic back pain. Our feeling after meeting with the doctor was one of confidence. Our lives have improved since we started care! We can even work in the yard with no serious pain!",
+          "author": "Duke and Marge S."
+        },
+        {
+          "id": "chronic-pain-fatigue-diane-a",
+          "quote": "I had problems for 6 months with pain in my tailbone. I was not able to sit down without being in pain. After my first visit at Lifepointe, the pain was gone and truly hasn’t come back. It has been 7 months and I haven’t had any problems!",
+          "author": "Diane A."
+        },
+        {
+          "id": "chronic-pain-fatigue-pam-p",
+          "quote": "I was having a lot of low back pain and my range of motion was significantly limited by the pain I was having. The adjustments are so gentle that I wondered what on earth it was going to do for me! After only 2 adjustments, I woke up the next morning like a new person! I have also started to notice that I am feeling less fatigue!",
+          "author": "Pam P."
+        }
+      ]
+    },
+    {
+      "id": "depression-anxiety",
+      "label": "Depression & anxiety",
+      "testimonials": [
+        {
+          "id": "depression-anxiety-maryann-c",
+          "quote": "I came to Lifepointe because I was suffering from depression for 2 years with no desire to do anything, being tired, and taking several medications, but nothing seemed to be helping. In fact over the past year, it seemed to make me worse. I was willing to try anything. After a little while of getting adjusted, I felt like a different person! I actually visited neighbors and went out to dinner! I hadn’t done this in months! I have stopped ALL medication and I feel like my old self again! My sister told me, “My sister is back again!” Thank you Lifepointe!",
+          "author": "Maryann C."
+        },
+        {
+          "id": "depression-anxiety-skyler-l",
+          "quote": "I’ve felt so much happier and optimistic with life!",
+          "author": "Skyler L."
+        }
+      ]
+    },
+    {
+      "id": "digestive-issues",
+      "label": "Digestive issues",
+      "testimonials": [
+        {
+          "id": "digestive-issues-patti-l",
+          "quote": "I was diagnosed in 1993 with Irritable Bowel Syndrome. After attempting several remedies to no avail, I was told I would have to live with it. It was debilitating and consumed my life. I saw an article about Dr. Greg and decided to call. After just a few months of care, my IBS condition began to improve! I was so inspired! My husband even noticed the improvements in me, and he decided to start care too! This has been the best we have ever felt!",
+          "author": "Patti L."
+        },
+        {
+          "id": "digestive-issues-melissa-s",
+          "quote": "My 3 year old daughter was having difficulty having bowel movements from the time she was 6 months old. Her MD wanted to put her on MiraLAX, but I refused. After she started getting adjusted, I noticed an immediate change, the more adjustments, the more regular she became!",
+          "author": "Melissa S."
+        }
+      ]
+    },
+    {
+      "id": "disc-herniations",
+      "label": "Disc herniations",
+      "testimonials": [
+        {
+          "id": "disc-herniations-scott-s",
+          "quote": "I had herniated discs and other back issues for several years, and had tried many things with no help. After starting chiropractic care at Lifepointe, I feel much happier again and feel stronger all around. I have not taken any medication since starting care. My back is definitely improving. AND, I have had a decrease in asthma episodes and I sleep better at night now! I feel like I can enjoy life again!",
+          "author": "Scott S."
+        },
+        {
+          "id": "disc-herniations-chris-n",
+          "quote": "I had pain and spasms from a disc problem for years. I also had constant neck and shoulder pain from long-term stress. Since coming to Lifepointe, my back is much more flexible and less painful, and my neck and shoulders are 90% better! It only took a couple of months to see great improvement in my health!",
+          "author": "Chris N."
+        },
+        {
+          "id": "disc-herniations-sherry-b",
+          "quote": "I was found to have 2 bulging discs at C6 and C7 and was told I would eventually need fusion surgery. That’s when I decided to try Lifepointe. I was very impressed with them and all the tests that were run. I felt lucky to be here. Since starting care, I am medication and pain free!",
+          "author": "Sherry B."
+        },
+        {
+          "id": "disc-herniations-mandy-b",
+          "quote": "I came to Lifepointe because of a bulging disc from 4 years ago. I had chronic low back pain and numbness/tingling in my leg. Since starting care at Lifepointe, I have had no recurrence of the disc problem, even through another pregnancy!",
+          "author": "Mandy B."
+        }
+      ]
+    },
+    {
+      "id": "extremity-pain",
+      "label": "Extremity pain",
+      "testimonials": [
+        {
+          "id": "extremity-pain-dave-l",
+          "quote": "I sit behind a computer all day and as a result have developed pain in my low back and shoulder. I have to admit, I was skeptical. But now, I am much better — No more pain!",
+          "author": "Dave L."
+        },
+        {
+          "id": "extremity-pain-ebbie-m",
+          "quote": "I was a bus operator for 36 years and was always in pain in my shoulder and neck. Dr. Greg assured me he could help. After my first adjustment, after years of headaches, I realized it was gone! I have been a patient now for almost two years!",
+          "author": "Ebbie M."
+        },
+        {
+          "id": "extremity-pain-chris-r",
+          "quote": "I consulted Lifepointe for back and hip pain for 4 years. I didn’t like the options I was given at my specialist, so I started a treatment plan at Lifepointe. Now I feel so much better!... I can tie my shoes again!",
+          "author": "Chris R."
+        },
+        {
+          "id": "extremity-pain-diane-a",
+          "quote": "I consulted Lifepointe for pain relief in my upper back, elbow and left leg which I had off-and-on for 10 years. I had seen 2 other chiropractors, taken medication, tried acupuncture and a traditional physician, all of which got me temporary relief, but the problems remained chronic. The pain was affecting my daily life and I wanted healthy, natural care, so I started a care program at Lifepointe. I love coming in! I have learned that a healthy spine can lead to a healthy, pain-free and more enjoyable life! I no longer have the pain I had before!",
+          "author": "Diane A."
+        },
+        {
+          "id": "extremity-pain-deb-g",
+          "quote": "I was having pain in my shoulder and shoulder blade for 4 months on and off. By this point, it was painful just to sit still. I reluctantly visited Lifepointe and was skeptical about whether or not it could help my problem, but was willing to do whatever it took. Dr. Greg helped me to understand WHY I was in pain. I was pain free in 4 weeks! Now my husband and children are patients here too!",
+          "author": "Deb G."
+        },
+        {
+          "id": "extremity-pain-karen-s",
+          "quote": "I came to Lifepointe with hip pain shooting down my back. It was so painful, I could not sleep at night. At the end of a year, I had already forgotten some of the symptoms that I used to experience! I just feel more relaxed and happy.",
+          "author": "Karen S."
+        },
+        {
+          "id": "extremity-pain-sue-f",
+          "quote": "I had pain in my right hip that was going on for a couple of months. I was given pain killers and muscle relaxers but didn’t have them filled. I decided to try chiropractic. Before long, my pain was gone and I was feeling so much better! I had more energy too! I can now bend with ease and turn my head from side to side without pain!",
+          "author": "Sue F."
+        },
+        {
+          "id": "extremity-pain-melissa-b",
+          "quote": "I had pain in my right shoulder for about a year that kept me from sleeping. My pain was getting worse and I didn’t know what else to do, so I tried chiropractic. Since my second adjustment at Lifepointe, I have almost no pain in my shoulder and I feel happier, healthier and more energetic! Chiropractic helps the body heal naturally, without medication or surgery!",
+          "author": "Melissa B."
+        }
+      ]
+    },
+    {
+      "id": "fertility",
+      "label": "Fertility & female issues",
+      "testimonials": [
+        {
+          "id": "fertility-leigh-g",
+          "quote": "My husband and I had been trying to get pregnant for 3 months when my cousin suggested I come to Lifepointe. We were thoroughly impressed and hopeful. Even though we live 40 minutes away, we felt that it was SO important for us to start a program. We both felt great soon after our adjustments began. Two months after starting care, we got PREGNANT! We welcomed our son, Jalen in August of 2009! I had a wonderful pregnancy and I believe that regular adjustments were the reason for that. Our son got his first adjustment at 10 days old and is now checked regularly. He’s happy, beautiful and most importantly, healthy!",
           "author": "Leigh G."
         },
         {
-          "quote": "I had 2 miscarriages in 6 months… We decided to see a chiropractor… I’m 16 weeks pregnant — with twins! Using no fertility drugs!",
+          "id": "fertility-tamara-s",
+          "quote": "I had 2 miscarriages in 6 months and wondered why my body was unable to sustain a pregnancy. My husband and I started researching and the human anatomy kept pointing to a potential issue with the lower back/hip region. My husband showed me a chart of how that area of my spine connects to my uterus. We decided to see a chiropractor and started a corrective program right away. A huge benefit of starting chiropractic was the elimination of headaches I often had. AND... I’m 16 weeks pregnant!... WITH TWINS! (using NO fertility drugs!)",
           "author": "Tamara S."
+        },
+        {
+          "id": "fertility-michelle-r",
+          "quote": "I have had a lifetime of difficult menstrual cramps. The last two years have been so unbearable, but I felt uneasy about the options given to me by my OBGYN. I didn’t want to have surgery or take medication, so I continued to suffer... until I came to Lifepointe! The last two months have been AMAZING! Not only am I not suffering from cramps, my headaches have almost entirely disappeared and I feel so much better! Thanks to Lifepointe for changing my life!",
+          "author": "Michelle R."
         }
       ]
     },
     {
-      "category": "allergies-asthma",
-      "heading": "Breathing easier",
+      "id": "headaches",
+      "label": "Headaches & migraines",
       "testimonials": [
         {
-          "quote": "I can breathe normally now, and have not used an inhaler since my first adjustment — 2½ years now!",
-          "author": "Gail H."
+          "id": "headaches-deb-c",
+          "quote": "I had migraine headaches that had me in bed for 1–2 days a week. After the first visit with Dr. Greg, he made me feel at ease. I was surprised that it actually felt good to be adjusted! After 3 weeks, my headaches are virtually gone! My head has not felt this clear in years!",
+          "author": "Deb C."
+        },
+        {
+          "id": "headaches-diane-b",
+          "quote": "Since starting care at Lifepointe, it is amazing how much better I feel in such a short time! The pain is almost gone, I have less headaches, I can sleep better at night and I feel better!",
+          "author": "Diane B."
+        },
+        {
+          "id": "headaches-lindsay-g",
+          "quote": "I was a long term sufferer of migraines. All the physicians I saw prescribed me with medication and sent me on my way, but the headaches always returned. I came to Lifepointe with a desperate call for help and an open mind to chiropractic. I was immediately confident that I was on my way to wellness. I felt the power behind my adjustments after the first week and committed to the action plan. My headaches started to get few and far between, and I haven’t had a migraine in months! Every time I walk in the doors of Lifepointe, I witness contagious smiles and joyful hearts ready to serve health! I encourage you to team up with Lifepointe!",
+          "author": "Lindsay G."
+        },
+        {
+          "id": "headaches-pam-r",
+          "quote": "Thank you to Lifepointe! I have not felt this good physically or mentally in years. I had been having headaches, the kind that makes you not even want to get out of bed. I have been headache free now for over a month. My children thank them for giving their mom back, the one who wants to play and have fun!",
+          "author": "Pam R."
+        },
+        {
+          "id": "headaches-jozlyn-c",
+          "quote": "I have no more headaches and I feel healthy!",
+          "author": "Jozlyn C."
+        },
+        {
+          "id": "headaches-linda-m",
+          "quote": "I have experienced headaches most all my life. I had tried pills, vitamins and herbs, but only temporary relief. Now, I can’t believe how much I love all aspects of the care I receive here! Best of all, my headaches are almost non-existent! What a difference! It’s great to be part of this family!",
+          "author": "Linda M."
+        },
+        {
+          "id": "headaches-gert-s",
+          "quote": "I woke with a headache every day for about a year. One morning it was stronger and lasted longer, so I decided to call Lifepointe. After about two months of care, my headaches are gone and I am sleeping much better, waking headache-free!",
+          "author": "Gert S."
+        },
+        {
+          "id": "headaches-carmen-l",
+          "quote": "I suffered from migraines for many years. I was unable to enjoy life since I was very discouraged and depressed. No one had been able to give me any answers. I was skeptical to try chiropractic, but decided to give it a try. At this point, I still didn’t understand how adjustments could benefit me. Long story short, I experienced my first month migraine-free! And it just kept getting better! Skeptic, no more! I believe in chiropractic to the fullest. I am now free to enjoy my husband and children instead of hiding in a dark room for days on end. I am happier and my family is happier! Lifepointe has changed my life, and trust me, it can change yours too!",
+          "author": "Carmen L."
+        },
+        {
+          "id": "headaches-dawn-b",
+          "quote": "I have tried taking aspirin, Tylenol and Excedrin for my headaches, and just ended up taking more and more. My medical doctor gave me medication every time I went in. I decided to try chiropractic because my mom was already a patient here and she thought I should come in. After only a few adjustments, I was having more energy and less headaches!",
+          "author": "Dawn B."
+        },
+        {
+          "id": "headaches-tammy-g",
+          "quote": "I had been having headaches for about 2 years. I took Motrin, missed out on family activities and just dealt with the pain. I was very skeptical of chiropractic, but figured “what do I have to lose?” WOW! My life has changed! I don’t have headaches anymore! I feel so much better!",
+          "author": "Tammy G."
+        },
+        {
+          "id": "headaches-danielle-m",
+          "quote": "I was waking up with headaches every day for three months. The pain finally pushed me to check out chiropractic. I had seen 5+ doctors and specialists, and none solved the problem. I decided on chiropractic because of what I had read and heard about the benefits of natural healing. Now, I am headache-free! I have the energy of a 28 year old again! The best part is waking up every day feeling refreshed and having the energy to be a great wife and a fun mom!",
+          "author": "Danielle M."
+        },
+        {
+          "id": "headaches-jerri-k",
+          "quote": "Lifepointe has helped me continue my chosen career as a dental hygienist. Before I started care, I had headaches, numbness and pain in my arms and hands. My back continually felt in knots. After a few adjustments, I no longer woke up reaching for the Tylenol and have been able to return to work full time. I don’t know why I didn’t do this years ago!",
+          "author": "Jerri K."
+        },
+        {
+          "id": "headaches-sara-s",
+          "quote": "I was suffering with recurring sore throats and headaches and decided to come to Lifepointe. After just a few adjustments, the sore throats started to come less often and after a couple of months of care, were gone!",
+          "author": "Sara S."
+        },
+        {
+          "id": "headaches-jenny-g",
+          "quote": "Since I was a young child I suffered from debilitating chronic migraine headaches about 3 times a week. At this point, I was willing to try anything. Within 2–3 weeks of starting care, I noticed that my severe migraines were already less frequent. It has now been several weeks since I have had to suffer through a headache. What a remarkable difference in my life!",
+          "author": "Jenny G."
+        },
+        {
+          "id": "headaches-rochelle-m",
+          "quote": "My migraines have subsided in frequency and intensity. I am very glad I finally started chiropractic care!",
+          "author": "Rochelle M."
+        },
+        {
+          "id": "headaches-melanie-h",
+          "quote": "I came to Lifepointe looking for a better chiropractor. I was having pain and I also had really poor posture. Chiropractic care has turned me around! My total health has improved, I no longer have headaches, I sleep better and my posture is 100 times better! I am an all around happier person!",
+          "author": "Melanie H."
+        },
+        {
+          "id": "headaches-brian-b",
+          "quote": "I have had poor posture my entire life. I’m still young, so I haven’t felt too many effects of it yet other than tightness and upper back pain. Dr. Greg explained everything in such a logical way. It was a breath of fresh air to come to a place that puts so much value on the basics and made me an active part of my care. Over time, I have had several unexpected changes for the better! I have fewer headaches, my back pain is gone and I no longer have to take antacids. Chiropractic is an integral part of a natural, healthy lifestyle!",
+          "author": "Brian B."
+        },
+        {
+          "id": "headaches-valerie-d",
+          "quote": "The reason I consulted Lifepointe was because of my frequent urination problem. I was getting up 6–7 times a night. Because it was disrupting my sleep, I tried medication but it was unsuccessful. I knew that the nerves that control my bladder come from my spine, so I called a chiropractor. After starting at Lifepointe, my evening trips to the bathroom have been reduced to 1 or 2. On top of that, my headaches are gone and my sciatic pain has improved greatly!",
+          "author": "Valerie D."
         }
       ]
     },
     {
-      "category": "little-ones",
-      "heading": "The littlest patients",
+      "id": "immune-function",
+      "label": "Immune function",
       "testimonials": [
         {
+          "id": "immune-function-lindsay-g",
+          "quote": "I had been sick many times this year already. Every doctor’s office I walked into so far was unsuccessful. I would be given medication that allowed me one or two days of relief and then the illness would return. I was ready to give holistic care a shot! I left the first day with an immediate confidence that I was on my way to wellness! I came to Lifepointe hoping for a gift of action, but I was blessed with more than that! Not only am I not dealing with reoccurring illness, but my spirits are lifted too! Lifepointe has put me back on my feet!",
+          "author": "Lindsay G."
+        }
+      ]
+    },
+    {
+      "id": "neck-pain",
+      "label": "Neck pain",
+      "testimonials": [
+        {
+          "id": "neck-pain-angela-r",
+          "quote": "I came to Lifepointe after a car accident. I was having pain in my neck and shoulders and could not turn my head from side to side. Now, I am truly pain-free! I feel better today than before my car accident! I also have been free from sinus infections, colds and the flu! What a blessing!",
+          "author": "Angela R."
+        },
+        {
+          "id": "neck-pain-erin-j",
+          "quote": "I had been having muscle tension and pain in my neck for about 4 years. I tried massages and medication and the specialist recommended surgery if it didn’t get better. I didn’t have anything to lose, so I tried chiropractic. I was skeptical, but started a corrective program of spinal adjustments. Since starting care, I rarely have headaches, my body feels like it is functioning better, and I get over colds faster. It really does make a difference in my life!",
+          "author": "Erin J."
+        },
+        {
+          "id": "neck-pain-garey-e",
+          "quote": "I had a neck ache and was unable to turn my head without a lot of pain. I made an appointment and started a treatment program. I felt improvement after my first adjustment, and after a few more, normal full range pain-free movement was restored. Now I visit Lifepointe regularly and neck pain is a thing of the past!",
+          "author": "Garey E."
+        }
+      ]
+    },
+    {
+      "id": "optimal-health",
+      "label": "Optimal health",
+      "testimonials": [
+        {
+          "id": "optimal-health-sharon-k",
+          "quote": "I consulted Lifepointe because my daughters and son began telling me of their successful chiropractic care. I figured I was just fine, but thought I would give it a try to please them. I was skeptical at first, but the proof was in my x-rays. You only get one body to make last a lifetime and feel good in it! Everyone could definitely benefit from care! I see myself under care for a lifetime here at Lifepointe!",
+          "author": "Sharon K."
+        },
+        {
+          "id": "optimal-health-jennifer-d",
+          "quote": "After just 1 month, I have better sleep and more of it, no more ear aches or joint pain, no more dizziness, no more foot pain, better digestion, better bladder control and no more headaches!",
+          "author": "Jennifer D."
+        },
+        {
+          "id": "optimal-health-julie-d",
+          "quote": "After starting to get adjusted, I was able to walk 2 miles after having no form of exercise for over one full year. Your team is incredible! I can draw a straight line again after years of tremors! Thank you for encouraging education and inner healing.",
+          "author": "Julie D."
+        },
+        {
+          "id": "optimal-health-amy-m",
+          "quote": "Everything about the chiropractic experience has been positive with additional benefits like better immune function!",
+          "author": "Amy M."
+        },
+        {
+          "id": "optimal-health-kevin-j",
+          "quote": "Thank you for putting so much effort into me and my family’s health. Who knows where my health would be without it! Your office is not only inspirational to my health, but also how to stay positive in life.",
+          "author": "Kevin J."
+        },
+        {
+          "id": "optimal-health-kelsey-m",
+          "quote": "When I get adjusted, I feel better and have more energy. Chiropractic is a natural way to feel good!",
+          "author": "Kelsey M."
+        },
+        {
+          "id": "optimal-health-john-g",
+          "quote": "I feel so good being pain free and enjoying the normal things I used to struggle with! I don’t even think about pain anymore! Can’t wait for golf season!",
+          "author": "John G."
+        },
+        {
+          "id": "optimal-health-dominick-h",
+          "quote": "I’ve tried so many other options and chiropractic is the only one that has helped! I have had nothing but positive results!",
+          "author": "Dominick H."
+        },
+        {
+          "id": "optimal-health-linda-m",
+          "quote": "It makes so much sense to me that the spine is related to all the organs through the nerves. Do your body a favor with chiropractic care!",
+          "author": "Linda M."
+        },
+        {
+          "id": "optimal-health-sally-g",
+          "quote": "It’s just good to feel good! I’m walking better and have more energy!",
+          "author": "Sally G."
+        },
+        {
+          "id": "optimal-health-mary-l",
+          "quote": "I really have enjoyed getting adjusted! Since I began care, my blood pressure is normalizing, and I have cut back on the amount of medication I take for it. My medical doctor thinks I may even be able to discontinue medication soon! My cholesterol has also dropped 54 points, eliminating my medical doctor’s desire to put me on Lipitor! I even dropped 13 pounds! My quality of life has changed forever, and now I know that I can be in charge of my own health!",
+          "author": "Mary L."
+        }
+      ]
+    },
+    {
+      "id": "scoliosis",
+      "label": "Scoliosis",
+      "testimonials": [
+        {
+          "id": "scoliosis-lauren-r",
+          "quote": "I was diagnosed with scoliosis in high school and had extreme back pain. I was told my only option was to have surgery, but I didn’t like that idea, so I came to Lifepointe. Ever since starting a regular chiropractic program, I have not once had any back pain and the curve in my neck is almost normal again! I have also gotten sick less and have more energy on a daily basis! I only wish I would have started at a younger age because my scoliosis may not have become so bad. There’s a better way to live with scoliosis!",
+          "author": "Lauren R."
+        }
+      ]
+    },
+    {
+      "id": "little-ones",
+      "label": "Words from our little ones",
+      "testimonials": [
+        {
+          "id": "little-ones-ian",
+          "quote": "Chiropractic is good for all families because it would help them live happier lives.",
+          "author": "Ian"
+        },
+        {
+          "id": "little-ones-griffin",
+          "quote": "Dr. Greg has helped my ears get better.",
+          "author": "Griffin"
+        },
+        {
+          "id": "little-ones-rochelle-mom",
+          "quote": "We brought Patrick to Lifepointe mostly because of his ear concerns, but we were also hoping his speech delay would improve, too. Not only has it improved his chronic ear infections, his articulation and speech/language delay have dramatically improved! We will continue to bring Patrick to the chiropractor throughout childhood.",
+          "author": "Rochelle (mom)"
+        },
+        {
+          "id": "little-ones-alyssa",
+          "quote": "Since I’ve been going to the chiropractor, I sleep better and I feel more energy. I learned that it affects my whole body if one small bone is out of place.",
+          "author": "Alyssa"
+        },
+        {
+          "id": "little-ones-larissa",
           "quote": "Chiropractic is good for everyone, people should try it! I feel much better, I don’t miss as much school, and I get better faster when I’m sick.",
           "author": "Larissa"
         }
