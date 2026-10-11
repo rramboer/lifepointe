@@ -11,6 +11,8 @@ from .hours import hours_summary
 from .icons import svg
 
 V = '<span class="vertebra" aria-hidden="true"></span>'
+# The footer's legal links, as (page, link text). The build stops if a page here isn't one it makes.
+LEGAL_LINKS = (('privacy.html', 'Privacy policy'), ('accessibility.html', 'Accessibility statement'))
 
 
 def head(title, description, base='', extra=''):
@@ -54,15 +56,17 @@ def header(site, active, base=''):
 </header>'''
 
 
-def page_hero(eyebrow, h1, lede=''):
-    """Interior-page hero. Arguments are trusted HTML written in the page module."""
+def page_hero(eyebrow, h1, lede='', meta=''):
+    """Interior-page hero. Arguments are trusted HTML written in the page module. meta is a
+    short line under the lede, such as the date a legal page was last updated."""
     lede_html = f'<p class="lede">{lede}</p>' if lede else ''
+    meta_html = f'\n    <p class="page-hero__meta">{meta}</p>' if meta else ''
     return f'''
 <section class="page-hero on-dark">
   <div class="wrap">
     <span class="eyebrow">{eyebrow}</span>
     <h1 class="display-page">{h1}</h1>
-    {lede_html}
+    {lede_html}{meta_html}
   </div>
 </section>'''
 
@@ -90,7 +94,8 @@ def footer(site, base=''):
         f'          <li><a href="{esc(base + item.href)}">{esc(getattr(item, "footer_label", item.label))}</a></li>'
         for item in site.nav)
     hours = '\n'.join(f'          <li>{line}</li>' for line in hours_summary(site.hours))
-    old_site = esc(p.legacy.old_site)
+    legal = ' &nbsp;&middot;&nbsp; '.join(
+        f'<a href="{esc(base + href)}">{esc(text)}</a>' for href, text in LEGAL_LINKS)
     return f'''
 <footer class="site-footer on-dark">
   <div class="wrap">
@@ -129,7 +134,7 @@ def footer(site, base=''):
     </div>
     <div class="site-footer__legal">
       <span>&copy; <span data-year>2026</span> Lifepointe Chiropractic and Wellness Center. All rights reserved.</span>
-      <span><a href="{old_site}/privacy-policy">Privacy policy</a> &nbsp;&middot;&nbsp; <a href="{old_site}/accessibility-statement">Accessibility statement</a></span>
+      <span>{legal}</span>
     </div>
   </div>
 </footer>

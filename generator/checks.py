@@ -1,5 +1,6 @@
 """Checks on the finished output folder. Any problem fails the build."""
 import re
+from html.parser import HTMLParser
 from urllib.parse import unquote
 
 # Text that must never appear anywhere in the published site. Each entry is a regular
@@ -22,12 +23,14 @@ BANNED = [
     # IDs catches every URL form: a link, an embed, a channel or showcase path, URL-encoded.
     r'user100634671(?!\d)',
     r'(?<!\d)737699204(?!\d)',
-]
-
-# Checked like BANNED, except in email/. Google Fonts' hosts: the site serves its own fonts
-# from assets/fonts/, and a request to Google sends the visitor's IP address to a third party.
-# The email template still loads Lato from Google. If that link goes, move this into BANNED.
-BANNED_OUTSIDE_EMAIL = [
+    # The old website's address. It is gone, and the site has its own privacy and accessibility
+    # pages.
+    r'lifepointechiropractic',
+    # The icon site the old email footer hotlinked its icons from.
+    r'flaticon',
+    # Google Fonts' hosts: the site serves its own fonts from assets/fonts/, and a request to
+    # Google sends the visitor's IP address to a third party. The privacy policy says the pages
+    # load nothing from other sites.
     r'fonts\.(?:googleapis|gstatic)\.com',
 ]
 
@@ -45,8 +48,7 @@ def _text(path):
 
 def scan(out):
     """Return ('file:line: ...' problems found under out, number of text files scanned)."""
-    everywhere = [re.compile(p, re.IGNORECASE) for p in BANNED]
-    outside_email = everywhere + [re.compile(p, re.IGNORECASE) for p in BANNED_OUTSIDE_EMAIL]
+    patterns = [re.compile(p, re.IGNORECASE) for p in BANNED]
     problems = []
     scanned = 0
     for path in sorted(p for p in out.rglob('*') if p.is_file()):
@@ -55,7 +57,6 @@ def scan(out):
             continue
         scanned += 1
         name = path.relative_to(out).as_posix()
-        patterns = everywhere if name.startswith('email/') else outside_email
         for pattern in patterns:
             for match in pattern.finditer(text):
                 number = text.count('\n', 0, match.start()) + 1
@@ -89,4 +90,105 @@ def missing_css_files(out):
                 number = text.count('\n', 0, match.start()) + 1
                 problems.append(f'{css.relative_to(out).as_posix()}:{number}: '
                                 f'url("{url}") names no file in the output')
+    return problems
+
+
+# The privacy policy says the pages load nothing from other sites and that there are no forms.
+# Elements that would put a form or another site's content on a page:
+_NOT_ALLOWED = {'form', 'input', 'textarea', 'select', 'iframe', 'frame', 'frameset', 'embed',
+                'object', 'portal'}
+# Attributes whose URL the browser fetches, or sends a request to, without a click.
+_LOADS = ('src', 'poster', 'data', 'background', 'ping', 'action', 'formaction')
+_SRCSETS = ('srcset', 'imagesrcset')
+# SVG elements that fetch their href: an image, a <use> of another file, a filter image, a script.
+_SVG_HREF = {'image', 'use', 'feimage', 'script'}
+# <link> types that fetch nothing: the canonical address and alternate versions of the page.
+_LINK_NO_LOAD = {'canonical', 'alternate'}
+_CSS_IMPORT = re.compile(r'@import\s+(["\'])([^"\']*)\1', re.IGNORECASE)  # @import url() is a url()
+
+
+def _elsewhere(url, site_url):
+    """Whether a browser would fetch url from another site. Browsers drop tabs and line breaks
+    from a URL and read a backslash as a slash, so two backslashes start another site's address
+    just as two slashes do."""
+    url = re.sub(r'[\t\n\r]', '', url).strip().replace('\\', '/')
+    if url == site_url or url.startswith(site_url + '/'):
+        return False
+    return url.startswith('//') or bool(re.match(r'(?:https?|wss?|ftp):', url, re.IGNORECASE))
+
+
+def _css_loads(css, site_url):
+    """(offset, url) for each @import and url() in css that loads from another site."""
+    css = _CSS_COMMENT.sub(lambda m: re.sub(r'[^\n]', ' ', m.group()), css)
+    for pattern in (_CSS_IMPORT, _CSS_URL):
+        for match in pattern.finditer(css):
+            if _elsewhere(match.group(2), site_url):
+                yield match.start(), match.group(2).strip()
+
+
+class _PageLoads(HTMLParser):
+    """Collects (line, what) for each form, frame or embed, and each off-site load, in a page."""
+
+    def __init__(self, site_url):
+        super().__init__(convert_charrefs=True)
+        self.site_url = site_url
+        self.found = []
+        self._in_style = False
+
+    def handle_starttag(self, tag, attrs):
+        line = self.getpos()[0]
+        a = {name: value or '' for name, value in attrs}
+        if tag in _NOT_ALLOWED:
+            self.found.append((line, f'a <{tag}> element'))
+        urls = [a[name] for name in _LOADS if name in a]
+        for name in _SRCSETS:
+            urls += [part.split()[0] for part in a.get(name, '').split(',') if part.strip()]
+        if tag in _SVG_HREF:
+            urls += [a[name] for name in ('href', 'xlink:href') if name in a]
+        if tag in ('link', 'base') and 'href' in a:
+            rels = set(a.get('rel', '').lower().split())
+            if tag == 'base' or not rels or not rels <= _LINK_NO_LOAD:
+                urls.append(a['href'])
+        for url in urls:
+            if _elsewhere(url, self.site_url):
+                self.found.append((line, f'<{tag}> loads "{url[:80]}"'))
+        for _, url in _css_loads(a.get('style', ''), self.site_url):
+            self.found.append((line, f'a style attribute loads "{url[:80]}"'))
+        self._in_style = tag == 'style'
+
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        self._in_style = False
+
+    def handle_endtag(self, tag):
+        self._in_style = False
+
+    def handle_data(self, data):
+        if self._in_style:
+            line = self.getpos()[0]
+            for offset, url in _css_loads(data, self.site_url):
+                self.found.append((line + data.count('\n', 0, offset), f'<style> loads "{url[:80]}"'))
+
+
+def offsite_loads(out, site_url):
+    """'file:line: ...' for each thing in the output's pages, stylesheets and SVGs that makes a
+    browser fetch something from another site as the page opens (a script, image, font,
+    stylesheet, preconnect, frame or embed), and for each form or form field. Links people
+    click, the canonical link, link-preview tags and the /card meta refresh may point anywhere.
+    What a script does once it runs can't be checked here."""
+    problems = []
+    for path in sorted(p for p in out.rglob('*') if p.is_file()):
+        suffix = path.suffix.lower()
+        if suffix not in ('.html', '.htm', '.svg', '.css'):
+            continue
+        text = path.read_text(encoding='utf-8-sig')
+        if suffix == '.css':
+            found = [(text.count('\n', 0, offset) + 1, f'loads "{url[:80]}"')
+                     for offset, url in _css_loads(text, site_url)]
+        else:
+            parser = _PageLoads(site_url)
+            parser.feed(text)
+            parser.close()
+            found = parser.found
+        problems += [f'{path.relative_to(out).as_posix()}:{line}: {what}' for line, what in found]
     return problems

@@ -24,8 +24,5 @@
   "forms": {
     "adult": "forms/new-patient-adult.pdf",
     "child": "forms/new-patient-child.pdf"
-  },
-  "legacy": {
-    "old_site": "https://lifepointechiropractic.com"
   }
 }

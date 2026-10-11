@@ -166,12 +166,9 @@ def sitemap(site, filenames):
 
 
 def robots(site):
-    """robots.txt: crawl everything except the email template's page at /email/. Its images
-    stay open because email clients fetch the logo from /email/images/. The Allow line comes
-    first for crawlers that obey the first line that matches rather than the longest."""
+    """robots.txt: crawl everything, and here is the sitemap."""
     return f'''User-agent: *
-Allow: /email/images/
-Disallow: /email/
+Allow: /
 
 Sitemap: {site.practice.site_url}/{SITEMAP}
 '''

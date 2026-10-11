@@ -424,6 +424,7 @@ a:hover { color: var(--navy); text-decoration-thickness: 2px; }
 .page-hero .eyebrow::before { background: var(--green); }
 .page-hero h1 { color: #fff; margin-bottom: .3em; }
 .page-hero .lede { color: var(--navy-muted); max-width: 46em; margin-bottom: 0; }
+.page-hero__meta { margin: 1rem 0 0; font-size: .92rem; font-weight: 700; color: var(--navy-faint); }  /* e.g. "Last updated" */
 
 /* ---- Utilities ---------------------------------------------------------- */
 
