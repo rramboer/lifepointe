@@ -4,7 +4,7 @@ import shutil
 from .errors import BuildError
 
 # Folders copied as-is into the site. Add a name here to publish another folder.
-STATIC_DIRS = ['css', 'js', 'assets', 'email']
+STATIC_DIRS = ['css', 'js', 'assets', 'email', 'forms']
 
 
 def copy_static(root, out):

@@ -42,8 +42,8 @@ def render(site):
         <h3 class="display-3">New patient forms</h3>
         <p>Print and bring them, or fill them out on a computer and email them to <a href="{esc('mailto:' + p.email)}">{email}</a> before your appointment.</p>
         <ul class="link-list">
-          <li><a href="{esc(p.legacy.adult_forms)}">Download adult new patient forms</a></li>
-          <li><a href="{esc(p.legacy.child_forms)}">Download child new patient forms (under 12)</a></li>
+          <li><a href="{esc(p.forms.adult)}">Download adult new patient forms (PDF)</a></li>
+          <li><a href="{esc(p.forms.child)}">Download child new patient forms (under 12) (PDF)</a></li>
         </ul>
       </div>
       <div class="card">

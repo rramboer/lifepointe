@@ -116,8 +116,8 @@ def render(site):
       <h3 class="display-3">Skip the waiting room</h3>
       <p>Fill out your forms ahead of time and email them to us before your first appointment.</p>
       <ul class="link-list">
-        <li><a href="{esc(p.legacy.adult_forms)}">Download adult new patient forms</a></li>
-        <li><a href="{esc(p.legacy.child_forms)}">Download child new patient forms (under 12)</a></li>
+        <li><a href="{esc(p.forms.adult)}">Download adult new patient forms (PDF)</a></li>
+        <li><a href="{esc(p.forms.child)}">Download child new patient forms (under 12) (PDF)</a></li>
       </ul>
     </div>
   </div>
