@@ -73,12 +73,14 @@ in up to three columns (`.quote-columns`), read top to bottom; the home page kee
 cards in a row.
 services: the products list runs in two columns where they fit (`.list-columns`), read top to
 bottom, under a full-width heading.
-contact: the `#appointment` section pairs the hours table with a booking card: a green
-"Call" button, a ghost "Email us" button (a mailto with the subject and a name / phone /
-preferred times template filled in) and a note to leave health details out of email. When
-practice.json has a `booking_url`, a green "Book online" button leads and Call turns ghost,
-so the card keeps one primary action. No form, no embed: nothing on the site collects health
-information or loads a third-party widget.
+contact: the four "Reach us" cards (`.grid-4`) sit four across only from 1160px, two below
+that and one under 600px, so the email address stays on one line instead of breaking mid-word,
+even next to a desktop scrollbar. The `#appointment` section pairs the hours table with a
+booking card: a green "Call" button, a ghost "Email us" button (a mailto with the subject and
+a name / phone / preferred times template filled in) and a note to leave health details out of
+email. When practice.json has a `booking_url`, a green "Book online" button leads and Call
+turns ghost, so the card keeps one primary action. No form, no embed: nothing on the site
+collects health information or loads a third-party widget.
 Shared header (sticky, green CTA → contact#appointment) + footer (navy-ink, white logo).
 The footer's Facebook icon is the whole logo, a disc with the "f" cut out, at least 16px wide:
 Meta's brand rules forbid the "f" on its own.

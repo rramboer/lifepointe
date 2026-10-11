@@ -76,9 +76,10 @@ The build stops with a non-zero exit and a message naming the file and field whe
 - a new-patient form path isn't a PDF in `forms/`, or the file isn't there (see New-patient
   forms);
 - the finished site contains any of the text listed in `generator/checks.py`, such as the
-  old website's address or a Google Fonts address (see Fonts), or writes the practice's phone
-  or fax number any other way than `practice.json` does (such as `248-623-6107`; the home
-  page's JSON-LD `+1-248-623-6107` is the one exception);
+  old website's address, the practice's old Gmail address or a Google Fonts address (see
+  Fonts), or writes the practice's phone or fax number any other way than `practice.json`
+  does (such as `248-623-6107`; the home page's JSON-LD `+1-248-623-6107` is the one
+  exception);
 - any text file in `email/` (the template, the signatures, `email/README.md` and the icon
   script) contains that same text, such as the old website's address, its vendor's hosts or
   a banned name, or writes the phone or fax number another way. Only `email/images/` is

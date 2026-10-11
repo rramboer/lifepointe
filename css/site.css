@@ -161,11 +161,17 @@ a:hover { color: var(--navy); text-decoration-thickness: 2px; }
 .grid-2 { display: grid; gap: clamp(1.5rem, 4vw, 3.5rem); grid-template-columns: repeat(2, 1fr); align-items: center; }
 .grid-3 { display: grid; gap: 1.5rem; grid-template-columns: repeat(3, 1fr); }
 .grid-4 { display: grid; gap: 1.25rem; grid-template-columns: repeat(4, 1fr); }
-@media (max-width: 900px) {
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+/* The contact page's cards: four across from 1160px, two from 600px, with slimmer sides,
+   so the email address fits on one line instead of breaking mid-word, also next to a
+   desktop scrollbar that takes up to 17px of the width. */
+.grid-4 > .card { padding-inline: clamp(1.4rem, 3vw, 1.5rem); }
+@media (max-width: 1159px) {
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 540px) {
+@media (max-width: 900px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 599px) {
   .grid-4 { grid-template-columns: 1fr; }
 }
 
