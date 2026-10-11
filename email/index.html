@@ -18,12 +18,10 @@
   </xml></noscript>
   <![endif]-->
 
-  <!-- Lato is the typeface used on lifepointechiropractic.com. Clients that support webfonts -->
-  <!-- (Apple Mail, iOS, Outlook.com, Samsung) get Lato; Gmail and Outlook desktop fall back to -->
-  <!-- Helvetica/Arial, which share Lato's proportions closely enough to keep the layout intact. -->
-  <!--[if !mso]><!-->
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&amp;display=swap" rel="stylesheet" type="text/css" />
-  <!--<![endif]-->
+  <!-- Lato is the typeface used on lifepointechiro.com. The email loads no web font, so opening -->
+  <!-- it sends no request to a font service: Lato shows where it is installed, and every other -->
+  <!-- client uses Helvetica/Arial, which share Lato's proportions closely enough to keep the -->
+  <!-- layout intact. Weights: 400 body, 700 headings and bold. -->
 
   <!-- Force Outlook desktop (Word engine) onto one clean fallback rather than Times New Roman -->
   <!--[if mso]>
@@ -33,15 +31,15 @@
   <![endif]-->
 
   <style type="text/css">
-    @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap');
-
     /* ---- Client resets ---- */
     html, body { margin:0 !important; padding:0 !important; height:100% !important; width:100% !important; }
     * { -ms-text-size-adjust:100%; -webkit-text-size-adjust:100%; }
     table, td { mso-table-lspace:0pt !important; mso-table-rspace:0pt !important; border-collapse:collapse !important; }
     img { -ms-interpolation-mode:bicubic; border:0; outline:none; text-decoration:none; display:block; }
     a { text-decoration:none; }
-    /* Stop Apple/Gmail auto-linking from restyling phone numbers and addresses */
+    /* Stop Apple/Gmail auto-linking from restyling phone numbers and addresses.
+       Only links the client injects are reset: put .unstyle-auto-detected-links on plain
+       text, never on an element that holds the template's own styled links. */
     a[x-apple-data-detectors], .unstyle-auto-detected-links a, .aBn {
       color:inherit !important; text-decoration:none !important; font-size:inherit !important;
       font-family:inherit !important; font-weight:inherit !important; line-height:inherit !important;
@@ -71,7 +69,7 @@
 
   <!-- Preheader: shown in the inbox preview, hidden in the body -->
   <div style="display:none; font-size:1px; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden; mso-hide:all; font-family:Arial,sans-serif; color:#F0F2F5;">
-    Feeling stiff, sore, or run down? Same-week appointments are open in Clarkston.
+    Family wellness and chiropractic care for every age &mdash; serving Clarkston since 2001.
     &#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;
   </div>
 
@@ -89,17 +87,16 @@
           <!-- ============ PREHEADER BAR ============ -->
           <tr>
             <td class="p-side" align="center" style="padding:10px 32px; background-color:#00205B; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:12px; line-height:18px; color:#CCD2DE; letter-spacing:0.4px;">
-              Clarkston, Michigan &nbsp;&bull;&nbsp; Accepting New Patients
+              Clarkston, Michigan &nbsp;&bull;&nbsp; Since 2001
             </td>
           </tr>
 
           <!-- ============ LOGO / HEADER ============ -->
           <tr>
             <td class="p-side" align="center" style="padding:28px 32px 20px 32px; background-color:#ffffff;">
-              <!-- images/lifepointe-logo.png is 440x149 (2x) shown at 220x74. -->
-              <!-- BEFORE SENDING: upload it and replace this relative path with the absolute URL. -->
-              <a href="https://lifepointechiropractic.com/" target="_blank" style="text-decoration:none;">
-                <img src="images/lifepointe-logo.png" width="220" height="74" alt="Lifepointe Chiropractic and Wellness Center" style="width:220px; max-width:100%; height:auto; display:block; margin:0 auto; border:0;" />
+              <!-- images/lifepointe-logo.png is 440x149 (2x) shown at 220x74, served by the website. -->
+              <a href="https://lifepointechiro.com/" target="_blank" style="text-decoration:none;">
+                <img src="https://lifepointechiro.com/email/images/lifepointe-logo.png" width="220" height="74" alt="Lifepointe Chiropractic &amp; Wellness Center" style="width:220px; max-width:100%; height:auto; display:block; margin:0 auto; border:0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:22px; font-weight:bold; color:#00205B;" />
               </a>
               <!-- Text fallback if images are blocked -->
               <div style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:11px; line-height:16px; font-weight:700; color:#00205B; letter-spacing:2.5px; text-transform:uppercase; padding-top:12px;">
@@ -111,12 +108,13 @@
           <!-- ============ HERO ============ -->
           <tr>
             <td class="p-side hero-pad" align="center" style="padding:40px 40px 36px 40px; background-color:#00205B;">
-              <h1 class="h1" style="margin:0 0 14px 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:33px; line-height:41px; font-weight:900; letter-spacing:-0.5px; color:#ffffff;">
-                Move better. Feel better.<br />Live better.
+              <h1 class="h1" style="margin:0 0 14px 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:33px; line-height:41px; font-weight:700; letter-spacing:-0.5px; color:#ffffff;">
+                Health comes from within.<br />We clear the way.
               </h1>
               <p style="margin:0 0 26px 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:26px; color:#CCD2DE;">
-                Whether it&rsquo;s nagging back pain, headaches, or you just want to keep your family
-                healthy &mdash; we build a care plan around you, not a one-size-fits-all adjustment.
+                Your body is built to heal itself &mdash; our job is to remove what&rsquo;s interfering.
+                Since 2001, Lifepointe has cared for Clarkston families at every age, from newborns just
+                minutes old to the most experienced members of our community.
               </p>
 
               <!-- Bulletproof CTA button -->
@@ -125,13 +123,13 @@
                   <td align="center" bgcolor="#84BD00" style="border-radius:4px;">
                     <!--[if mso]>
                     <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
-                      href="https://lifepointechiropractic.com/request-appointment" style="height:48px;v-text-anchor:middle;width:250px;" arcsize="9%" stroke="f" fillcolor="#84BD00">
+                      href="https://lifepointechiro.com/contact.html#appointment" style="height:48px;v-text-anchor:middle;width:250px;" arcsize="9%" stroke="f" fillcolor="#84BD00">
                       <w:anchorlock/>
                       <center style="color:#00205B;font-family:Arial,sans-serif;font-size:16px;font-weight:bold;">Request an Appointment</center>
                     </v:roundrect>
                     <![endif]-->
                     <!--[if !mso]><!-- -->
-                    <a href="https://lifepointechiropractic.com/request-appointment" target="_blank"
+                    <a href="https://lifepointechiro.com/contact.html#appointment" target="_blank"
                        style="display:inline-block; padding:15px 30px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:18px; font-weight:bold; color:#00205B; text-decoration:none; border-radius:4px; background-color:#84BD00;">
                       Request an Appointment
                     </a>
@@ -145,13 +143,12 @@
           <!-- ============ INTRO ============ -->
           <tr>
             <td class="p-side" style="padding:36px 40px 8px 40px;">
-              <h2 class="h2" style="margin:0 0 12px 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:23px; line-height:31px; font-weight:900; letter-spacing:-0.3px; color:#00205B;">
-                Your place for family wellness
+              <h2 class="h2" style="margin:0 0 12px 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:23px; line-height:31px; font-weight:700; letter-spacing:-0.3px; color:#00205B;">
+                Your place for family wellness and chiropractic care
               </h2>
               <p style="margin:0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:15px; line-height:25px; color:#4A5470;">
-                At Lifepointe Chiropractic and Wellness Center, we treat the whole person. Care starts with a
-                thorough exam &mdash; including digital X-ray and a computerized health assessment when needed &mdash;
-                so we understand what&rsquo;s actually causing your symptoms before we ever adjust.
+                Lifepointe Chiropractic &amp; Wellness Center is a modern facility known for its range of
+                chiropractic techniques and other services, including:
               </p>
             </td>
           </tr>
@@ -163,21 +160,21 @@
                 <tr>
                   <td class="stack stack-pad" width="50%" valign="top" style="padding:0 12px 20px 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
                     <div style="font-size:15px; line-height:22px; font-weight:bold; color:#00205B; padding-bottom:6px;">Chiropractic Adjustments</div>
-                    <div style="font-size:14px; line-height:22px; color:#4A5470;">Diversified, Activator, Logan Basic, Thompson, and Webster techniques &mdash; matched to you.</div>
+                    <div style="font-size:14px; line-height:22px; color:#4A5470;">A variety of techniques, including Diversified, Activator, Logan Basic, Thompson, and Webster.</div>
                   </td>
                   <td class="stack stack-pad" width="50%" valign="top" style="padding:0 0 20px 12px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
-                    <div style="font-size:15px; line-height:22px; font-weight:bold; color:#00205B; padding-bottom:6px;">Massage Therapy</div>
-                    <div style="font-size:14px; line-height:22px; color:#4A5470;">Licensed therapeutic massage that helps your adjustments hold longer.</div>
+                    <div style="font-size:15px; line-height:22px; font-weight:bold; color:#00205B; padding-bottom:6px;">Licensed Massage Therapy</div>
+                    <div style="font-size:14px; line-height:22px; color:#4A5470;">Massages can offer a variety of benefits, including improved circulation, reduced stress levels, and more.</div>
                   </td>
                 </tr>
                 <tr>
                   <td class="stack stack-pad" width="50%" valign="top" style="padding:0 12px 20px 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
                     <div style="font-size:15px; line-height:22px; font-weight:bold; color:#00205B; padding-bottom:6px;">Nutrition &amp; Sensitivity Testing</div>
-                    <div style="font-size:14px; line-height:22px; color:#4A5470;">Nutritional consultations plus food allergy and sensitivity testing.</div>
+                    <div style="font-size:14px; line-height:22px; color:#4A5470;">Personal nutritional consultations and individualized food allergy/sensitivity testing.</div>
                   </td>
                   <td class="stack stack-pad" width="50%" valign="top" style="padding:0 0 20px 12px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
                     <div style="font-size:15px; line-height:22px; font-weight:bold; color:#00205B; padding-bottom:6px;">Traction &amp; Custom Orthotics</div>
-                    <div style="font-size:14px; line-height:22px; color:#4A5470;">Cervical and lumbar traction, and custom-fit foot orthotics for lasting support.</div>
+                    <div style="font-size:14px; line-height:22px; color:#4A5470;">Cervical and lumbar traction, and custom-made foot orthotics designed to fit the specific contours of your feet.</div>
                   </td>
                 </tr>
               </table>
@@ -210,10 +207,12 @@
                   </td>
                   <td class="stack" width="50%" valign="top" style="padding:0 0 0 12px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
                     <div style="font-size:12px; line-height:18px; font-weight:bold; letter-spacing:1.2px; text-transform:uppercase; color:#00205B; padding-bottom:10px;">Visit or Call</div>
-                    <div class="unstyle-auto-detected-links" style="font-size:14px; line-height:23px; color:#4A5470;">
+                    <!-- No .unstyle-auto-detected-links here: its reset would strip the links' own color, weight and underline. -->
+                    <div style="font-size:14px; line-height:23px; color:#4A5470;">
                       <a href="https://www.google.com/maps/place/Lifepointe+Chiropractic+and+Wellness+Center/@42.7066913,-83.4049681,15z/data=!4m5!3m4!1s0x0:0xa9dd54196a5af191!8m2!3d42.7066913!4d-83.4049681" target="_blank" style="color:#4A5470; text-decoration:none;">5896 Dixie Hwy, Ste A<br />Clarkston, MI 48346</a><br /><br />
-                      <a href="tel:+12486236107" style="color:#00205B; text-decoration:none; font-weight:bold;">(248)&nbsp;623-6107</a><br />
-                      <a href="mailto:lifepointechiro@gmail.com" style="color:#00205B; text-decoration:underline;">lifepointechiro@gmail.com</a>
+                      <a href="tel:+12486236107" style="color:#00205B; text-decoration:none; font-weight:bold;">248.623.6107</a><br />
+                      <span class="unstyle-auto-detected-links" style="color:#4A5470;">Fax 248.623.6443</span><br />
+                      <a href="mailto:office@lifepointechiro.com" style="color:#00205B; text-decoration:underline;">office@lifepointechiro.com</a>
                     </div>
                   </td>
                 </tr>
@@ -229,13 +228,13 @@
                   <td align="center" bgcolor="#00205B" style="border-radius:4px;">
                     <!--[if mso]>
                     <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
-                      href="https://lifepointechiropractic.com/new-patients-information-page#new-patient-forms" style="height:48px;v-text-anchor:middle;width:230px;" arcsize="9%" stroke="f" fillcolor="#00205B">
+                      href="https://lifepointechiro.com/new-patients.html" style="height:48px;v-text-anchor:middle;width:230px;" arcsize="9%" stroke="f" fillcolor="#00205B">
                       <w:anchorlock/>
                       <center style="color:#ffffff;font-family:Arial,sans-serif;font-size:16px;font-weight:bold;">New Patient Info</center>
                     </v:roundrect>
                     <![endif]-->
                     <!--[if !mso]><!-- -->
-                    <a href="https://lifepointechiropractic.com/new-patients-information-page#new-patient-forms" target="_blank"
+                    <a href="https://lifepointechiro.com/new-patients.html" target="_blank"
                        style="display:inline-block; padding:15px 30px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:18px; font-weight:bold; color:#ffffff; text-decoration:none; border-radius:4px; background-color:#00205B;">
                       New Patient Info
                     </a>
@@ -250,29 +249,33 @@
           <tr>
             <td class="p-side" align="center" style="padding:32px 40px; background-color:#00205B;">
 
-              <div style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:24px; font-weight:900; letter-spacing:0.2px; color:#ffffff; padding-bottom:6px;">
+              <div style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:24px; font-weight:700; letter-spacing:0.2px; color:#ffffff; padding-bottom:6px;">
                 Lifepointe Chiropractic &amp; Wellness Center
               </div>
               <div class="unstyle-auto-detected-links" style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px; line-height:21px; color:#CCD2DE; padding-bottom:20px;">
-                5896 Dixie Hwy, Ste A, Clarkston, MI 48346 &nbsp;&bull;&nbsp; (248) 623-6107
+                5896 Dixie Hwy, Ste A, Clarkston, MI 48346 &nbsp;&bull;&nbsp; 248.623.6107
               </div>
 
               <!-- ---- Social icons ---- -->
+              <!-- White glyphs on transparent 60x60 PNGs (shown at 30x30), served by the website. -->
+              <!-- Generated by tools/make-social-icons.js. The Facebook logo stays white: Meta does not -->
+              <!-- allow recoloring it. 8px cell padding = 16px between icons, which covers Facebook's -->
+              <!-- clear space (1/4 of the logo width) and Instagram's (1/2 of the glyph). -->
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
                 <tr>
-                  <td style="padding:0 7px;">
+                  <td style="padding:0 8px;">
                     <a href="https://www.facebook.com/lifepointewellness/" target="_blank" style="text-decoration:none;">
-                      <img src="https://cdn-icons-png.flaticon.com/128/5968/5968764.png" width="30" height="30" alt="Facebook" title="Facebook" style="width:30px; height:30px; display:block; border:0;" />
+                      <img src="https://lifepointechiro.com/email/images/icon-facebook.png" width="30" height="30" alt="Facebook" title="Facebook" style="width:30px; height:30px; display:block; border:0; font-family:Arial,Helvetica,sans-serif; font-size:10px; color:#E6E9EF;" />
                     </a>
                   </td>
-                  <td style="padding:0 7px;">
+                  <td style="padding:0 8px;">
                     <a href="https://www.instagram.com/lifepointe.chiropractic/" target="_blank" style="text-decoration:none;">
-                      <img src="https://cdn-icons-png.flaticon.com/128/2111/2111463.png" width="30" height="30" alt="Instagram" title="Instagram" style="width:30px; height:30px; display:block; border:0;" />
+                      <img src="https://lifepointechiro.com/email/images/icon-instagram.png" width="30" height="30" alt="Instagram" title="Instagram" style="width:30px; height:30px; display:block; border:0; font-family:Arial,Helvetica,sans-serif; font-size:10px; color:#E6E9EF;" />
                     </a>
                   </td>
-                  <td style="padding:0 7px;">
-                    <a href="https://lifepointechiropractic.com/" target="_blank" style="text-decoration:none;">
-                      <img src="https://cdn-icons-png.flaticon.com/128/1006/1006771.png" width="30" height="30" alt="Website" title="Website" style="width:30px; height:30px; display:block; border:0;" />
+                  <td style="padding:0 8px;">
+                    <a href="https://lifepointechiro.com/" target="_blank" style="text-decoration:none;">
+                      <img src="https://lifepointechiro.com/email/images/icon-website.png" width="30" height="30" alt="Website" title="Website" style="width:30px; height:30px; display:block; border:0; font-family:Arial,Helvetica,sans-serif; font-size:10px; color:#E6E9EF;" />
                     </a>
                   </td>
                 </tr>
@@ -284,19 +287,19 @@
                 &nbsp;&middot;&nbsp;
                 <a href="https://www.instagram.com/lifepointe.chiropractic/" target="_blank" style="color:#E6E9EF; text-decoration:none;">Instagram</a>
                 &nbsp;&middot;&nbsp;
-                <a href="https://lifepointechiropractic.com/" target="_blank" style="color:#E6E9EF; text-decoration:none;">lifepointechiropractic.com</a>
+                <a href="https://lifepointechiro.com/" target="_blank" style="color:#E6E9EF; text-decoration:none;">lifepointechiro.com</a>
               </div>
 
               <div style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:11px; line-height:18px; color:#9EAAC1; padding-top:22px;">
-                You&rsquo;re receiving this because you are a patient of or subscribed to updates from
-                Lifepointe Chiropractic and Wellness Center.<br />
+                You&rsquo;re receiving this email because you&rsquo;re on the mailing list for
+                Lifepointe Chiropractic &amp; Wellness Center.<br />
                 <a href="{{UnsubscribeURL}}" target="_blank" style="color:#9EAAC1; text-decoration:underline;">Unsubscribe</a>
                 &nbsp;&middot;&nbsp;
                 <a href="{{PreferencesURL}}" target="_blank" style="color:#9EAAC1; text-decoration:underline;">Update preferences</a>
               </div>
 
               <div style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:11px; line-height:18px; color:#9EAAC1; padding-top:12px;">
-                &copy; 2026 Lifepointe Chiropractic and Wellness Center. All rights reserved.
+                &copy; 2026 Lifepointe Chiropractic &amp; Wellness Center. All rights reserved.
               </div>
 
             </td>
