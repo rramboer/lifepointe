@@ -15,6 +15,12 @@ BANNED = [
     # The old appointment form's hosts. It loaded trackers and asked for health details.
     r'leadconnector',
     r'msgsndr',
+    # The old website's file host.
+    r'yourwebsite\.life',
+    # The old website vendor's Vimeo account, and its video of the practice. Matching the bare
+    # IDs catches every URL form: a link, an embed, a channel or showcase path, URL-encoded.
+    r'user100634671(?!\d)',
+    r'(?<!\d)737699204(?!\d)',
 ]
 
 
