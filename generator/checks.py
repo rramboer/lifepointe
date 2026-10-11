@@ -1,5 +1,6 @@
-"""Checks on the finished output folder. Any match fails the build."""
+"""Checks on the finished output folder. Any problem fails the build."""
 import re
+from urllib.parse import unquote
 
 # Text that must never appear anywhere in the published site. Each entry is a regular
 # expression, matched case-insensitively against the whole of every text file. Add one to
@@ -23,6 +24,13 @@ BANNED = [
     r'(?<!\d)737699204(?!\d)',
 ]
 
+# Checked like BANNED, except in email/. Google Fonts' hosts: the site serves its own fonts
+# from assets/fonts/, and a request to Google sends the visitor's IP address to a third party.
+# The email template still loads Lato from Google. If that link goes, move this into BANNED.
+BANNED_OUTSIDE_EMAIL = [
+    r'fonts\.(?:googleapis|gstatic)\.com',
+]
+
 
 def _text(path):
     """The file's text, or None for a binary file (images, fonts, PDFs)."""
@@ -37,7 +45,8 @@ def _text(path):
 
 def scan(out):
     """Return ('file:line: ...' problems found under out, number of text files scanned)."""
-    patterns = [re.compile(p, re.IGNORECASE) for p in BANNED]
+    everywhere = [re.compile(p, re.IGNORECASE) for p in BANNED]
+    outside_email = everywhere + [re.compile(p, re.IGNORECASE) for p in BANNED_OUTSIDE_EMAIL]
     problems = []
     scanned = 0
     for path in sorted(p for p in out.rglob('*') if p.is_file()):
@@ -45,10 +54,39 @@ def scan(out):
         if text is None:
             continue
         scanned += 1
+        name = path.relative_to(out).as_posix()
+        patterns = everywhere if name.startswith('email/') else outside_email
         for pattern in patterns:
             for match in pattern.finditer(text):
                 number = text.count('\n', 0, match.start()) + 1
                 excerpt = ' '.join(text[max(match.start() - 40, 0):match.end() + 40].split())
-                problems.append(f'{path.relative_to(out).as_posix()}:{number}: '
-                                f'banned text /{pattern.pattern}/ in "{excerpt}"')
+                problems.append(f'{name}:{number}: banned text /{pattern.pattern}/ in "{excerpt}"')
     return problems, scanned
+
+
+_CSS_COMMENT = re.compile(r'/\*.*?\*/', re.DOTALL)
+_CSS_URL = re.compile(r'url\(\s*(["\']?)([^"\')]*)\1\s*\)', re.IGNORECASE)
+_SCHEME = re.compile(r'[a-z][a-z0-9+.-]*:', re.IGNORECASE)
+
+
+def missing_css_files(out):
+    """'file:line: ...' for each url() in the output's stylesheets that names a file the output
+    doesn't have, such as a renamed font. A browser would just fall back to another font."""
+    root = out.resolve()
+    problems = []
+    for css in sorted(out.rglob('*.css')):
+        # Blank out comments, keeping their line breaks so line numbers stay right.
+        text = _CSS_COMMENT.sub(lambda m: re.sub(r'[^\n]', ' ', m.group()),
+                                css.read_text(encoding='utf-8-sig'))
+        for match in _CSS_URL.finditer(text):
+            url = match.group(2).strip()
+            path = unquote(url.split('#')[0].split('?')[0])
+            if not path or _SCHEME.match(url) or url.startswith('//'):
+                continue  # data: URIs, other sites and #fragment references aren't files here
+            target = (root / path.lstrip('/')) if path.startswith('/') else (css.parent / path)
+            target = target.resolve()
+            if root not in target.parents or not target.is_file():
+                number = text.count('\n', 0, match.start()) + 1
+                problems.append(f'{css.relative_to(out).as_posix()}:{number}: '
+                                f'url("{url}") names no file in the output')
+    return problems

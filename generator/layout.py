@@ -24,9 +24,6 @@ def head(title, description, base='', extra=''):
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(description)}">
   <link rel="icon" type="image/svg+xml" href="{base}assets/favicon.svg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{base}css/site.css">{extra_html}
 </head>'''
 
