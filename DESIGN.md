@@ -53,6 +53,8 @@ the heart mark on a white tile so it reads in light and dark browser tabs. The f
   (interior h1) > `.display-2` (section h2) > `.display-3` (card h3)
 - Body/UI: **Lato** 400/700, 17px, 1.65 line-height
 - Eyebrow: Lato 700, 12px, +.17em tracking, uppercase, with a short red tick before it — navy on light; green text and tick on dark
+- Both are self-hosted from `assets/fonts/` (README.md, Fonts): only these four weights, no
+  italics, and no request to Google
 
 ## Rhythm
 Post-heading gap `.mt-15` (1.5rem); pre-CTA / group gap `.mt-2` (2rem). No other inline

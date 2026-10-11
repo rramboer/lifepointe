@@ -25,8 +25,9 @@ generator/         the generator itself
                    mailto() for links that open a new email with the subject and
                    body filled in, and number_word() for counts in running text
   static.py        the folders copied into the site as-is
-  checks.py        scans the finished site for text that must never appear
-css/ js/ assets/   stylesheet, script, logos, favicon and photos
+  checks.py        checks the finished site for text that must never appear and
+                   for stylesheet url()s that name a missing file
+css/ js/ assets/   stylesheet, script, logos, favicon, photos and web fonts (see Fonts)
 email/             standalone HTML email template (see email/README.md), published at /email/
 forms/             the new-patient intake PDFs, published at /forms/ (see New-patient forms)
 DESIGN.md          design system: colors, type, spacing, accessibility floor
@@ -64,7 +65,10 @@ The build stops with a non-zero exit and a message naming the file and field whe
 - the `/card` redirect would lead nowhere (see Business-card QR code);
 - a new-patient form path isn't a PDF in `forms/`, or the file isn't there (see New-patient
   forms);
-- the finished site contains any of the words listed in `generator/checks.py`.
+- the finished site contains any of the words listed in `generator/checks.py`, or a Google
+  Fonts address outside `email/` (see Fonts);
+- a `url()` in a stylesheet names a file that isn't in the finished site, such as a renamed
+  font.
 
 ## Editing content
 
@@ -114,6 +118,33 @@ new file before committing it: its fields should still fill in, and they should 
 because anything saved in the file is published to everyone who downloads it. The build's
 banned-word check (`generator/checks.py`) can't read PDFs, so also check the new file's text
 for those words.
+
+## Fonts
+
+The site's two typefaces are served from `assets/fonts/`, so its pages send no request to
+Google or any other font service. The `@font-face` rules are at the top of `css/site.css`.
+The email template at `/email/` is separate (see `email/README.md`): it still loads Lato
+from Google. The build stops if any other published file names `fonts.googleapis.com` or
+`fonts.gstatic.com`, so Google Fonts can't come back unnoticed, and if a `url()` in the
+stylesheet names a font file that isn't there.
+
+- **Bricolage Grotesque** (headings, weights 700 and 800) and **Lato** (body, 400 and 700),
+  no italics. These are the woff2 files Google Fonts served in October 2026 for
+  `family=Bricolage+Grotesque:wght@700;800&family=Lato:wght@400;700`, unchanged and renamed.
+  Bricolage Grotesque is a variable font, so one file covers both of its weights.
+- Each typeface is split into character sets (latin, latin-ext and, for Bricolage
+  Grotesque, vietnamese), and each rule's `unicode-range` lists its file's characters. A
+  browser downloads a file only when the page uses one of those characters, so the English
+  pages load just the three latin files, 88 KB in all. The seven files total 126 KB.
+- The licenses are `OFL-lato.txt` and `OFL-bricolagegrotesque.txt` in `assets/fonts/`
+  (SIL Open Font License 1.1, which allows self-hosting). Keep them next to the fonts.
+- To add a Lato weight or style, request the CSS from
+  `https://fonts.googleapis.com/css2?family=...` with a desktop Chrome user agent, so that it
+  lists woff2 files. Download every file it lists into `assets/fonts/`, then copy its rules
+  into `css/site.css` with the `url()` changed to `../assets/fonts/<file>` and
+  `font-display: swap` kept. The Bricolage Grotesque files already contain weights 200 to
+  800: for another weight in that range, widen the `font-weight` range in its three rules.
+- The `/card` redirect loads no fonts: it shows for a moment at most.
 
 ## Search engines and link previews
 

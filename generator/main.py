@@ -79,6 +79,10 @@ def build(out_arg=None):
     problems, scanned = checks.scan(out)
     if problems:
         raise BuildError(f'the output contains banned text ({len(problems)} found):\n  ' + '\n  '.join(problems))
+    missing = checks.missing_css_files(out)
+    if missing:
+        raise BuildError(f'a stylesheet names files the output doesn\'t have ({len(missing)} found):\n  '
+                         + '\n  '.join(missing))
     print(f'built {len(rendered)} pages, {not_found.FILENAME}, {seo.SITEMAP}, {seo.ROBOTS} and the /card '
           f'redirect into {_shown(out)}/ (copied {", ".join(copied)}; {scanned} text files checked)')
 
