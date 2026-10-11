@@ -4,9 +4,9 @@ import shutil
 import sys
 from pathlib import Path
 
-from . import card, checks, data, static
+from . import card, checks, data, seo, static
 from .errors import BuildError
-from .pages import PAGES
+from .pages import PAGES, not_found
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_OUT = ROOT / '_site'
@@ -50,11 +50,20 @@ def build(out_arg=None):
     if set(filenames) & set(card.FILES):
         raise BuildError(f'{" and ".join(card.FILES)} are reserved for the business-card '
                          f'/card redirect (generator/card.py); give the page another FILENAME')
+    reserved = set(filenames) & {not_found.FILENAME, *seo.FILES}
+    if reserved:
+        raise BuildError(f'{" and ".join(sorted(reserved))}: made by the build itself (404 page or '
+                         f'generator/seo.py); give the page another FILENAME')
+    seo.check_images(ROOT)
     site = data.load(ROOT / 'data', set(filenames))
     rendered = [(page.FILENAME, page.render(site)) for page in PAGES]
     card.check_target(site, dict(rendered))
     card_html = card.render(site)
-    files = rendered + [(filename, card_html) for filename in card.FILES]
+    files = rendered + [
+        (not_found.FILENAME, not_found.render(site)),
+        (seo.SITEMAP, seo.sitemap(site, filenames)),
+        (seo.ROBOTS, seo.robots(site)),
+    ] + [(filename, card_html) for filename in card.FILES]
 
     out = _output_dir(out_arg)
     if out.exists():
@@ -70,8 +79,8 @@ def build(out_arg=None):
     problems, scanned = checks.scan(out)
     if problems:
         raise BuildError(f'the output contains banned text ({len(problems)} found):\n  ' + '\n  '.join(problems))
-    print(f'built {len(rendered)} pages and the /card redirect into {_shown(out)}/ '
-          f'(copied {", ".join(copied)}; {scanned} text files checked)')
+    print(f'built {len(rendered)} pages, {not_found.FILENAME}, {seo.SITEMAP}, {seo.ROBOTS} and the /card '
+          f'redirect into {_shown(out)}/ (copied {", ".join(copied)}; {scanned} text files checked)')
 
 
 def main(argv=None):

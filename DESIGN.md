@@ -66,6 +66,8 @@ The closing CTA band is shared verbatim on five pages; new-patients tailors it (
 your first visit?") and contact omits it — deliberate: never CTA to the page you're on.
 `/card` (the business-card QR code) is an unlisted redirect, not a page: logo, one line and a
 green button with navy text, its few styles inline, nothing loaded from other sites (README.md).
+`404.html` uses the shared header and footer with a short hero and two buttons, home (green)
+and contact; its links start with `/` because GitHub Pages serves it at any depth.
 
 ## Floor
 Skip link + `scroll-padding-top` clearing the sticky header, landmarks, aria-current nav,
@@ -75,12 +77,12 @@ screen readers, no horizontal scroll at 320px. Hamburger below 1081px (the deskt
 needs ~976px of content width).
 
 ## Building
-`python3 build.py` builds the seven pages and the `/card` redirect into `_site/` (see
-README.md). GitHub Actions runs the same build on every pull request and every push to
-`main`, and deploys `main` to GitHub Pages (README.md, Deploy). The generated HTML is never
-committed. Edit content in `data/*.json`, page markup in `generator/pages/`, the shared
-header, footer and CTA band in `generator/layout.py`, styling in css/site.css, behavior in
-js/site.js.
+`python3 build.py` builds the seven pages, the 404 page, `sitemap.xml`, `robots.txt` and the
+`/card` redirect into `_site/` (see README.md). GitHub Actions runs the same build on every
+pull request and every push to `main`, and deploys `main` to GitHub Pages (README.md,
+Deploy). The generated HTML is never committed. Edit content in `data/*.json`, page markup
+in `generator/pages/`, the shared header, footer and CTA band in `generator/layout.py`,
+styling in css/site.css, behavior in js/site.js.
 
 ## Known placeholders
 - Links that still point at the old website or services tied to it, all kept under `legacy` in

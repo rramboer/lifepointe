@@ -15,6 +15,9 @@ generator/         the generator itself
   data.py          loads data/*.json and stops the build on any problem
   layout.py        shared head, header, footer, page hero and closing CTA band
   pages/           one module per page; prose used on only one page lives here
+                   (not_found.py is the 404 page)
+  seo.py           canonical URLs, link-preview tags, the home page's JSON-LD,
+                   sitemap.xml and robots.txt (see Search engines and link previews)
   card.py          the /card redirect behind the business-card QR code (see below)
   hours.py         office-hours table and footer summary
   icons.py         inline SVG icons, by name
@@ -36,7 +39,8 @@ python3 -m http.server --bind 127.0.0.1 --directory _site 8000
 ```
 
 Then open <http://localhost:8000>. Each build empties `_site/` and writes it again: the seven
-pages and the `/card` redirect, plus copies of `css/`, `js/`, `assets/` and `email/`.
+pages, `404.html`, `sitemap.xml`, `robots.txt` and the `/card` redirect, plus copies of `css/`,
+`js/`, `assets/` and `email/`.
 `--out DIR` builds somewhere else. It uses a new or empty folder, or empties one that an
 earlier build made (marked by the empty `.site-build` file each build leaves). It refuses any
 other folder. The script works from any directory.
@@ -48,6 +52,9 @@ The build stops with a non-zero exit and a message naming the file and field whe
 - an id is used twice, or a quote or section points at a category that doesn't exist;
 - an icon name is unknown, or a menu entry points at a page the build doesn't make;
 - a data value contains HTML markup or an entity;
+- the address, fax, dialing number or map coordinates can't be used in the home page's
+  JSON-LD, the coordinates don't match the pin in the map link, or the link-preview image is
+  missing or a different size (see Search engines and link previews);
 - the `/card` redirect would lead nowhere (see Business-card QR code);
 - the finished site contains any of the words listed in `generator/checks.py`.
 
@@ -55,7 +62,7 @@ The build stops with a non-zero exit and a message naming the file and field whe
 
 | File | What it holds |
 |---|---|
-| `data/practice.json` | Practice name and legal name, the doctor's name and credentials, phone (display and dialing), fax, email, address, map link, social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `booking_url` is where the business-card QR code goes (see below); `null` means the contact page. `legacy` holds links that still point at the old website's hosting; they are being replaced. |
+| `data/practice.json` | Practice name and legal name, the doctor's name and credentials, phone (display and dialing), fax, email, address (`street, city, ST 12345`), map link and the coordinates of its pin (`geo`), social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `booking_url` is where the business-card QR code goes (see below); `null` means the contact page. `legacy` holds links that still point at the old website's hosting; they are being replaced. |
 | `data/nav.json` | The header menu, in order. `footer_label` changes an entry's text in the footer's Explore list. |
 | `data/hours.json` | Office hours, Monday through Sunday, in 24-hour `HH:MM`. `"hours": []` means closed. This one list feeds both hours tables (home and contact) and the footer summary. |
 | `data/services.json` | `home_cards` (home page "What we do"), `services` (services page; `pamphlet` adds a download link from `practice.json`) and `products`. |
@@ -80,7 +87,38 @@ that page's module in `generator/pages/`. The shared header, footer and CTA band
 
 To add a page, create a module in `generator/pages/` with a `FILENAME` and a `render(site)`
 function, add it to `PAGES` in `generator/pages/__init__.py`, and add a menu entry to
-`data/nav.json` if it belongs in the menu.
+`data/nav.json` if it belongs in the menu. Every page in `PAGES` gets a canonical URL and
+link-preview tags and is listed in `sitemap.xml`; nothing else needs changing.
+
+## Search engines and link previews
+
+All of this is built from `site_url` in `data/practice.json`, in `generator/seo.py`.
+
+- **Canonical URLs** are `https://lifepointechiro.com/` for the home page and
+  `https://lifepointechiro.com/<page>.html` for the others, the same form as the site's own
+  links. GitHub Pages also answers `/about` without `.html`; the canonical link tells search
+  engines which address to list. Each page also has Open Graph and Twitter card tags, so a
+  shared link shows the page's title and description with the adjustment photo.
+- **JSON-LD.** The home page describes the practice for search engines as a schema.org
+  `MedicalBusiness`: name, address, phone, fax, email, map coordinates and link, office hours
+  (from `data/hours.json`) and the Facebook and Instagram pages. schema.org has no
+  chiropractic type. Its more specific medical types are other specialties, or facilities such
+  as `MedicalClinic` (a hospital-style clinic) and `Pharmacy`. `geo` is the pin in `maps_url`
+  (the numbers after `!3d` and `!4d`); if the map link changes, update `geo` with it, and the
+  build stops if they disagree. Once the site is live, check it by entering
+  `https://lifepointechiro.com/` in Google's Rich Results Test.
+- **The link-preview image** is `assets/photo-adjustment.jpg`, set in `generator/seo.py`
+  with its width and height. The build stops if the file is missing or its size has changed.
+- **`sitemap.xml`** lists every page in `PAGES`. **`robots.txt`** lets search engines crawl
+  everything except the email template's page at `/email/`. `/email/images/` stays open
+  because email clients fetch the logo from there. It also gives the sitemap's address.
+- **`404.html`** is the page GitHub Pages shows, with status 404, for any address that
+  doesn't exist. It keeps the header and footer, asks search engines not to index it and
+  isn't in the sitemap. Pages serves it at the missing address itself, at any depth, so its
+  links start with `/`, like the `/card` page's. On the temporary
+  `rramboer.github.io/lifepointe/` address it therefore shows without styles; test it on
+  `lifepointechiro.com` or a local preview. `python3 -m http.server` answers a missing page
+  with its own error, not `404.html`; open `/404.html` directly instead.
 
 ## Business-card QR code (/card)
 
