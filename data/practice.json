@@ -26,17 +26,6 @@
     "child": "forms/new-patient-child.pdf"
   },
   "legacy": {
-    "old_site": "https://lifepointechiropractic.com",
-    "video": "https://vimeo.com/737699204",
-    "pamphlets": {
-      "health_assessment": {
-        "url": "https://res2.yourwebsite.life/res/62f173898d9d30000fa9b6b9/62f3246e6f6f3a000de4f063",
-        "label": "Download the health assessment pamphlet"
-      },
-      "nutrition": {
-        "url": "https://res2.yourwebsite.life/res/62f173898d9d30000fa9b6b9/62f324a98b3ec5000e69cdd5",
-        "label": "Download the nutrition consultation pamphlet"
-      }
-    }
+    "old_site": "https://lifepointechiropractic.com"
   }
 }

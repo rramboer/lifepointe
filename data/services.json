@@ -55,14 +55,12 @@
     {
       "icon": "clip",
       "title": "Complete computerized health assessments",
-      "summary": "A comprehensive picture of your health.",
-      "pamphlet": "health_assessment"
+      "summary": "A comprehensive picture of your health."
     },
     {
       "icon": "leaf",
       "title": "Personal nutritional consultations",
-      "summary": "Diabetes, autoimmune conditions, autism spectrum disorders, weight loss, and more.",
-      "pamphlet": "nutrition"
+      "summary": "Diabetes, autoimmune conditions, autism spectrum disorders, weight loss, and more."
     },
     {
       "icon": "leaf",

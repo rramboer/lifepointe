@@ -97,6 +97,5 @@ in `generator/pages/`, the shared header, footer and CTA band in `generator/layo
 styling in css/site.css, behavior in js/site.js.
 
 ## Known placeholders
-- Links that still point at the old website or services tied to it, all kept under `legacy` in
-  data/practice.json: the footer privacy and accessibility links, the two service pamphlets
-  and the video link on the about page. Later changes replace or remove each one.
+- The footer privacy and accessibility links still point at the old website, through `legacy`
+  in data/practice.json. A later change replaces them.

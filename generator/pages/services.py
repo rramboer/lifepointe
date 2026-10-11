@@ -1,17 +1,9 @@
 """Services & products page."""
 from ..helpers import esc
-from ..icons import icon, svg
+from ..icons import icon
 from ..layout import V, cta_band, page, page_hero
 
 FILENAME = 'services.html'
-
-
-def _pamphlet_link(site, service):
-    key = getattr(service, 'pamphlet', None)
-    if not key:
-        return ''
-    pamphlet = getattr(site.practice.legacy.pamphlets, key)
-    return f'<p><a href="{esc(pamphlet.url)}">{svg("download")}&nbsp; {esc(pamphlet.label)}</a></p>'
 
 
 def render(site):
@@ -22,7 +14,6 @@ def render(site):
       {icon(service.icon)}
       <h3 class="display-3">{esc(service.title)}</h3>
       <p>{esc(service.summary)}</p>
-      {_pamphlet_link(site, service)}
     </div>''' for service in site.services.services)
 
     products_html = '\n'.join(f'<li>{esc(product)}</li>' for product in site.services.products)
