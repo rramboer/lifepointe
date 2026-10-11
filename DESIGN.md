@@ -1,8 +1,8 @@
-# Lifepointe Website Prototype — Design System
+# Lifepointe Website — Design System
 
-Prototype replacement for lifepointechiropractic.com. Static HTML/CSS/JS, no build step
-required to serve — but the pages are generated (see Regenerating below) so the shared
-chrome stays identical across all seven.
+The website for Lifepointe Chiropractic & Wellness Center. Static HTML/CSS/JS; the seven
+pages are generated (see Building below) so the shared chrome stays identical across all of
+them.
 
 ## Concept
 The page's structural device is the subject itself: **alignment**. A vertical "spine rail"
@@ -59,8 +59,8 @@ Post-heading gap `.mt-15` (1.5rem); pre-CTA / group gap `.mt-2` (2rem). No other
 spacing — new one-offs should become classes.
 
 ## Pages
-index, about, services, new-patients, success-stories, recipe-book, contact — the real IA
-of the live site, real extracted copy only (testimonials verified against the live pages).
+index, about, services, new-patients, success-stories, recipe-book, contact. The practice's
+own pages and wording only, nothing invented (testimonials are verbatim).
 Shared header (sticky, green CTA → contact#appointment) + footer (navy-ink, white logo).
 The closing CTA band is shared verbatim on five pages; new-patients tailors it ("Ready for
 your first visit?") and contact omits it — deliberate: never CTA to the page you're on.
@@ -72,10 +72,14 @@ mobile nav = button + aria-expanded + focus-scoped Escape, hours table marks "(t
 screen readers, no horizontal scroll at 320px. Hamburger below 1081px (the desktop bar
 needs ~976px of content width).
 
-## Regenerating
-`python3 build.py` from this directory rewrites the seven HTML files. Edit page content in
-build.py, shared styling in css/site.css, behavior in js/site.js. Screenshots need a
-browser with system libs this WSL box lacks — test in a real browser.
+## Building
+`python3 build.py` builds the seven pages into `_site/` (see README.md). Edit content in
+`data/*.json`, page markup in `generator/pages/`, the shared header, footer and CTA band in
+`generator/layout.py`, styling in css/site.css, behavior in js/site.js.
 
 ## Known placeholders
-- Ten success-story categories link out to the live site (marked ↗); five are on-page.
+- Links that still point at the old website or services tied to it, all kept under `legacy` in
+  data/practice.json: the ten success-story categories not yet on this site (marked ↗; the
+  other five are on-page), the footer privacy and accessibility links, the adult and child
+  new-patient forms, the two service pamphlets, the video link on the about page, and the
+  contact page's appointment form. Later changes replace or remove each one.

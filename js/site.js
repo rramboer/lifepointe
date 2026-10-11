@@ -1,4 +1,4 @@
-/* Lifepointe prototype — progressive enhancement only; every page works without JS. */
+/* Lifepointe — progressive enhancement only; every page works without JS. */
 (function () {
   'use strict';
 

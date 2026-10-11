@@ -1,0 +1,341 @@
+"""Load the content in data/*.json and check it before anything is built.
+
+Every problem is collected and reported together, each naming its file and field.
+The order of every JSON array is the order it is shown on the site.
+"""
+import json
+import re
+from types import SimpleNamespace
+
+from .errors import BuildError
+from .icons import ICONS
+
+DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+SLUG = re.compile(r'[a-z0-9]+(-[a-z0-9]+)*')
+TIME = re.compile(r'([01][0-9]|2[0-3]):[0-5][0-9]')
+TEL = re.compile(r'\+[0-9]{8,15}')
+TOP = '(top level)'
+# Data is plain text; esc() turns it into HTML. Entities or tags here would show up literally.
+LOOKS_LIKE_HTML = re.compile(r'&(#[0-9]+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]*);|<[a-zA-Z/!]')
+
+
+def _at(where, key):
+    return f'{where}.{key}' if where and where != TOP else key
+
+
+class Checker:
+    """Collects the problems found in one data file."""
+
+    def __init__(self, filename, errors):
+        self.filename = filename
+        self.errors = errors
+
+    def fail(self, where, problem):
+        self.errors.append(f'data/{self.filename}: {where}: {problem}')
+
+    def obj(self, value, where, fields=None):
+        """An object; with `fields`, any other key is reported (it is probably a typo)."""
+        if not isinstance(value, dict):
+            self.fail(where, 'expected an object {...}')
+            return {}
+        for key in value:
+            if fields is not None and key not in fields:
+                self.fail(_at(where, key), f'unknown field (expected: {", ".join(fields)})')
+        return value
+
+    def items(self, value, where, allow_empty=False):
+        if isinstance(value, list) and (value or allow_empty):
+            return value
+        self.fail(where, 'expected a list [...]' if allow_empty else 'expected a non-empty list [...]')
+        return []
+
+    def text(self, obj, key, where, optional=False):
+        """A text field. An optional field may be left out, but if it is there it must be text."""
+        field = _at(where, key)
+        if key not in obj:
+            if not optional:
+                self.fail(field, 'missing')
+            return None
+        value = obj[key]
+        if not isinstance(value, str):
+            self.fail(field, 'must be text (remove the field to leave it out)' if optional else 'must be text')
+        elif not value.strip():
+            self.fail(field, 'empty')
+        else:
+            return value
+        return None
+
+    def url(self, obj, key, where, optional=False):
+        value = self.text(obj, key, where, optional)
+        if value and not value.startswith('https://'):
+            self.fail(_at(where, key), f'must start with https:// (got "{value}")')
+        return value
+
+    def icon(self, obj, key, where):
+        name = self.text(obj, key, where)
+        if name and name not in ICONS:
+            self.fail(_at(where, key), f'unknown icon "{name}" (known: {", ".join(sorted(ICONS))})')
+
+    def unique(self, values, where, what):
+        seen = set()
+        for value in values:
+            if not isinstance(value, str):
+                continue  # already reported as missing or not text
+            if value in seen:
+                self.fail(where, f'duplicate {what} "{value}"')
+            seen.add(value)
+
+    def plain_text(self, value, where):
+        """Walk the whole file: every string must be plain text, not HTML."""
+        if isinstance(value, dict):
+            for key, item in value.items():
+                self.plain_text(item, _at(where, key))
+        elif isinstance(value, list):
+            for i, item in enumerate(value):
+                self.plain_text(item, f'{where}[{i}]')
+        elif isinstance(value, str) and LOOKS_LIKE_HTML.search(value):
+            self.fail(where, 'contains HTML markup or an entity; write plain text with real characters')
+
+
+def _reject_duplicate_keys(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f'duplicate key "{key}"')
+        result[key] = value
+    return result
+
+
+def _read(data_dir, filename):
+    path = data_dir / filename
+    try:
+        with open(path, encoding='utf-8-sig') as f:  # -sig: a BOM from a Windows editor is fine
+            return json.load(f, object_pairs_hook=_reject_duplicate_keys)
+    except FileNotFoundError:
+        raise BuildError(f'data/{filename}: file not found') from None
+    except ValueError as e:  # bad JSON, bad UTF-8, or a duplicate key
+        raise BuildError(f'data/{filename}: {e}') from None
+
+
+def _check_practice(c, raw):
+    p = c.obj(raw, TOP, ('name', 'legal_name', 'doctor', 'phone', 'fax', 'email', 'address',
+                         'maps_url', 'social', 'recipe_book_url', 'legacy'))
+    for key in ('name', 'legal_name', 'fax', 'address'):
+        c.text(p, key, TOP)
+    email = c.text(p, 'email', TOP)
+    if email and '@' not in email:
+        c.fail('email', f'not an email address (got "{email}")')
+    doctor = c.obj(p.get('doctor'), 'doctor', ('name', 'credentials'))
+    c.text(doctor, 'name', 'doctor')
+    c.text(doctor, 'credentials', 'doctor')
+    phone = c.obj(p.get('phone'), 'phone', ('display', 'tel'))
+    c.text(phone, 'display', 'phone')
+    tel = c.text(phone, 'tel', 'phone')
+    if tel and not TEL.fullmatch(tel):
+        c.fail('phone.tel', f'must be + and digits only, like +12485550123 (got "{tel}")')
+    c.url(p, 'maps_url', TOP)
+    c.url(p, 'recipe_book_url', TOP)
+    social = c.obj(p.get('social'), 'social', ('facebook', 'instagram'))
+    c.url(social, 'facebook', 'social')
+    c.url(social, 'instagram', 'social')
+    links = ('old_site', 'appointment_form', 'appointment_form_script', 'adult_forms', 'child_forms', 'video')
+    legacy = c.obj(p.get('legacy'), 'legacy', links + ('pamphlets',))
+    for key in links:
+        c.url(legacy, key, 'legacy')
+    pamphlets = c.obj(legacy.get('pamphlets'), 'legacy.pamphlets')
+    for key, pamphlet in pamphlets.items():
+        where = f'legacy.pamphlets.{key}'
+        pamphlet = c.obj(pamphlet, where, ('url', 'label'))
+        c.url(pamphlet, 'url', where)
+        c.text(pamphlet, 'label', where)
+
+
+def _check_nav(c, raw, pages):
+    hrefs = []
+    for i, entry in enumerate(c.items(raw, TOP)):
+        where = f'[{i}]'
+        entry = c.obj(entry, where, ('label', 'footer_label', 'href'))
+        c.text(entry, 'label', where)
+        c.text(entry, 'footer_label', where, optional=True)
+        href = c.text(entry, 'href', where)
+        if href and href.split('#')[0] not in pages:
+            c.fail(f'{where}.href', f'"{href}" is not a page this build generates ({", ".join(sorted(pages))})')
+        hrefs.append(href)
+    c.unique(hrefs, TOP, 'href')
+
+
+def _check_hours(c, raw):
+    days = c.items(raw, TOP)
+    names = [d.get('day') for d in days if isinstance(d, dict)]
+    if names != DAYS:
+        c.fail(TOP, f'needs exactly one entry per day, in order {", ".join(DAYS)}')
+    for i, day in enumerate(days):
+        where = f'[{i}]'
+        day = c.obj(day, where, ('day', 'hours'))
+        previous_close = None
+        for j, session in enumerate(c.items(day.get('hours'), f'{where}.hours', allow_empty=True)):
+            at = f'{where}.hours[{j}]'
+            session = c.obj(session, at, ('open', 'close'))
+            times = {}
+            for key in ('open', 'close'):
+                value = c.text(session, key, at)
+                if value and not TIME.fullmatch(value):
+                    c.fail(f'{at}.{key}', f'must be 24-hour HH:MM, like 07:30 or 18:00 (got "{value}")')
+                elif value:
+                    times[key] = value  # zero-padded HH:MM compares correctly as text
+            opens, closes = times.get('open'), times.get('close')
+            if opens and closes and opens >= closes:
+                c.fail(at, 'must close after it opens')
+            if opens and previous_close and opens < previous_close:
+                c.fail(at, 'overlaps the hours before it')
+            previous_close = closes
+
+
+def _check_services(c, raw, pamphlets):
+    s = c.obj(raw, TOP, ('home_cards', 'services', 'products'))
+    for list_key in ('home_cards', 'services'):
+        entries = c.items(s.get(list_key), list_key)
+        for i, entry in enumerate(entries):
+            where = f'{list_key}[{i}]'
+            entry = c.obj(entry, where, ('icon', 'title', 'summary', 'pamphlet'))
+            c.icon(entry, 'icon', where)
+            c.text(entry, 'title', where)
+            c.text(entry, 'summary', where)
+            pamphlet = c.text(entry, 'pamphlet', where, optional=True)
+            if list_key == 'home_cards' and pamphlet:
+                c.fail(f'{where}.pamphlet', 'home cards have no download link')
+            elif pamphlet and pamphlet not in pamphlets:
+                c.fail(f'{where}.pamphlet', f'unknown pamphlet "{pamphlet}" (see practice.json legacy.pamphlets)')
+        c.unique([e.get('title') for e in entries if isinstance(e, dict)], list_key, 'title')
+    products = c.items(s.get('products'), 'products')
+    for i, product in enumerate(products):
+        if not isinstance(product, str) or not product.strip():
+            c.fail(f'products[{i}]', 'must be non-empty text')
+    c.unique([p for p in products if isinstance(p, str)], 'products', 'product')
+
+
+def _check_testimonials(c, raw):
+    t = c.obj(raw, TOP, ('categories', 'sections'))
+    categories = c.items(t.get('categories'), 'categories')
+    ids = []
+    for i, category in enumerate(categories):
+        where = f'categories[{i}]'
+        category = c.obj(category, where, ('id', 'label', 'old_site_path'))
+        cid = c.text(category, 'id', where)
+        if cid and not SLUG.fullmatch(cid):
+            c.fail(f'{where}.id', f'use lowercase letters, digits and hyphens (got "{cid}")')
+        ids.append(cid)
+        c.text(category, 'label', where)
+        path = c.text(category, 'old_site_path', where, optional=True)
+        if path and not path.startswith('/'):
+            c.fail(f'{where}.old_site_path', 'must start with /')
+    c.unique(ids, 'categories', 'id')
+    known = set(ids)
+    on_page = []
+    for i, section in enumerate(c.items(t.get('sections'), 'sections')):
+        where = f'sections[{i}]'
+        section = c.obj(section, where, ('category', 'heading', 'testimonials'))
+        cid = c.text(section, 'category', where)
+        if cid and cid not in known:
+            c.fail(f'{where}.category', f'unknown category "{cid}"')
+        on_page.append(cid)
+        c.text(section, 'heading', where)
+        for j, item in enumerate(c.items(section.get('testimonials'), f'{where}.testimonials')):
+            at = f'{where}.testimonials[{j}]'
+            item = c.obj(item, at, ('quote', 'author'))
+            c.text(item, 'quote', at)
+            c.text(item, 'author', at)
+    c.unique(on_page, 'sections', 'category')
+    for i, category in enumerate(categories):
+        if not isinstance(category, dict):
+            continue
+        has_section = category.get('id') in on_page
+        has_link = bool(category.get('old_site_path'))
+        if has_section and has_link:
+            c.fail(f'categories[{i}]', 'has a section on this site, so drop its old_site_path')
+        elif not has_section and not has_link:
+            c.fail(f'categories[{i}]', 'has no section in "sections" and no old_site_path, so its link would go nowhere')
+    return known
+
+
+def _check_home_quotes(c, raw, categories):
+    for i, quote in enumerate(c.items(raw, TOP)):
+        where = f'[{i}]'
+        quote = c.obj(quote, where, ('quote', 'author', 'category'))
+        c.text(quote, 'quote', where)
+        c.text(quote, 'author', where)
+        cid = c.text(quote, 'category', where)
+        if cid and cid not in categories:
+            c.fail(f'{where}.category', f'unknown category "{cid}" (see testimonials.json)')
+
+
+def _check_strings(c, raw, what):
+    values = c.items(raw, TOP)
+    for i, value in enumerate(values):
+        if not isinstance(value, str) or not value.strip():
+            c.fail(f'[{i}]', 'must be non-empty text')
+    c.unique([v for v in values if isinstance(v, str)], TOP, what)
+
+
+def _check_team(c, raw):
+    t = c.obj(raw, TOP, ('staff', 'memberships'))
+    staff = c.items(t.get('staff'), 'staff')
+    for i, person in enumerate(staff):
+        where = f'staff[{i}]'
+        person = c.obj(person, where, ('name', 'credentials', 'icon', 'bio'))
+        c.text(person, 'name', where)
+        c.text(person, 'credentials', where, optional=True)
+        c.icon(person, 'icon', where)
+        c.text(person, 'bio', where)
+    c.unique([p.get('name') for p in staff if isinstance(p, dict)], 'staff', 'name')
+    for i, membership in enumerate(c.items(t.get('memberships'), 'memberships')):
+        where = f'memberships[{i}]'
+        membership = c.obj(membership, where, ('icon', 'label'))
+        c.icon(membership, 'icon', where)
+        c.text(membership, 'label', where)
+
+
+def _namespace(value):
+    """JSON objects become attribute-style namespaces so templates read site.practice.phone.display."""
+    if isinstance(value, dict):
+        return SimpleNamespace(**{k: _namespace(v) for k, v in value.items()})
+    if isinstance(value, list):
+        return [_namespace(v) for v in value]
+    return value
+
+
+def load(data_dir, pages):
+    """Read and check every data file. `pages` is the set of filenames the build generates."""
+    raw = {name: _read(data_dir, name) for name in (
+        'practice.json', 'nav.json', 'hours.json', 'services.json',
+        'testimonials.json', 'home-quotes.json', 'recipe-staples.json', 'team.json')}
+    errors = []
+
+    def checker(name):
+        c = Checker(name, errors)
+        c.plain_text(raw[name], '')
+        return c
+
+    _check_practice(checker('practice.json'), raw['practice.json'])
+    _check_nav(checker('nav.json'), raw['nav.json'], pages)
+    _check_hours(checker('hours.json'), raw['hours.json'])
+    legacy = raw['practice.json'].get('legacy') if isinstance(raw['practice.json'], dict) else None
+    pamphlets = legacy.get('pamphlets') if isinstance(legacy, dict) else None
+    _check_services(checker('services.json'), raw['services.json'], pamphlets if isinstance(pamphlets, dict) else {})
+    categories = _check_testimonials(checker('testimonials.json'), raw['testimonials.json'])
+    _check_home_quotes(checker('home-quotes.json'), raw['home-quotes.json'], categories)
+    _check_strings(checker('recipe-staples.json'), raw['recipe-staples.json'], 'staple')
+    _check_team(checker('team.json'), raw['team.json'])
+    if errors:
+        raise BuildError('the data files have problems:\n  ' + '\n  '.join(errors))
+
+    return SimpleNamespace(
+        practice=_namespace(raw['practice.json']),
+        nav=_namespace(raw['nav.json']),
+        hours=_namespace(raw['hours.json']),
+        services=_namespace(raw['services.json']),
+        testimonials=_namespace(raw['testimonials.json']),
+        home_quotes=_namespace(raw['home-quotes.json']),
+        recipe_staples=raw['recipe-staples.json'],
+        team=_namespace(raw['team.json']),
+    )
