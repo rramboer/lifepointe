@@ -5,6 +5,9 @@ Wellness Center. Paste its source into your email platform as a custom-HTML camp
 [Unsubscribe and preference links](#unsubscribe-and-preference-links) and the
 [HIPAA note](#hipaa-note) before picking a platform).
 
+`signatures/` holds the Gmail signatures for the office mailbox and Dr. Greg (see
+[Signatures](#signatures)).
+
 All images load from the website by absolute URL
 (`https://lifepointechiro.com/email/images/...`). Opening `index.html` in a browser previews the
 layout, but the logo and icons only appear once the site is live on that domain with HTTPS. Until
@@ -42,6 +45,7 @@ change an image, replace the file under the same name (or add a new name for new
 |---|---|---|
 | `lifepointe-logo.png` | 440×149 | Full-color logo for light backgrounds. **Used by the template**, shown at 220×74 |
 | `lifepointe-logo-white.png` | 1320×441 | Reversed logo (white wordmark) for dark backgrounds. Not used by the template |
+| `signature-logo.png` | 400×148 | Full-color logo on an opaque white background. **Used by the signatures**, shown at 200×74 |
 | `icon-facebook.png` | 60×60 | Footer icon, shown at 30×30 |
 | `icon-instagram.png` | 60×60 | Footer icon, shown at 30×30 |
 | `icon-website.png` | 60×60 | Footer icon (globe), shown at 30×30 |
@@ -49,6 +53,13 @@ change an image, replace the file under the same name (or add a new name for new
 The logos are rendered from the original vector artwork in the official Pantone colors. They are
 PNG rather than SVG because PNG works everywhere: Gmail rasterizes linked SVGs and classic Outlook
 for Windows doesn't show them at all ([caniemail](https://www.caniemail.com/features/image-svg/)).
+
+`signature-logo.png` is the logo kit's `lifepointe-logo-full-color.png`, cropped to the artwork,
+flattened onto white, scaled to 368px wide with its aspect ratio kept, and centered on a 400×148
+white canvas (16px of padding, 8px at display size). The colors are unchanged. The background is
+opaque on purpose: some dark-mode mail apps, the Gmail iPhone app among them, darken the message
+but leave images alone. A transparent logo's navy wordmark would then sit on a near-black
+background, while this one shows as a small white card.
 
 ### Social icons
 White glyphs on transparent backgrounds, so they sit on the navy footer with no box around them:
@@ -222,3 +233,83 @@ address (and maybe a name) is not a patient list, but don't import the patient r
 Send yourself a test before any real send. Gmail (web, iOS and Android), Outlook desktop and
 Apple Mail cover most readers. Litmus or Email on Acid will render all of them at once if you
 want to be thorough.
+
+## Signatures
+Gmail HTML signatures that match the business card:
+
+| File | For | Shows |
+|---|---|---|
+| `signatures/office.html` | The office mailbox | Logo · Lifepointe Chiropractic & Wellness Center · phone and fax · address · website |
+| `signatures/dr-greg.html` | Dr. Greg | Logo · Dr. Greg Ramboer, D.C., CCWP · Lifepointe Chiropractic & Wellness Center · phone and fax · address · website |
+
+- Each file is a standalone page that holds only the signature table, so it can be opened in a
+  browser and copied. Everything is inline styles on tables, with no classes and no `<style>`
+  (Gmail drops both).
+- Font stack `Lato, Helvetica, Arial, sans-serif`. Navy `#00205B` text, `#4A5470` for Dr. Greg's
+  credentials (as on the card), and a short red `#EE2737` accent bar above the name.
+- Links: the logo and `lifepointechiro.com` go to `https://lifepointechiro.com`, and the phone
+  number is `tel:+12486236107`. The fax number isn't linked.
+- Under 400px wide, so it wraps on a narrow phone instead of scrolling. About 2,000 characters
+  each, well under Gmail's 10,000-character limit
+  ([Google help](https://support.google.com/mail/answer/8395)).
+- No email address line: the sender's address is already in the From line.
+- No confidentiality notice. If the practice wants one, have the wording reviewed and add it once
+  for every mailbox with the Google Workspace **Append footer** setting (Admin console → Apps →
+  Google Workspace → Gmail → Compliance → Append footer;
+  [Google help](https://support.google.com/a/answer/176652)). Google adds it to outgoing mail
+  itself, so it also covers mail sent from phones, and users can't change or remove it.
+
+**The logo only shows once lifepointechiro.com is live.** Both signatures load
+`https://lifepointechiro.com/email/images/signature-logo.png`. Gmail fetches images through
+Google's image proxy, so the URL has to be public and HTTPS. Until the site is live on that domain
+you'll see the alt text or a broken-image icon, in the browser and in Gmail, so install the
+signatures once that URL opens in a browser.
+
+### Install in Gmail (web)
+1. Open the signature file in a desktop browser (double-click `office.html` or `dr-greg.html`).
+2. Click on the page, press Ctrl+A (Cmd+A on a Mac) to select everything, then Ctrl+C (Cmd+C) to
+   copy. The page holds nothing but the signature.
+3. In Gmail: Settings (gear) → **See all settings** → **General** → **Signature** →
+   **Create new**. Name it, click in the editor box and paste with Ctrl+V (Cmd+V). The editor
+   doesn't accept HTML source, only a copy of the rendered page.
+4. Check the paste: the logo should be about as big as in the browser (200px wide). If it comes in
+   at double size, click it in the editor and pick a smaller size option (Small, Medium, Large or
+   Original size; [Google help](https://support.google.com/mail/answer/11468381)).
+5. Under **Signature defaults**, choose the new signature for **For new emails use** and
+   **On reply/forward use**. If the mailbox sends as more than one address, set each address's
+   default separately.
+6. Tick **Insert signature before quoted text in replies and remove the "--" line that precedes
+   it**, so the signature sits above the quoted thread.
+7. Click **Save Changes** at the bottom of the page.
+8. Send a test to an address outside the practice and check the logo and the links.
+
+**Gmail app on phones:** leave the app's mobile signature empty (Android: Settings → the account →
+Mobile signature; iPhone and iPad: Settings → Signature settings, with Mobile Signature off). With
+none set, the app uses the signature from the computer
+([Google help](https://support.google.com/mail/answer/8395)).
+
+### Outlook
+- To install: in classic Outlook for Windows, open a new message and go to Message → Signature →
+  Signatures. In new Outlook and Outlook on the web, go to Settings → Accounts → Signatures. Paste
+  the copied signature into the editor. A signature saved on one computer may not follow the
+  account to another
+  ([Microsoft help](https://support.microsoft.com/en-us/office/create-and-add-an-email-signature-in-outlook-8ee5d4f4-68fd-464a-a1c1-0e1c80bb27f2)).
+- For recipients: classic Outlook blocks pictures by default, so many Outlook readers see the
+  logo's alt text until they choose to download images. Every detail is live text, so nothing is
+  lost. The logo has `width` and `height` attributes because classic Outlook ignores CSS sizes on
+  images.
+
+### Apple Mail
+- Mac: Mail → Settings → Signatures, choose the account, click **+** and paste into the right-hand
+  pane. Untick **Always match my default message font**, or Mail replaces the signature's fonts
+  ([Apple help](https://support.apple.com/guide/mail/create-and-use-email-signatures-mail11943/mac)).
+- Signatures are set per device. Mail on an iPhone or iPad has its own, in the device's Settings
+  under Mail → Signature.
+
+### Editing
+- Change both files together. Their contact lines are identical and write the numbers the way
+  the business card, the website and the email template do (248-623-6107 · Fax 248-623-6443).
+- Keep every style inline. Gmail removes `<style>` blocks and classes when you paste.
+- Keep `signature-logo.png` at the same path. Installed signatures and sent emails load it from
+  there.
+- After a change, install the signature again in each mailbox. Gmail keeps its own copy.
