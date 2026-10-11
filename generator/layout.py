@@ -35,12 +35,13 @@ def header(site, active, base=''):
     for item in site.nav:
         current = ' aria-current="page"' if item.href == active else ''
         links.append(f'<li><a href="{esc(base + item.href)}"{current}>{esc(item.label)}</a></li>')
+    name = esc(site.practice.name)
     return f'''
 <a class="skip-link" href="#main">Skip to main content</a>
 <header class="site-header">
   <div class="wrap site-header__bar">
-    <a class="site-header__logo" href="{base}index.html" aria-label="Lifepointe Chiropractic and Wellness Center — home">
-      <img src="{base}assets/logo-full-color.svg" alt="Lifepointe Chiropractic and Wellness Center" width="180" height="61">
+    <a class="site-header__logo" href="{base}index.html" aria-label="{name} — home">
+      <img src="{base}assets/logo-full-color.svg" alt="{name}" width="180" height="61">
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
@@ -90,6 +91,7 @@ def cta_band(site, heading='Don&rsquo;t wait any longer to get relief from your 
 
 def footer(site, base=''):
     p = site.practice
+    name = esc(p.name)
     explore = '\n'.join(
         f'          <li><a href="{esc(base + item.href)}">{esc(getattr(item, "footer_label", item.label))}</a></li>'
         for item in site.nav)
@@ -101,8 +103,8 @@ def footer(site, base=''):
   <div class="wrap">
     <div class="site-footer__grid">
       <div>
-        <a class="site-footer__logo" href="{base}index.html" aria-label="Lifepointe Chiropractic — home">
-          <img src="{base}assets/logo-reversed.svg" alt="Lifepointe Chiropractic and Wellness Center" width="190" height="63">
+        <a class="site-footer__logo" href="{base}index.html" aria-label="{name} — home">
+          <img src="{base}assets/logo-reversed.svg" alt="{name}" width="190" height="63">
         </a>
         <p class="site-footer__tagline">Family wellness and chiropractic care for every age &mdash; serving Clarkston since 2001.</p>
         <div class="social-row">
@@ -121,7 +123,7 @@ def footer(site, base=''):
         <ul>
           <li><a href="{esc(p.maps_url)}">{esc(p.address)}</a></li>
           <li><a href="{esc('tel:' + p.phone.tel)}">{esc(p.phone.display)}</a></li>
-          <li>Fax: {esc(p.fax)}</li>
+          <li>Fax: <span class="nowrap">{esc(p.fax)}</span></li>
           <li><a href="{esc('mailto:' + p.email)}">{esc(p.email)}</a></li>
         </ul>
       </div>
@@ -133,7 +135,7 @@ def footer(site, base=''):
       </div>
     </div>
     <div class="site-footer__legal">
-      <span>&copy; <span data-year>2026</span> Lifepointe Chiropractic and Wellness Center. All rights reserved.</span>
+      <span>&copy; <span data-year>2026</span> {name}. All rights reserved.</span>
       <span>{legal}</span>
     </div>
   </div>

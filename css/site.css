@@ -99,6 +99,8 @@ p { margin: 0 0 1em; }
 ul, ol { margin: 0 0 1em; padding-left: 1.25em; }
 a { color: var(--navy); text-decoration-thickness: 1px; text-underline-offset: .18em; }
 a:hover { color: var(--navy); text-decoration-thickness: 2px; }
+/* Phone and fax numbers never break across lines at their hyphens. */
+a[href^="tel:"], .nowrap { white-space: nowrap; }
 
 /* ---- Accessibility floor ------------------------------------------------ */
 
