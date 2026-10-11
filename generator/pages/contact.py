@@ -1,10 +1,18 @@
-"""Contact page. It has no closing CTA band: never send people to the page they're on."""
-from ..helpers import esc
+"""Contact page. It has no closing CTA band: never send people to the page they're on.
+
+Appointments are booked by phone or email (or online, once practice.json has a booking_url).
+There is deliberately no form: nothing on the site collects health information, and the
+appointment email asks only for a name, a phone number and preferred times.
+"""
+from ..helpers import esc, mailto
 from ..hours import hours_table
 from ..icons import icon
 from ..layout import V, page, page_hero
 
 FILENAME = 'contact.html'
+# The new email the "Email us" button opens.
+APPOINTMENT_SUBJECT = 'Appointment request'
+APPOINTMENT_BODY = 'Name: \nPhone: \nPreferred days and times: '
 
 
 def render(site):
@@ -12,7 +20,17 @@ def render(site):
     tel = esc('tel:' + p.phone.tel)
     phone = esc(p.phone.display)
     email = esc(p.email)
-    mailto = esc('mailto:' + p.email)
+    email_link = esc('mailto:' + p.email)
+    appointment_mail = esc(mailto(p.email, APPOINTMENT_SUBJECT, APPOINTMENT_BODY))
+    # With an online booking page, it is the one primary action; call and email follow it.
+    if p.booking_url:
+        heading = 'Book online, call or email us'
+        book_online = f'<a class="btn btn--primary" href="{esc(p.booking_url)}">Book online</a>\n        '
+        call_style = 'btn--ghost'
+    else:
+        heading = 'Call or email us to book'
+        book_online = ''
+        call_style = 'btn--primary'
 
     body = page_hero('Contact', 'Keep in touch',
                      'Call, email, stop by, or send a request &mdash; a member of our team will reach out to you soon.') + f'''
@@ -32,7 +50,7 @@ def render(site):
       <div class="card">
         {icon('mail')}
         <h3 class="display-3">Email us</h3>
-        <p><a href="{mailto}">{email}</a></p>
+        <p><a href="{email_link}">{email}</a></p>
       </div>
       <div class="card">
         {icon('fax')}
@@ -55,13 +73,17 @@ def render(site):
     <div>
       <span class="eyebrow">Request an appointment</span>
       <h2 id="appt-h" class="display-2">We&rsquo;d love to hear from you</h2>
-      <p>Send us a message using this form and a member of our team will reach out to you soon. Prefer the phone? <a href="{tel}">Call {phone}</a> during office hours.</p>
+      <p>Send us a message and a member of our team will reach out to you soon. Prefer the phone? <a href="{tel}">Call {phone}</a> during office hours.</p>
       {hours_table(site.hours, 'hours-table mt-15')}
     </div>
-    <div class="card card--form">
-      <iframe src="{esc(p.legacy.appointment_form)}" title="Appointment request form" loading="lazy"></iframe>
-      <script src="{esc(p.legacy.appointment_form_script)}" async></script>
-      <p class="form-fallback">If the form doesn&rsquo;t load, email <a href="{mailto}?subject=Request%20an%20Appointment">{email}</a> or call <a href="{tel}">{phone}</a>.</p>
+    <div class="card">
+      {icon('calendar')}
+      <h3 class="display-3">{heading}</h3>
+      <div class="btn-row mt-15">
+        {book_online}<a class="btn {call_style}" href="{tel}">Call {phone}</a>
+        <a class="btn btn--ghost" href="{appointment_mail}">Email us</a>
+      </div>
+      <p class="muted mt-15">Emailing <a href="{appointment_mail}">{email}</a>? Please share only your name, phone number and preferred days and times, and leave out any health details.</p>
     </div>
   </div>
 </section>
@@ -70,5 +92,5 @@ def render(site):
 
     return page(site, FILENAME,
                 f'Contact & Appointments | {p.name}',
-                f'Contact Lifepointe Chiropractic in Clarkston, MI — request an appointment online or call {p.phone.display}.',
+                f'Contact Lifepointe Chiropractic in Clarkston, MI — request an appointment by email or call {p.phone.display}.',
                 body)
