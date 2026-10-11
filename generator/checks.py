@@ -1,15 +1,15 @@
-"""Checks on the finished output folder. Any problem fails the build."""
+"""Checks on the finished output folder and the email files. Any problem fails the build."""
 import re
 from html.parser import HTMLParser
 from urllib.parse import unquote
 
-# Text that must never appear anywhere in the published site. Each entry is a regular
-# expression, matched case-insensitively against the whole of every text file. Add one to
-# extend the list. Between words, (?:\s|&nbsp;|&#160;|&#xa0;)+ also catches no-break spaces
-# and line breaks (\s matches U+00A0).
+# Text that must never appear anywhere in the published site, nor in any text file under
+# email/: only email/images/ is published, but the template and signatures are pasted into
+# email platforms and Gmail. Each entry is a regular expression, matched case-insensitively
+# against the whole of every text file. Add one to extend the list. Between words,
+# (?:\s|&nbsp;|&#160;|&#xa0;)+ also catches no-break spaces and line breaks (\s matches U+00A0).
 BANNED = [
     r'becky',
-    r'\bdrs\.',
     r'gregory',
     r'mama',
     r'nursing(?:\s|&nbsp;|&#160;|&#xa0;)+pillow',
@@ -28,9 +28,9 @@ BANNED = [
     r'lifepointechiropractic',
     # The icon site the old email footer hotlinked its icons from.
     r'flaticon',
-    # Google Fonts' hosts: the site serves its own fonts from assets/fonts/, and a request to
-    # Google sends the visitor's IP address to a third party. The privacy policy says the pages
-    # load nothing from other sites.
+    # Google Fonts' hosts: the site serves its own fonts from assets/fonts/, and the email
+    # template loads no web font. A request to Google sends the reader's IP address to a third
+    # party, and the privacy policy says the pages load nothing from other sites.
     r'fonts\.(?:googleapis|gstatic)\.com',
     # The brand name is written with "&", and phone numbers as 248-623-6107 (data/practice.json),
     # not the old site's "Chiropractic and Wellness Center" or "(248) 623-6107". scan() also
@@ -64,21 +64,22 @@ def _text(path):
         return None
 
 
-def scan(out, numbers=()):
-    """Return ('file:line: ...' problems found under out, number of text files scanned).
+def scan(folder, numbers=(), names_from=None):
+    """Return ('file:line: ...' problems found under folder, number of text files scanned).
     numbers are the practice's phone and fax numbers as data/practice.json writes them
-    (248-623-6107); writing one any other way is a problem too."""
+    (248-623-6107); writing one any other way is a problem too. File names are shown relative
+    to names_from (default: folder)."""
     patterns = [(re.compile(p, re.IGNORECASE), f'banned text /{p}/') for p in BANNED]
     patterns += [(_number_written_otherwise(shown), f'{shown} written another way (write {shown}, '
                   f'from data/practice.json)') for shown in numbers]
     problems = []
     scanned = 0
-    for path in sorted(p for p in out.rglob('*') if p.is_file()):
+    for path in sorted(p for p in folder.rglob('*') if p.is_file()):
         text = _text(path)
         if text is None:
             continue
         scanned += 1
-        name = path.relative_to(out).as_posix()
+        name = path.relative_to(names_from or folder).as_posix()
         for pattern, why in patterns:
             for match in pattern.finditer(text):
                 number = text.count('\n', 0, match.start()) + 1
