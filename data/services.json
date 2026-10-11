@@ -1,0 +1,95 @@
+{
+  "home_cards": [
+    {
+      "icon": "spine",
+      "title": "Specific spinal adjustments",
+      "summary": "Gentle, precise adjustments to improve function and help the body express optimal health."
+    },
+    {
+      "icon": "hand",
+      "title": "Licensed massage therapy",
+      "summary": "Improved circulation, reduced stress, and adjustments that hold longer."
+    },
+    {
+      "icon": "scan",
+      "title": "On-premise digital X-ray",
+      "summary": "High-quality digital X-ray, right in the office, when your exam calls for it."
+    },
+    {
+      "icon": "leaf",
+      "title": "Nutrition & sensitivity testing",
+      "summary": "Personal nutritional consultations plus food allergy, microbiome, and metabolic testing."
+    },
+    {
+      "icon": "arrows",
+      "title": "Cervical & lumbar traction",
+      "summary": "Relieves pressure on the spine and helps align the vertebrae."
+    },
+    {
+      "icon": "foot",
+      "title": "Custom-made foot orthotics",
+      "summary": "Designed to fit the specific contours of your feet."
+    }
+  ],
+  "services": [
+    {
+      "icon": "spine",
+      "title": "Specific spinal adjustments",
+      "summary": "To improve function and help the body express optimal health."
+    },
+    {
+      "icon": "spine",
+      "title": "A variety of techniques",
+      "summary": "Including Diversified, Activator, Logan Basic, Thompson, and Webster."
+    },
+    {
+      "icon": "arrows",
+      "title": "Cervical & lumbar traction",
+      "summary": "Relieves pressure on the spine and helps to align the vertebrae."
+    },
+    {
+      "icon": "scan",
+      "title": "On-premise digital X-ray facility",
+      "summary": "High-quality digital X-ray services for a variety of purposes."
+    },
+    {
+      "icon": "clip",
+      "title": "Complete computerized health assessments",
+      "summary": "A comprehensive picture of your health.",
+      "pamphlet": "health_assessment"
+    },
+    {
+      "icon": "leaf",
+      "title": "Personal nutritional consultations",
+      "summary": "Diabetes, autoimmune conditions, autism spectrum disorders, weight loss, and more.",
+      "pamphlet": "nutrition"
+    },
+    {
+      "icon": "leaf",
+      "title": "Food allergy & sensitivity testing",
+      "summary": "Individualized microbiome and metabolic testing."
+    },
+    {
+      "icon": "hand",
+      "title": "Licensed massage therapy",
+      "summary": "Improved circulation, reduced stress levels, and more."
+    },
+    {
+      "icon": "foot",
+      "title": "Custom-made foot orthotics",
+      "summary": "Designed to fit the specific contours of your feet."
+    }
+  ],
+  "products": [
+    "Innate Choice D Sufficiency (Vitamin D3)",
+    "Innate Choice Probiotic Sufficiency",
+    "Innate Choice Omega Sufficiency (professional-grade fish oil)",
+    "Innate Choice Vita Sufficiency (multivitamin)",
+    "Whole-food-based Vitamin C",
+    "Lumbar (low back) support pillows",
+    "Cervical (neck) support pillows",
+    "Biofreeze",
+    "Ice packs",
+    "Challenge boards"
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "categories": [
+    { "id": "allergies-asthma", "label": "Allergies & asthma" },
+    { "id": "back-pain", "label": "Back pain" },
+    { "id": "children", "label": "Children", "old_site_path": "/patient-success-stories/children-chiropractic-treatment" },
+    { "id": "chronic-pain-fatigue", "label": "Chronic pain & fatigue", "old_site_path": "/patient-success-stories/chronic-pain-fatigue-care" },
+    { "id": "depression-anxiety", "label": "Depression & anxiety", "old_site_path": "/patient-success-stories/depression-anxiety-care" },
+    { "id": "digestive-issues", "label": "Digestive issues", "old_site_path": "/patient-success-stories/digestive-issues-treatment" },
+    { "id": "disc-herniations", "label": "Disc herniations", "old_site_path": "/patient-success-stories/disc-herniation-treatment" },
+    { "id": "extremity-pain", "label": "Extremity pain", "old_site_path": "/patient-success-stories/extremity-pain-care" },
+    { "id": "fertility", "label": "Fertility & female issues" },
+    { "id": "headaches", "label": "Headaches & migraines" },
+    { "id": "immune-function", "label": "Immune function", "old_site_path": "/patient-success-stories/immune-function-treatment" },
+    { "id": "neck-pain", "label": "Neck pain", "old_site_path": "/patient-success-stories/neck-pain-care" },
+    { "id": "optimal-health", "label": "Optimal health", "old_site_path": "/patient-success-stories/optimal-health-treatment" },
+    { "id": "scoliosis", "label": "Scoliosis", "old_site_path": "/patient-success-stories/scoliosis-treatment" },
+    { "id": "little-ones", "label": "Words from our little ones" }
+  ],
+  "sections": [
+    {
+      "category": "back-pain",
+      "heading": "Moving again, without the meds",
+      "testimonials": [
+        {
+          "quote": "I had low-grade pain for 6–8 months with a loss of mobility… my back is the best it has been in 20 years!",
+          "author": "Mike A."
+        },
+        {
+          "quote": "My lower back would hurt so bad that I couldn’t sit, stand or walk… my back is feeling great!",
+          "author": "Ryan H."
+        },
+        {
+          "quote": "Because of the severity of my back, I was told there was no hope… What a difference chiropractors make!",
+          "author": "Bill L."
+        }
+      ]
+    },
+    {
+      "category": "headaches",
+      "heading": "Clear heads, back to daily life",
+      "testimonials": [
+        {
+          "quote": "After 3 weeks, my headaches are virtually gone! My head has not felt this clear in years!",
+          "author": "Deb C."
+        },
+        {
+          "quote": "I am now free to enjoy my husband and children instead of hiding in a dark room.",
+          "author": "Carmen L."
+        },
+        {
+          "quote": "I had been suffering from headaches, sometimes migraines, for 7 years… I have not had ANY headaches!",
+          "author": "Mary R."
+        }
+      ]
+    },
+    {
+      "category": "fertility",
+      "heading": "Growing families",
+      "testimonials": [
+        {
+          "quote": "My husband and I had been trying to get pregnant when my cousin suggested Lifepointe… Two months after starting care, we got pregnant!",
+          "author": "Leigh G."
+        },
+        {
+          "quote": "I had 2 miscarriages in 6 months… We decided to see a chiropractor… I’m 16 weeks pregnant — with twins! Using no fertility drugs!",
+          "author": "Tamara S."
+        }
+      ]
+    },
+    {
+      "category": "allergies-asthma",
+      "heading": "Breathing easier",
+      "testimonials": [
+        {
+          "quote": "I can breathe normally now, and have not used an inhaler since my first adjustment — 2½ years now!",
+          "author": "Gail H."
+        }
+      ]
+    },
+    {
+      "category": "little-ones",
+      "heading": "The littlest patients",
+      "testimonials": [
+        {
+          "quote": "Chiropractic is good for everyone, people should try it! I feel much better, I don’t miss as much school, and I get better faster when I’m sick.",
+          "author": "Larissa"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+"""Home page."""
+from ..helpers import esc
+from ..hours import hours_table
+from ..icons import icon, svg
+from ..layout import V, cta_band, page
+
+FILENAME = 'index.html'
+
+
+def render(site):
+    p = site.practice
+    maps = esc(p.maps_url)
+    labels = {c.id: c.label for c in site.testimonials.categories}
+
+    cards_html = '\n'.join(
+        f'''<a class="card card--link" href="services.html">
+      {icon(card.icon)}
+      <h3 class="display-3">{esc(card.title)}</h3>
+      <p>{esc(card.summary)}</p>
+      <p class="card__more">Learn more &rarr;</p>
+    </a>''' for card in site.services.home_cards)
+
+    quotes_html = '\n'.join(
+        f'''<figure class="quote">
+      <blockquote><p>{esc(q.quote)}</p></blockquote>
+      <footer>{esc(q.author)} <span>{esc(labels[q.category])} &middot; Lifepointe patient</span></footer>
+    </figure>''' for q in site.home_quotes)
+
+    body = f'''
+<section class="section" aria-labelledby="hero-h">
+  <div class="wrap grid-2">
+    <div>
+      <span class="eyebrow rise">Family chiropractic &middot; Clarkston, Michigan</span>
+      <h1 id="hero-h" class="display-1 rise rise-2">Health comes from within.<br>We clear the way.</h1>
+      <p class="lede rise rise-3">Your body is built to heal itself &mdash; our job is to remove what&rsquo;s interfering. Since 2001, Lifepointe has cared for Clarkston families at every age, from newborns just minutes old to the most experienced members of our community.</p>
+      <div class="btn-row rise rise-4 mt-15">
+        <a class="btn btn--primary" href="contact.html#appointment">Request an appointment</a>
+        <a class="btn btn--ghost" href="new-patients.html">What to expect</a>
+      </div>
+      <div class="badge-row rise rise-4 mt-2">
+        <span class="badge">{svg('shield')} In-network with BCBS, Medicare &amp; VA</span>
+        <span class="badge">{svg('users')} All ages welcome</span>
+      </div>
+    </div>
+    <div class="hero-media rise rise-3">
+      <figure class="photo">
+        <img src="assets/photo-adjustment.jpg" alt="A chiropractor examining a patient&rsquo;s spine and posture by hand" width="1396" height="930">
+      </figure>
+      <div class="photo-chip">Serving Clarkston for 25 years<span>Est. July 2001</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="rail-wrap">
+
+<section class="section section--card" aria-labelledby="approach-h">
+  {V}
+  <div class="wrap grid-2">
+    <div>
+      <span class="eyebrow">The approach</span>
+      <h2 id="approach-h" class="display-2">More than back-pain doctors</h2>
+      <p>Chiropractic is a drug-free healthcare profession focused on the musculoskeletal and nervous systems. Your nervous system &mdash; brain, spinal cord, and the nerves branching to every cell, tissue, and organ &mdash; just happens to be housed inside your spine.</p>
+      <p>We&rsquo;re highly specialized in analyzing joint mobility and correcting subluxations (misalignments) in the spine, using gentle techniques that restore proper joint function and, more importantly, nervous system communication. We get to the root cause &mdash; and the symptoms begin to go away on their own.</p>
+      <a class="btn btn--ghost" href="about.html#chiropractic-care">Learn about chiropractic care</a>
+    </div>
+    <figure class="photo">
+      <img src="assets/photo-stretch.jpg" alt="A person stretching comfortably at home, arms extended" width="1920" height="1281" loading="lazy">
+    </figure>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="services-h">
+  {V}
+  <div class="wrap">
+    <span class="eyebrow">What we do</span>
+    <h2 id="services-h" class="display-2">One place for the whole family&rsquo;s care</h2>
+    <p class="lede measure mb-2">A modern facility known for its range of chiropractic techniques &mdash; Diversified, Activator, Logan Basic, Thompson, and Webster &mdash; and the wellness services that support them.</p>
+    <div class="grid-3">
+      {cards_html}
+    </div>
+    <div class="btn-row mt-2">
+      <a class="btn btn--primary" href="services.html">See all services &amp; products</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--card" aria-labelledby="stories-h">
+  {V}
+  <div class="wrap">
+    <span class="eyebrow">Patient stories</span>
+    <h2 id="stories-h" class="display-2">Real words from real patients</h2>
+    <p class="lede measure mb-2">Fifteen categories of success stories, in our patients&rsquo; own words.</p>
+    <div class="grid-3">
+      {quotes_html}
+    </div>
+    <div class="btn-row mt-2">
+      <a class="btn btn--ghost" href="success-stories.html">Read more success stories</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="visit-h">
+  {V}
+  <div class="wrap grid-2 grid--top">
+    <div>
+      <span class="eyebrow">Your first visit</span>
+      <h2 id="visit-h" class="display-2">Know what to expect before you walk in</h2>
+      <p>Your first visit is a thorough spinal and nervous system exam &mdash; hands-on palpation, posture and range-of-motion checks, and X-rays only if your age and situation call for them. Then we explain everything at your Report of Findings.</p>
+      <a class="btn btn--ghost" href="new-patients.html">The full first-visit guide</a>
+    </div>
+    <div class="card">
+      {icon('clip')}
+      <h3 class="display-3">Skip the waiting room</h3>
+      <p>Fill out your forms ahead of time and email them to us before your first appointment.</p>
+      <ul class="link-list">
+        <li><a href="{esc(p.legacy.adult_forms)}">Download adult new patient forms</a></li>
+        <li><a href="{esc(p.legacy.child_forms)}">Download child new patient forms (under 12)</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section section--card" aria-labelledby="hours-h">
+  {V}
+  <div class="wrap grid-2 grid--top">
+    <div>
+      <span class="eyebrow">Hours &amp; location</span>
+      <h2 id="hours-h" class="display-2">Easy to find on Dixie&nbsp;Hwy</h2>
+      {hours_table(site.hours)}
+    </div>
+    <div class="card-stack">
+      <div class="card">
+        {icon('pin')}
+        <h3 class="display-3">{esc(p.name)}</h3>
+        <p>{esc(p.address)}</p>
+        <a class="btn btn--ghost btn--sm" href="{maps}">Get directions</a>
+      </div>
+      <div class="card">
+        {icon('shield')}
+        <h3 class="display-3">Insurance</h3>
+        <p>We are in-network with <strong>Blue Cross Blue Shield, Medicare, Medicare Advantage,</strong> and <strong>Veterans Affairs</strong>. Other policies are accepted out-of-network.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+{cta_band(site)}'''
+
+    return page(site, FILENAME,
+                f'{p.name} | Clarkston, MI',
+                'Family chiropractic and wellness care in Clarkston, MI since 2001. Gentle adjustments, massage therapy, digital X-ray, and nutrition — for every age.',
+                body)
