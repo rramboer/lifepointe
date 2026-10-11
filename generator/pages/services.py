@@ -35,14 +35,12 @@ def render(site):
 
 <section class="section section--card" aria-labelledby="prod-h">
   {V}
-  <div class="wrap grid-2 grid--top">
-    <div>
-      <span class="eyebrow">Available products</span>
-      <h2 id="prod-h" class="display-2">Stocked in our office</h2>
-      <ul class="list-tight">
-        {products_html}
-      </ul>
-    </div>
+  <div class="wrap">
+    <span class="eyebrow">Available products</span>
+    <h2 id="prod-h" class="display-2">Stocked in our office</h2>
+    <ul class="list-tight list-columns">
+      {products_html}
+    </ul>
   </div>
 </section>
 
