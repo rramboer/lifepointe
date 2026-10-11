@@ -32,7 +32,25 @@ BANNED = [
     # Google sends the visitor's IP address to a third party. The privacy policy says the pages
     # load nothing from other sites.
     r'fonts\.(?:googleapis|gstatic)\.com',
+    # The brand name is written with "&", and phone numbers as 248.623.6107 (data/practice.json),
+    # not the old site's "Chiropractic and Wellness Center" or "(248) 623-6107". scan() also
+    # catches the practice's own numbers written any other way, such as 248-623-6107.
+    r'chiropractic(?:\s|&nbsp;|&#160;|&#xa0;)+and(?:\s|&nbsp;|&#160;|&#xa0;)+wellness(?:\s|&nbsp;|&#160;|&#xa0;)+center',
+    r'\(248\)',
 ]
+
+# What might sit between the parts of a phone number: hyphens and dashes, dots, slashes, a
+# closing bracket, spaces and line breaks (\s matches U+00A0), and no-break space entities.
+_NUMBER_GAP = r'(?:[-\u2010\u2011\u2013\u2014./)\s]|&nbsp;|&#160;|&#xa0;)*'
+
+
+def _number_written_otherwise(shown):
+    """A pattern for the number shown as '248.623.6107' written any other way: '248-623-6107',
+    '248 623 6107', '2486236107', '(248) 623-6107' and so on. The one exception is the home
+    page's JSON-LD, which gives search engines "+1-248-623-6107" (seo.py)."""
+    area, exchange, line = shown.split('.')
+    return re.compile(rf'(?<!"\+1-)(?<!\d)(?!{area}\.{exchange}\.{line})'
+                      rf'{area}{_NUMBER_GAP}{exchange}{_NUMBER_GAP}{line}(?!\d)')
 
 
 def _text(path):
@@ -46,9 +64,13 @@ def _text(path):
         return None
 
 
-def scan(out):
-    """Return ('file:line: ...' problems found under out, number of text files scanned)."""
-    patterns = [re.compile(p, re.IGNORECASE) for p in BANNED]
+def scan(out, numbers=()):
+    """Return ('file:line: ...' problems found under out, number of text files scanned).
+    numbers are the practice's phone and fax numbers as data/practice.json writes them
+    (248.623.6107); writing one any other way is a problem too."""
+    patterns = [(re.compile(p, re.IGNORECASE), f'banned text /{p}/') for p in BANNED]
+    patterns += [(_number_written_otherwise(shown), f'{shown} written another way (write {shown}, '
+                  f'from data/practice.json)') for shown in numbers]
     problems = []
     scanned = 0
     for path in sorted(p for p in out.rglob('*') if p.is_file()):
@@ -57,11 +79,11 @@ def scan(out):
             continue
         scanned += 1
         name = path.relative_to(out).as_posix()
-        for pattern in patterns:
+        for pattern, why in patterns:
             for match in pattern.finditer(text):
                 number = text.count('\n', 0, match.start()) + 1
                 excerpt = ' '.join(text[max(match.start() - 40, 0):match.end() + 40].split())
-                problems.append(f'{name}:{number}: banned text /{pattern.pattern}/ in "{excerpt}"')
+                problems.append(f'{name}:{number}: {why} in "{excerpt}"')
     return problems, scanned
 
 

@@ -92,5 +92,5 @@ def render(site):
 
     return page(site, FILENAME,
                 f'Contact & Appointments | {p.name}',
-                f'Contact Lifepointe Chiropractic in Clarkston, MI — request an appointment by email or call {p.phone.display}.',
+                f'Contact {p.name} in Clarkston, MI — request an appointment by email or call {p.phone.display}.',
                 body)

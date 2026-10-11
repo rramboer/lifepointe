@@ -14,6 +14,8 @@ DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sun
 SLUG = re.compile(r'[a-z0-9]+(-[a-z0-9]+)*')
 TIME = re.compile(r'([01][0-9]|2[0-3]):[0-5][0-9]')
 TEL = re.compile(r'\+1[0-9]{10}')
+# How the phone and fax numbers are written on the site and the business card.
+SHOWN_NUMBER = re.compile(r'[0-9]{3}\.[0-9]{3}\.[0-9]{4}')
 # "street, city, ST 12345". Search engines get the address in parts (seo.py), split by this.
 ADDRESS = re.compile(r'(?P<street>[^,]+(?:, [^,]+)*), (?P<city>[^,]+), '
                      r'(?P<region>[A-Z]{2}) (?P<postal>[0-9]{5}(?:-[0-9]{4})?)')
@@ -137,9 +139,8 @@ def _check_practice(c, raw, root):
     c.text(p, 'name', TOP)
     c.text(p, 'legal_name', TOP)
     fax = c.text(p, 'fax', TOP)
-    fax_digits = re.sub(r'[^0-9]', '', fax or '')
-    if fax and not (len(fax_digits) == 10 or (len(fax_digits) == 11 and fax_digits[0] == '1')):
-        c.fail('fax', f'must be a 10-digit US number, like (248) 555-0123 (got "{fax}")')
+    if fax and not SHOWN_NUMBER.fullmatch(fax):
+        c.fail('fax', f'must be written like 248.555.0123 (got "{fax}")')
     address = c.text(p, 'address', TOP)
     if address and not ADDRESS.fullmatch(address):
         c.fail('address', f'must read "street, city, ST 12345", like "5896 Dixie Hwy, Ste A, '
@@ -168,10 +169,14 @@ def _check_practice(c, raw, root):
     c.text(doctor, 'name', 'doctor')
     c.text(doctor, 'credentials', 'doctor')
     phone = c.obj(p.get('phone'), 'phone', ('display', 'tel'))
-    c.text(phone, 'display', 'phone')
+    display = c.text(phone, 'display', 'phone')
+    if display and not SHOWN_NUMBER.fullmatch(display):
+        c.fail('phone.display', f'must be written like 248.555.0123 (got "{display}")')
     tel = c.text(phone, 'tel', 'phone')
     if tel and not TEL.fullmatch(tel):
         c.fail('phone.tel', f'must be +1 and the 10-digit number, digits only, like +12485550123 (got "{tel}")')
+    elif tel and display and SHOWN_NUMBER.fullmatch(display) and display.replace('.', '') != tel[2:]:
+        c.fail('phone', f'display "{display}" and tel "{tel}" are different numbers')
     c.url(p, 'recipe_book_url', TOP)
     site_url = c.text(p, 'site_url', TOP)
     if site_url and not SITE_URL.fullmatch(site_url):

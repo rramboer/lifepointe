@@ -81,7 +81,7 @@ def build(out_arg=None):
             f.write(html)
     copied = static.copy_static(ROOT, out)
 
-    problems, scanned = checks.scan(out)
+    problems, scanned = checks.scan(out, [site.practice.phone.display, site.practice.fax])
     if problems:
         raise BuildError(f'the output contains banned text ({len(problems)} found):\n  ' + '\n  '.join(problems))
     missing = checks.missing_css_files(out)

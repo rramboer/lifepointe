@@ -66,6 +66,8 @@ The build stops with a non-zero exit and a message naming the file and field whe
 - a testimonial has a straight `'` or `"`, or is wrapped in quote marks (the page adds its own);
 - a success-story category id is already used on that page (`topics`, `topics-h`, `main`,
   `site-nav`, or another category's id or heading id, `<category id>-h`);
+- the phone or fax number isn't written like `248.555.0123`, or the phone number shown
+  isn't the one dialed;
 - the address, fax, dialing number or map coordinates can't be used in the home page's
   JSON-LD, the coordinates don't match the pin in the map link, or the link-preview image is
   missing or a different size (see Search engines and link previews);
@@ -73,7 +75,9 @@ The build stops with a non-zero exit and a message naming the file and field whe
 - a new-patient form path isn't a PDF in `forms/`, or the file isn't there (see New-patient
   forms);
 - the finished site contains any of the text listed in `generator/checks.py`, such as the
-  old website's address or a Google Fonts address (see Fonts);
+  old website's address or a Google Fonts address (see Fonts), or writes the practice's phone
+  or fax number any other way than `practice.json` does (such as `248-623-6107`; the home
+  page's JSON-LD `+1-248-623-6107` is the one exception);
 - a `url()` in a stylesheet names a file that isn't in the finished site, such as a renamed
   font;
 - a page, stylesheet or SVG in the finished site would load anything from another site as it
@@ -86,7 +90,7 @@ The build stops with a non-zero exit and a message naming the file and field whe
 
 | File | What it holds |
 |---|---|
-| `data/practice.json` | Practice name and legal name, the doctor's name and credentials, phone (display and dialing), fax, email, address (`street, city, ST 12345`), map link and the coordinates of its pin (`geo`), social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `booking_url` is the online booking page: when it is set, the contact page's appointment section leads with a "Book online" button and the business-card QR code goes there (see below); `null` means the QR code goes to the contact page. `forms` holds the paths of the adult and child new-patient PDFs (see New-patient forms). |
+| `data/practice.json` | Practice name and legal name, the doctor's name and credentials, phone (`display`, written `248.555.0123`, and the `tel` dialing number), fax (written `248.555.0123`), email, address (`street, city, ST 12345`), map link and the coordinates of its pin (`geo`), social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `booking_url` is the online booking page: when it is set, the contact page's appointment section leads with a "Book online" button and the business-card QR code goes there (see below); `null` means the QR code goes to the contact page. `forms` holds the paths of the adult and child new-patient PDFs (see New-patient forms). |
 | `data/nav.json` | The header menu, in order. `footer_label` changes an entry's text in the footer's Explore list. |
 | `data/hours.json` | Office hours, Monday through Sunday, in 24-hour `HH:MM`. `"hours": []` means closed. This one list feeds both hours tables (home and contact) and the footer summary. |
 | `data/services.json` | `home_cards` (home page "What we do"), `services` (services page) and `products`. |

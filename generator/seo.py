@@ -98,7 +98,7 @@ def head_tags(site, filename, title, description):
 
 
 def _us_phone(number):
-    """'+1-248-623-6107' from '+12486236107' or '(248) 623-6107' (data.py checks both)."""
+    """'+1-248-623-6107' from '+12486236107' or '248.623.6107' (data.py checks both)."""
     digits = re.sub(r'[^0-9]', '', number)[-10:]
     return f'+1-{digits[:3]}-{digits[3:6]}-{digits[6:]}'
 
