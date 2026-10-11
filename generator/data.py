@@ -25,6 +25,10 @@ WEB_ADDRESS = re.compile(r'https://[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+(:[0-9]+)?([/?
 TOP = '(top level)'
 # Data is plain text; esc() turns it into HTML. Entities or tags here would show up literally.
 LOOKS_LIKE_HTML = re.compile(r'&(#[0-9]+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]*);|<[a-zA-Z/!]')
+# Testimonials use typographic quotes, and the page draws the opening quote mark itself, so a
+# quote isn't wrapped in marks of its own. It may still start or end with an inner quotation.
+WRAPPED = re.compile(r'\s*(?:["“].*["”]|[\'‘].*[\'’])\s*', re.DOTALL)
+STRAIGHT_QUOTES = re.compile('["\']')
 
 
 def _at(where, key):
@@ -259,58 +263,43 @@ def _check_services(c, raw, pamphlets):
 
 
 def _check_testimonials(c, raw):
-    t = c.obj(raw, TOP, ('categories', 'sections'))
-    categories = c.items(t.get('categories'), 'categories')
-    ids = []
-    for i, category in enumerate(categories):
+    """Returns the testimonial ids, for home-quotes.json."""
+    t = c.obj(raw, TOP, ('categories',))
+    category_ids, testimonial_ids = [], []
+    for i, category in enumerate(c.items(t.get('categories'), 'categories')):
         where = f'categories[{i}]'
-        category = c.obj(category, where, ('id', 'label', 'old_site_path'))
+        category = c.obj(category, where, ('id', 'label', 'testimonials'))
         cid = c.text(category, 'id', where)
         if cid and not SLUG.fullmatch(cid):
             c.fail(f'{where}.id', f'use lowercase letters, digits and hyphens (got "{cid}")')
-        ids.append(cid)
+        category_ids.append(cid)
         c.text(category, 'label', where)
-        path = c.text(category, 'old_site_path', where, optional=True)
-        if path and not path.startswith('/'):
-            c.fail(f'{where}.old_site_path', 'must start with /')
-    c.unique(ids, 'categories', 'id')
-    known = set(ids)
-    on_page = []
-    for i, section in enumerate(c.items(t.get('sections'), 'sections')):
-        where = f'sections[{i}]'
-        section = c.obj(section, where, ('category', 'heading', 'testimonials'))
-        cid = c.text(section, 'category', where)
-        if cid and cid not in known:
-            c.fail(f'{where}.category', f'unknown category "{cid}"')
-        on_page.append(cid)
-        c.text(section, 'heading', where)
-        for j, item in enumerate(c.items(section.get('testimonials'), f'{where}.testimonials')):
+        for j, item in enumerate(c.items(category.get('testimonials'), f'{where}.testimonials')):
             at = f'{where}.testimonials[{j}]'
-            item = c.obj(item, at, ('quote', 'author'))
-            c.text(item, 'quote', at)
+            item = c.obj(item, at, ('id', 'quote', 'author'))
+            tid = c.text(item, 'id', at)
+            if tid and not SLUG.fullmatch(tid):
+                c.fail(f'{at}.id', f'use lowercase letters, digits and hyphens (got "{tid}")')
+            testimonial_ids.append(tid)
+            quote = c.text(item, 'quote', at)
+            if quote and WRAPPED.fullmatch(quote):
+                c.fail(f'{at}.quote', 'is wrapped in quote marks; leave them out (the page adds its own)')
+            elif quote and STRAIGHT_QUOTES.search(quote):
+                c.fail(f'{at}.quote', 'has a straight \' or "; use ’ for apostrophes and ‘ ’ or “ ” for quotes')
             c.text(item, 'author', at)
-    c.unique(on_page, 'sections', 'category')
-    for i, category in enumerate(categories):
-        if not isinstance(category, dict):
-            continue
-        has_section = category.get('id') in on_page
-        has_link = bool(category.get('old_site_path'))
-        if has_section and has_link:
-            c.fail(f'categories[{i}]', 'has a section on this site, so drop its old_site_path')
-        elif not has_section and not has_link:
-            c.fail(f'categories[{i}]', 'has no section in "sections" and no old_site_path, so its link would go nowhere')
-    return known
+    c.unique(category_ids, 'categories', 'id')
+    c.unique(testimonial_ids, 'categories', 'testimonial id')
+    return {tid for tid in testimonial_ids if isinstance(tid, str)}
 
 
-def _check_home_quotes(c, raw, categories):
-    for i, quote in enumerate(c.items(raw, TOP)):
-        where = f'[{i}]'
-        quote = c.obj(quote, where, ('quote', 'author', 'category'))
-        c.text(quote, 'quote', where)
-        c.text(quote, 'author', where)
-        cid = c.text(quote, 'category', where)
-        if cid and cid not in categories:
-            c.fail(f'{where}.category', f'unknown category "{cid}" (see testimonials.json)')
+def _check_home_quotes(c, raw, testimonial_ids):
+    ids = c.items(raw, TOP)
+    for i, tid in enumerate(ids):
+        if not isinstance(tid, str) or not tid.strip():
+            c.fail(f'[{i}]', 'must be the id of a testimonial in testimonials.json')
+        elif tid not in testimonial_ids:
+            c.fail(f'[{i}]', f'unknown testimonial "{tid}" (use an id from testimonials.json)')
+    c.unique([tid for tid in ids if isinstance(tid, str)], TOP, 'testimonial')
 
 
 def _check_strings(c, raw, what):
@@ -366,8 +355,8 @@ def load(data_dir, pages):
     legacy = raw['practice.json'].get('legacy') if isinstance(raw['practice.json'], dict) else None
     pamphlets = legacy.get('pamphlets') if isinstance(legacy, dict) else None
     _check_services(checker('services.json'), raw['services.json'], pamphlets if isinstance(pamphlets, dict) else {})
-    categories = _check_testimonials(checker('testimonials.json'), raw['testimonials.json'])
-    _check_home_quotes(checker('home-quotes.json'), raw['home-quotes.json'], categories)
+    testimonial_ids = _check_testimonials(checker('testimonials.json'), raw['testimonials.json'])
+    _check_home_quotes(checker('home-quotes.json'), raw['home-quotes.json'], testimonial_ids)
     _check_strings(checker('recipe-staples.json'), raw['recipe-staples.json'], 'staple')
     _check_team(checker('team.json'), raw['team.json'])
     if errors:
