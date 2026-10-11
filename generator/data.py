@@ -22,6 +22,8 @@ SITE_URL = re.compile(r'https://[a-z0-9-]+(\.[a-z0-9-]+)+')
 MAP_PIN = re.compile(r'!3d(-?[0-9]+(?:\.[0-9]+)?)!4d(-?[0-9]+(?:\.[0-9]+)?)')
 # https://, a domain with at least one dot, an optional port, then any path, query or fragment.
 WEB_ADDRESS = re.compile(r'https://[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+(:[0-9]+)?([/?#]\S*)?')
+# A PDF in the repo's forms/ folder, which is published as-is; pages link to it by this path.
+FORM_PATH = re.compile(r'forms/[a-z0-9]+(-[a-z0-9]+)*\.pdf')
 TOP = '(top level)'
 # Data is plain text; esc() turns it into HTML. Entities or tags here would show up literally.
 LOOKS_LIKE_HTML = re.compile(r'&(#[0-9]+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]*);|<[a-zA-Z/!]')
@@ -129,9 +131,10 @@ def _read(data_dir, filename):
         raise BuildError(f'data/{filename}: {e}') from None
 
 
-def _check_practice(c, raw):
+def _check_practice(c, raw, root):
     p = c.obj(raw, TOP, ('name', 'legal_name', 'doctor', 'phone', 'fax', 'email', 'address', 'geo',
-                         'maps_url', 'social', 'recipe_book_url', 'site_url', 'booking_url', 'legacy'))
+                         'maps_url', 'social', 'recipe_book_url', 'site_url', 'booking_url', 'forms',
+                         'legacy'))
     c.text(p, 'name', TOP)
     c.text(p, 'legal_name', TOP)
     fax = c.text(p, 'fax', TOP)
@@ -188,7 +191,16 @@ def _check_practice(c, raw):
     social = c.obj(p.get('social'), 'social', ('facebook', 'instagram'))
     c.url(social, 'facebook', 'social')
     c.url(social, 'instagram', 'social')
-    links = ('old_site', 'adult_forms', 'child_forms', 'video')
+    # The new-patient intake PDFs, kept in forms/ and linked from the home and new-patients pages.
+    forms = c.obj(p.get('forms'), 'forms', ('adult', 'child'))
+    for key in ('adult', 'child'):
+        path = c.text(forms, key, 'forms')
+        if path and not FORM_PATH.fullmatch(path):
+            c.fail(f'forms.{key}', f'must be a PDF in the forms/ folder, like forms/new-patient-adult.pdf, '
+                                   f'named in lowercase letters, digits and hyphens (got "{path}")')
+        elif path and not (root / path).is_file():
+            c.fail(f'forms.{key}', f'{path} does not exist; add the file to the forms/ folder')
+    links = ('old_site', 'video')
     legacy = c.obj(p.get('legacy'), 'legacy', links + ('pamphlets',))
     for key in links:
         c.url(legacy, key, 'legacy')
@@ -351,7 +363,7 @@ def load(data_dir, pages):
         c.plain_text(raw[name], '')
         return c
 
-    _check_practice(checker('practice.json'), raw['practice.json'])
+    _check_practice(checker('practice.json'), raw['practice.json'], data_dir.parent)
     _check_nav(checker('nav.json'), raw['nav.json'], pages)
     _check_hours(checker('hours.json'), raw['hours.json'])
     legacy = raw['practice.json'].get('legacy') if isinstance(raw['practice.json'], dict) else None

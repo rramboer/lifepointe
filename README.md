@@ -28,6 +28,7 @@ generator/         the generator itself
   checks.py        scans the finished site for text that must never appear
 css/ js/ assets/   stylesheet, script, logos, favicon and photos
 email/             standalone HTML email template (see email/README.md), published at /email/
+forms/             the new-patient intake PDFs, published at /forms/ (see New-patient forms)
 DESIGN.md          design system: colors, type, spacing, accessibility floor
 _site/             build output (not committed)
 .github/           the build-and-deploy workflow and Dependabot settings (see Deploy)
@@ -42,7 +43,7 @@ python3 -m http.server --bind 127.0.0.1 --directory _site 8000
 
 Then open <http://localhost:8000>. Each build empties `_site/` and writes it again: the seven
 pages, `404.html`, `sitemap.xml`, `robots.txt` and the `/card` redirect, plus copies of `css/`,
-`js/`, `assets/` and `email/`.
+`js/`, `assets/`, `email/` and `forms/`.
 `--out DIR` builds somewhere else. It uses a new or empty folder, or empties one that an
 earlier build made (marked by the empty `.site-build` file each build leaves). It refuses any
 other folder. The script works from any directory.
@@ -61,13 +62,15 @@ The build stops with a non-zero exit and a message naming the file and field whe
   JSON-LD, the coordinates don't match the pin in the map link, or the link-preview image is
   missing or a different size (see Search engines and link previews);
 - the `/card` redirect would lead nowhere (see Business-card QR code);
+- a new-patient form path isn't a PDF in `forms/`, or the file isn't there (see New-patient
+  forms);
 - the finished site contains any of the words listed in `generator/checks.py`.
 
 ## Editing content
 
 | File | What it holds |
 |---|---|
-| `data/practice.json` | Practice name and legal name, the doctor's name and credentials, phone (display and dialing), fax, email, address (`street, city, ST 12345`), map link and the coordinates of its pin (`geo`), social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `booking_url` is the online booking page: when it is set, the contact page's appointment section leads with a "Book online" button and the business-card QR code goes there (see below); `null` means the QR code goes to the contact page. `legacy` holds links that still point at the old website's hosting; they are being replaced. |
+| `data/practice.json` | Practice name and legal name, the doctor's name and credentials, phone (display and dialing), fax, email, address (`street, city, ST 12345`), map link and the coordinates of its pin (`geo`), social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `booking_url` is the online booking page: when it is set, the contact page's appointment section leads with a "Book online" button and the business-card QR code goes there (see below); `null` means the QR code goes to the contact page. `forms` holds the paths of the adult and child new-patient PDFs (see New-patient forms). `legacy` holds links that still point at the old website's hosting; they are being replaced. |
 | `data/nav.json` | The header menu, in order. `footer_label` changes an entry's text in the footer's Explore list. |
 | `data/hours.json` | Office hours, Monday through Sunday, in 24-hour `HH:MM`. `"hours": []` means closed. This one list feeds both hours tables (home and contact) and the footer summary. |
 | `data/services.json` | `home_cards` (home page "What we do"), `services` (services page; `pamphlet` adds a download link from `practice.json`) and `products`. |
@@ -98,6 +101,19 @@ To add a page, create a module in `generator/pages/` with a `FILENAME` and a `re
 function, add it to `PAGES` in `generator/pages/__init__.py`, and add a menu entry to
 `data/nav.json` if it belongs in the menu. Every page in `PAGES` gets a canonical URL and
 link-preview tags and is listed in `sitemap.xml`; nothing else needs changing.
+
+## New-patient forms
+
+The home and new-patients pages link to two fillable PDFs in `forms/`:
+`new-patient-adult.pdf` and `new-patient-child.pdf`. They are the practice's intake forms,
+copied in unchanged. `forms` in `data/practice.json` gives their paths, relative to the
+pages, so the links work on any address the site is served from.
+
+To update a form, replace the file and keep its name, so the links stay the same. Check the
+new file before committing it: its fields should still fill in, and they should all be blank,
+because anything saved in the file is published to everyone who downloads it. The build's
+banned-word check (`generator/checks.py`) can't read PDFs, so also check the new file's text
+for those words.
 
 ## Search engines and link previews
 

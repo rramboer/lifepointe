@@ -98,6 +98,5 @@ styling in css/site.css, behavior in js/site.js.
 
 ## Known placeholders
 - Links that still point at the old website or services tied to it, all kept under `legacy` in
-  data/practice.json: the footer privacy and accessibility links, the adult and child
-  new-patient forms, the two service pamphlets and the video link on the about page. Later
-  changes replace or remove each one.
+  data/practice.json: the footer privacy and accessibility links, the two service pamphlets
+  and the video link on the about page. Later changes replace or remove each one.
