@@ -27,9 +27,10 @@ generator/         the generator itself
                    mailto() for links that open a new email with the subject and
                    body filled in, and number_word() for counts in running text
   static.py        the folders copied into the site as-is
-  checks.py        checks the finished site for text that must never appear, for
-                   stylesheet url()s that name a missing file, and for anything a
-                   page would load from another site
+  checks.py        checks the finished site and the files in email/ for text that
+                   must never appear, and the site for stylesheet url()s that name
+                   a missing file and for anything a page would load from another
+                   site
 css/ js/ assets/   stylesheet, script, logos, favicon, photos and web fonts (see Fonts)
 email/             standalone HTML email template (see email/README.md); only its images/
                    are published, at /email/images/
@@ -78,6 +79,12 @@ The build stops with a non-zero exit and a message naming the file and field whe
   old website's address or a Google Fonts address (see Fonts), or writes the practice's phone
   or fax number any other way than `practice.json` does (such as `248-623-6107`; the home
   page's JSON-LD `+1-248-623-6107` is the one exception);
+- any text file in `email/` (the template, the signatures, `email/README.md` and the icon
+  script) contains that same text, such as the old website's address, its vendor's hosts or
+  a banned name, or writes the phone or fax number another way. Only `email/images/` is
+  published, but the rest is pasted into email platforms and Gmail, so it is checked where it
+  is. No other folder outside the finished site is checked, so notes elsewhere in the
+  repository can still name the old website;
 - a `url()` in a stylesheet names a file that isn't in the finished site, such as a renamed
   font;
 - a page, stylesheet or SVG in the finished site would load anything from another site as it

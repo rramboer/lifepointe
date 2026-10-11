@@ -32,7 +32,8 @@ jobs:
       - name: Show the Python version
         run: python3 --version
 
-      # Stops with a non-zero exit on any data or output problem, so nothing deploys.
+      # Stops with a non-zero exit on any problem in the data, the output or email/, so nothing
+      # deploys.
       - name: Build the site into _site/
         run: python3 build.py
 

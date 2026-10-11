@@ -81,9 +81,14 @@ def build(out_arg=None):
             f.write(html)
     copied = static.copy_static(ROOT, out)
 
-    problems, scanned = checks.scan(out, [site.practice.phone.display, site.practice.fax])
+    numbers = [site.practice.phone.display, site.practice.fax]
+    problems, scanned = checks.scan(out, numbers)
     if problems:
         raise BuildError(f'the output contains banned text ({len(problems)} found):\n  ' + '\n  '.join(problems))
+    # Only email/images/ is published, so check the template, signatures and README where they are.
+    problems, email_scanned = checks.scan(ROOT / 'email', numbers, names_from=ROOT)
+    if problems:
+        raise BuildError(f'the email files contain banned text ({len(problems)} found):\n  ' + '\n  '.join(problems))
     missing = checks.missing_css_files(out)
     if missing:
         raise BuildError(f'a stylesheet names files the output doesn\'t have ({len(missing)} found):\n  '
@@ -93,7 +98,8 @@ def build(out_arg=None):
         raise BuildError(f'the output loads something from another site or has a form, which privacy.html '
                          f'says it never does ({len(offsite)} found):\n  ' + '\n  '.join(offsite))
     print(f'built {len(rendered)} pages, {not_found.FILENAME}, {seo.SITEMAP}, {seo.ROBOTS} and the /card '
-          f'redirect into {_shown(out)}/ (copied {", ".join(copied)}; {scanned} text files checked)')
+          f'redirect into {_shown(out)}/ (copied {", ".join(copied)}; {scanned} text files checked, '
+          f'plus {email_scanned} in email/)')
 
 
 def main(argv=None):

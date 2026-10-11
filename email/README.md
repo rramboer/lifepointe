@@ -229,6 +229,10 @@ address (and maybe a name) is not a patient list, but don't import the patient r
 - `tel:` and `mailto:` links for one-tap contact on phones.
 
 ## Testing
+After editing any file in `email/`, run `python3 build.py` from the repo root (pull requests run
+it too). It fails if a file here names the old website, its vendor's hosts or Google Fonts, or
+breaks the practice's naming and phone-number rules (see the main README).
+
 Send yourself a test before any real send. Gmail (web, iOS and Android), Outlook desktop and
 Apple Mail cover most readers. Litmus or Email on Acid will render all of them at once if you
 want to be thorough.
