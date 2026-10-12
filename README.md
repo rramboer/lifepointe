@@ -15,6 +15,7 @@ generator/         the generator itself
   data.py          loads data/*.json and stops the build on any problem
   layout.py        shared head, header, footer, page hero and closing CTA band
   pages/           one module per page; prose used on only one page lives here
+  card.py          the /card redirect behind the business-card QR code (see below)
   hours.py         office-hours table and footer summary
   icons.py         inline SVG icons, by name
   helpers.py       esc(), which escapes every data value placed into HTML
@@ -35,10 +36,10 @@ python3 -m http.server --bind 127.0.0.1 --directory dist 8000
 ```
 
 Then open <http://localhost:8000>. Each build empties `dist/` and writes it again: the seven
-pages, plus copies of `css/`, `js/`, `assets/` and `email/`. `--out DIR` builds somewhere
-else. It uses a new or empty folder, or empties one that an earlier build made (marked by the
-empty `.site-build` file each build leaves). It refuses any other folder. The script works
-from any directory.
+pages and the `/card` redirect, plus copies of `css/`, `js/`, `assets/` and `email/`.
+`--out DIR` builds somewhere else. It uses a new or empty folder, or empties one that an
+earlier build made (marked by the empty `.site-build` file each build leaves). It refuses any
+other folder. The script works from any directory.
 
 The build stops with a non-zero exit and a message naming the file and field when:
 
@@ -47,13 +48,14 @@ The build stops with a non-zero exit and a message naming the file and field whe
 - an id is used twice, or a quote or section points at a category that doesn't exist;
 - an icon name is unknown, or a menu entry points at a page the build doesn't make;
 - a data value contains HTML markup or an entity;
+- the `/card` redirect would lead nowhere (see Business-card QR code);
 - the finished site contains any of the words listed in `generator/checks.py`.
 
 ## Editing content
 
 | File | What it holds |
 |---|---|
-| `data/practice.json` | Practice name and legal name, the doctor's name and credentials, phone (display and dialing), fax, email, address, map link, social links, recipe book link. `legacy` holds links that still point at the old website's hosting; they are being replaced. |
+| `data/practice.json` | Practice name and legal name, the doctor's name and credentials, phone (display and dialing), fax, email, address, map link, social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `booking_url` is where the business-card QR code goes (see below); `null` means the contact page. `legacy` holds links that still point at the old website's hosting; they are being replaced. |
 | `data/nav.json` | The header menu, in order. `footer_label` changes an entry's text in the footer's Explore list. |
 | `data/hours.json` | Office hours, Monday through Sunday, in 24-hour `HH:MM`. `"hours": []` means closed. This one list feeds both hours tables (home and contact) and the footer summary. |
 | `data/services.json` | `home_cards` (home page "What we do"), `services` (services page; `pamphlet` adds a download link from `practice.json`) and `products`. |
@@ -79,6 +81,29 @@ that page's module in `generator/pages/`. The shared header, footer and CTA band
 To add a page, create a module in `generator/pages/` with a `FILENAME` and a `render(site)`
 function, add it to `PAGES` in `generator/pages/__init__.py`, and add a menu entry to
 `data/nav.json` if it belongs in the menu.
+
+## Business-card QR code (/card)
+
+The QR code on the printed business card opens exactly `https://lifepointechiro.com/card`.
+Printed cards last for years, so that address must always work.
+
+- The build writes a small page to `card.html`, like every other page. GitHub Pages answers
+  `/card` from it, the same way `/about` loads `about.html`, so the printed address works as it
+  is. **Never delete or rename it.** The page is only for the QR code: it isn't in the menu,
+  nothing on the site links to it, and it asks search engines not to index it.
+- It sends people on at once, with a meta refresh that works without JavaScript and a script
+  that does the same. If neither runs, it shows the logo and a button to the same place. It
+  loads nothing from other sites.
+- **To change where it goes, set `booking_url`** in `data/practice.json` to a full `https://`
+  address, such as the online booking page once there is one. While `booking_url` is `null`,
+  it goes to the contact page's appointment section, `/contact.html#appointment`, so keep
+  `id="appointment"` on that section; the build stops if it is gone. The page itself is
+  `generator/card.py`, and no other page may use the file name `card.html`.
+- Its links start with `/`, so they only work at the root of a domain. On the temporary
+  `rramboer.github.io/lifepointe/` address it redirects to a page that doesn't exist; test it
+  on `lifepointechiro.com`, or in a local preview at `/card.html` (Python's preview server
+  doesn't map `/card` to `card.html` the way GitHub Pages does).
+- After changing it, open `/card` on the live site on a phone, and scan a printed card.
 
 ## Deploy
 

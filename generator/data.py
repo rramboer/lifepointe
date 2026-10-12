@@ -14,6 +14,9 @@ DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sun
 SLUG = re.compile(r'[a-z0-9]+(-[a-z0-9]+)*')
 TIME = re.compile(r'([01][0-9]|2[0-3]):[0-5][0-9]')
 TEL = re.compile(r'\+[0-9]{8,15}')
+SITE_URL = re.compile(r'https://[a-z0-9-]+(\.[a-z0-9-]+)+')
+# https://, a domain with at least one dot, an optional port, then any path, query or fragment.
+WEB_ADDRESS = re.compile(r'https://[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+(:[0-9]+)?([/?#]\S*)?')
 TOP = '(top level)'
 # Data is plain text; esc() turns it into HTML. Entities or tags here would show up literally.
 LOOKS_LIKE_HTML = re.compile(r'&(#[0-9]+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]*);|<[a-zA-Z/!]')
@@ -119,7 +122,7 @@ def _read(data_dir, filename):
 
 def _check_practice(c, raw):
     p = c.obj(raw, TOP, ('name', 'legal_name', 'doctor', 'phone', 'fax', 'email', 'address',
-                         'maps_url', 'social', 'recipe_book_url', 'legacy'))
+                         'maps_url', 'social', 'recipe_book_url', 'site_url', 'booking_url', 'legacy'))
     for key in ('name', 'legal_name', 'fax', 'address'):
         c.text(p, key, TOP)
     email = c.text(p, 'email', TOP)
@@ -135,6 +138,18 @@ def _check_practice(c, raw):
         c.fail('phone.tel', f'must be + and digits only, like +12485550123 (got "{tel}")')
     c.url(p, 'maps_url', TOP)
     c.url(p, 'recipe_book_url', TOP)
+    site_url = c.text(p, 'site_url', TOP)
+    if site_url and not SITE_URL.fullmatch(site_url):
+        c.fail('site_url', f'must be just https:// and the domain, in lowercase, with no path or '
+                           f'trailing slash, like https://example.com (got "{site_url}")')
+    # The /card page (business-card QR code) sends people here; null means the contact page.
+    if 'booking_url' not in p:
+        c.fail('booking_url', 'missing (use null to send /card to the contact page)')
+    elif p['booking_url'] is not None:
+        booking = p['booking_url']
+        if not isinstance(booking, str) or not WEB_ADDRESS.fullmatch(booking):
+            c.fail('booking_url', f'must be null or an https:// address with a domain and no spaces, '
+                                  f'like https://example.com/book (got {json.dumps(booking, ensure_ascii=False)})')
     social = c.obj(p.get('social'), 'social', ('facebook', 'instagram'))
     c.url(social, 'facebook', 'social')
     c.url(social, 'instagram', 'social')

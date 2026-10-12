@@ -4,7 +4,7 @@ import shutil
 import sys
 from pathlib import Path
 
-from . import checks, data, static
+from . import card, checks, data, static
 from .errors import BuildError
 from .pages import PAGES
 
@@ -47,15 +47,22 @@ def build(out_arg=None):
     filenames = [page.FILENAME for page in PAGES]
     if len(set(filenames)) != len(filenames):
         raise BuildError('two page modules share a FILENAME')
+    if set(filenames) & set(card.FILES):
+        raise BuildError(f'{", ".join(card.FILES)} is reserved for the business-card '
+                         f'/card redirect (generator/card.py); give the page another FILENAME')
     site = data.load(ROOT / 'data', set(filenames))
     rendered = [(page.FILENAME, page.render(site)) for page in PAGES]
+    card.check_target(site, dict(rendered))
+    card_html = card.render(site)
+    files = rendered + [(filename, card_html) for filename in card.FILES]
 
     out = _output_dir(out_arg)
     if out.exists():
         shutil.rmtree(out)
     out.mkdir(parents=True)
     (out / BUILD_MARKER).write_text('', encoding='utf-8')
-    for filename, html in rendered:
+    for filename, html in files:
+        (out / filename).parent.mkdir(parents=True, exist_ok=True)
         with open(out / filename, 'w', encoding='utf-8', newline='\n') as f:
             f.write(html)
     copied = static.copy_static(ROOT, out)
@@ -63,7 +70,8 @@ def build(out_arg=None):
     problems, scanned = checks.scan(out)
     if problems:
         raise BuildError(f'the output contains banned text ({len(problems)} found):\n  ' + '\n  '.join(problems))
-    print(f'built {len(rendered)} pages into {_shown(out)}/ (copied {", ".join(copied)}; {scanned} text files checked)')
+    print(f'built {len(rendered)} pages and the /card redirect into {_shown(out)}/ '
+          f'(copied {", ".join(copied)}; {scanned} text files checked)')
 
 
 def main(argv=None):
