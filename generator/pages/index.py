@@ -1,5 +1,5 @@
 """Home page."""
-from ..helpers import esc, page_href
+from ..helpers import esc, in_series, page_href
 from ..hours import hours_table
 from ..icons import icon, svg
 from ..layout import V, cta_band, page
@@ -41,7 +41,7 @@ def render(site):
         <a class="btn btn--ghost" href="{page_href('new-patients.html')}">What to expect</a>
       </div>
       <div class="badge-row rise rise-4 mt-2">
-        <span class="badge">{svg('shield')} In-network with BCBS, Medicare, &amp; VA</span>
+        <span class="badge">{svg('shield')} In-network with BCBS, Medicare, VA, &amp; more</span>
         <span class="badge">{svg('users')} All ages welcome</span>
       </div>
     </div>
@@ -141,7 +141,7 @@ def render(site):
       <div class="card">
         {icon('shield')}
         <h3 class="display-3">Insurance</h3>
-        <p>We are in-network with <strong>Blue Cross Blue Shield, Medicare, Medicare Advantage,</strong> and <strong>Veterans Affairs</strong>. Other policies are accepted out-of-network.</p>
+        <p>We are in-network with {in_series(f'<strong>{esc(plan)}</strong>' for plan in p.in_network)}. Other policies are accepted out-of-network.</p>
       </div>
     </div>
   </div>
