@@ -1,0 +1,16 @@
+version: 2
+updates:
+  # Keeps the pinned actions in .github/workflows/ current: Dependabot updates each commit
+  # SHA together with its version comment.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    # Propose a release only once it has been out for a week.
+    cooldown:
+      default-days: 7
+    # One pull request for all of the week's action updates.
+    groups:
+      actions:
+        patterns:
+          - "*"

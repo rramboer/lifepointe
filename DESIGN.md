@@ -73,7 +73,9 @@ screen readers, no horizontal scroll at 320px. Hamburger below 1081px (the deskt
 needs ~976px of content width).
 
 ## Building
-`python3 build.py` builds the seven pages into `dist/` (see README.md). Edit content in
+`python3 build.py` builds the seven pages into `dist/` (see README.md). GitHub Actions runs
+the same build on every pull request and every push to `main`, and deploys `main` to GitHub
+Pages (README.md, Deploy). The generated HTML is never committed. Edit content in
 `data/*.json`, page markup in `generator/pages/`, the shared header, footer and CTA band in
 `generator/layout.py`, styling in css/site.css, behavior in js/site.js.
 
