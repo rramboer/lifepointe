@@ -13,8 +13,13 @@ from .icons import ICONS
 DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 SLUG = re.compile(r'[a-z0-9]+(-[a-z0-9]+)*')
 TIME = re.compile(r'([01][0-9]|2[0-3]):[0-5][0-9]')
-TEL = re.compile(r'\+[0-9]{8,15}')
+TEL = re.compile(r'\+1[0-9]{10}')
+# "street, city, ST 12345". Search engines get the address in parts (seo.py), split by this.
+ADDRESS = re.compile(r'(?P<street>[^,]+(?:, [^,]+)*), (?P<city>[^,]+), '
+                     r'(?P<region>[A-Z]{2}) (?P<postal>[0-9]{5}(?:-[0-9]{4})?)')
 SITE_URL = re.compile(r'https://[a-z0-9-]+(\.[a-z0-9-]+)+')
+# The place pin in a Google Maps link: !3d<latitude>!4d<longitude>.
+MAP_PIN = re.compile(r'!3d(-?[0-9]+(?:\.[0-9]+)?)!4d(-?[0-9]+(?:\.[0-9]+)?)')
 # https://, a domain with at least one dot, an optional port, then any path, query or fragment.
 WEB_ADDRESS = re.compile(r'https://[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+(:[0-9]+)?([/?#]\S*)?')
 TOP = '(top level)'
@@ -121,10 +126,35 @@ def _read(data_dir, filename):
 
 
 def _check_practice(c, raw):
-    p = c.obj(raw, TOP, ('name', 'legal_name', 'doctor', 'phone', 'fax', 'email', 'address',
+    p = c.obj(raw, TOP, ('name', 'legal_name', 'doctor', 'phone', 'fax', 'email', 'address', 'geo',
                          'maps_url', 'social', 'recipe_book_url', 'site_url', 'booking_url', 'legacy'))
-    for key in ('name', 'legal_name', 'fax', 'address'):
-        c.text(p, key, TOP)
+    c.text(p, 'name', TOP)
+    c.text(p, 'legal_name', TOP)
+    fax = c.text(p, 'fax', TOP)
+    fax_digits = re.sub(r'[^0-9]', '', fax or '')
+    if fax and not (len(fax_digits) == 10 or (len(fax_digits) == 11 and fax_digits[0] == '1')):
+        c.fail('fax', f'must be a 10-digit US number, like (248) 555-0123 (got "{fax}")')
+    address = c.text(p, 'address', TOP)
+    if address and not ADDRESS.fullmatch(address):
+        c.fail('address', f'must read "street, city, ST 12345", like "5896 Dixie Hwy, Ste A, '
+                          f'Clarkston, MI 48346" (got "{address}")')
+    # The map pin's coordinates, for search engines (seo.py). They must match the pin in
+    # maps_url when the link has one.
+    geo = c.obj(p.get('geo'), 'geo', ('latitude', 'longitude'))
+    coordinates = []
+    if isinstance(p.get('geo'), dict):
+        for key, limit in (('latitude', 90), ('longitude', 180)):
+            value = geo.get(key)
+            if isinstance(value, bool) or not isinstance(value, (int, float)) or not -limit <= value <= limit:
+                c.fail(f'geo.{key}', f'must be a number from -{limit} to {limit} (got {json.dumps(value)})')
+            else:
+                coordinates.append(value)
+    maps_url = c.url(p, 'maps_url', TOP)
+    pin = MAP_PIN.search(maps_url or '')
+    if pin and len(coordinates) == 2 and any(
+            abs(float(pin[i + 1]) - coordinates[i]) > 1e-6 for i in range(2)):
+        c.fail('geo', f'does not match the pin in maps_url ({pin[1]}, {pin[2]}); copy those numbers '
+                      f'into latitude and longitude')
     email = c.text(p, 'email', TOP)
     if email and '@' not in email:
         c.fail('email', f'not an email address (got "{email}")')
@@ -135,8 +165,7 @@ def _check_practice(c, raw):
     c.text(phone, 'display', 'phone')
     tel = c.text(phone, 'tel', 'phone')
     if tel and not TEL.fullmatch(tel):
-        c.fail('phone.tel', f'must be + and digits only, like +12485550123 (got "{tel}")')
-    c.url(p, 'maps_url', TOP)
+        c.fail('phone.tel', f'must be +1 and the 10-digit number, digits only, like +12485550123 (got "{tel}")')
     c.url(p, 'recipe_book_url', TOP)
     site_url = c.text(p, 'site_url', TOP)
     if site_url and not SITE_URL.fullmatch(site_url):
