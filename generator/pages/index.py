@@ -19,7 +19,7 @@ def render(site):
       {icon(card.icon)}
       <h3 class="display-3">{esc(card.title)}</h3>
       <p>{esc(card.summary)}</p>
-      <p class="card__more">Learn more &rarr;</p>
+      <p class="card__more">Learn more{svg('arrow-right')}</p>
     </a>''' for card in site.services.home_cards)
 
     # home-quotes.json lists testimonial ids; the label line is the testimonial's category.

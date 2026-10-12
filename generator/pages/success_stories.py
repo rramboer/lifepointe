@@ -1,6 +1,7 @@
 """Success stories page: a chip per category, then one section of testimonials per category."""
 from ..errors import BuildError
 from ..helpers import counted, esc
+from ..icons import svg
 from ..layout import V, cta_band, page, page_hero
 
 FILENAME = 'success-stories.html'
@@ -39,7 +40,7 @@ def _section(category, alt):
     <div class="quote-columns mt-15">
       {quotes}
     </div>
-    <p class="back-link mt-2"><a href="#{TOPICS}"><span aria-hidden="true">&uarr;</span> Back to topics</a></p>
+    <p class="back-link mt-2"><a href="#{TOPICS}">{svg('arrow-up')}Back to topics</a></p>
   </div>
 </section>'''
 
