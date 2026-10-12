@@ -43,7 +43,7 @@ def render(site):
         <li>If you schedule a health care item or service at least 3 business days in advance, make sure your health care provider or facility gives you a Good Faith Estimate in writing within 1 business day after scheduling. If you schedule a health care item or service at least 10 business days in advance, make sure your health care provider or facility gives you a Good Faith Estimate in writing within 3 business days after scheduling. You can also ask any health care provider or facility for a Good Faith Estimate before you schedule an item or service. If you do, make sure the health care provider or facility gives you a Good Faith Estimate in writing within 3 business days after you ask.</li>
         <li>If you receive a bill that is at least $400 more for any provider or facility than your Good Faith Estimate from that provider or facility, you can dispute the bill.</li>
       </ul>
-      <p>For questions or more information about your right to a Good Faith Estimate, visit <a href="{esc(CMS_CONSUMERS)}">www.cms.gov/nosurprises/consumers</a>, email <a href="{esc('mailto:' + CMS_EMAIL)}">{esc(CMS_EMAIL)}</a>, or call <a href="{esc('tel:' + CMS_PHONE[0])}">{esc(CMS_PHONE[1])}</a>.</p>
+      <p>For questions or more information about your right to a Good Faith Estimate, visit <a class="url" href="{esc(CMS_CONSUMERS)}">www.cms.gov/nosurprises/consumers</a>, email <a class="url" href="{esc('mailto:' + CMS_EMAIL)}">{esc(CMS_EMAIL)}</a>, or call <a href="{esc('tel:' + CMS_PHONE[0])}">{esc(CMS_PHONE[1])}</a>.</p>
 
       <h3 class="display-3 mt-2">Ask us for an estimate</h3>
       <p>To ask {esc(p.name)} for a Good Faith Estimate, <a href="{tel}">call us at {phone}</a> or ask at the front desk.</p>

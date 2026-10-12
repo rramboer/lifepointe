@@ -110,6 +110,9 @@ a:hover .arrow, .card--link:hover .arrow { transform: translateX(3px); }
 a:hover .arrow--up { transform: translateY(-3px); }
 /* Phone and fax numbers never break across lines at their hyphens. */
 a[href^="tel:"], .nowrap { white-space: nowrap; }
+/* A web or email address written out in full may break anywhere, so it never makes a narrow
+   screen scroll sideways. */
+.url { overflow-wrap: anywhere; }
 
 /* ---- Accessibility floor ------------------------------------------------ */
 
