@@ -64,6 +64,7 @@ def render(site):
   <meta http-equiv="refresh" content="{esc('0; url=' + to)}">
   <link rel="canonical" href="{esc(canonical)}">
   <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <style>
     :root {{ --navy: #00205B; --green: #84BD00; --paper: #F7F8FA; }}
     *, *::before, *::after {{ box-sizing: border-box; }}

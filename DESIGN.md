@@ -46,7 +46,10 @@ border, so the closing CTA band and footer stay distinct without a second navy.
 ## Logo
 `assets/logo-full-color.svg` (header) and `assets/logo-reversed.svg` (footer, on navy) are
 cut from the original 2012 vector artwork and set to the exact inks above. The favicon is
-the heart mark on a white tile so it reads in light and dark browser tabs. The full logo kit
+the heart mark on a white tile so it reads in light and dark browser tabs.
+`assets/apple-touch-icon.png` is the same mark on a solid white 180×180 square (iOS rounds
+the corners itself, and fills transparent pixels with black): it is the icon for an iPhone
+home-screen bookmark and for the small-card link preview in Messages. The full logo kit
 (PNG/PDF/one-color versions) lives outside the repo in the brand folder.
 
 ## Type
