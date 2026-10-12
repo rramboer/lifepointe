@@ -37,7 +37,6 @@ def render(site):
       <div>
         <p>I opened Lifepointe Chiropractic and Wellness Center in July of 2001. Our mission, in a nutshell, is to teach our community that all health comes from within &mdash; and that you already have everything it takes to be truly healthy, happy, and well. This inner health potential lacks its full expression when it&rsquo;s interfered with. That&rsquo;s where we fit into the picture: our role is to determine whether you have this interference, and if so, to help you reduce it for life.</p>
         <p>Our practice is family based &mdash; we adjust people of all ages, from newborns just a few minutes old to the very wise and experienced members of our community. We love what we do, and we love to teach and share what we&rsquo;ve learned.</p>
-        <a class="btn btn--ghost btn--sm" href="{esc(p.legacy.video)}">Watch: inside Lifepointe</a>
       </div>
       <div class="card">
         <h3 class="display-3">Background</h3>

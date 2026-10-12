@@ -200,16 +200,8 @@ def _check_practice(c, raw, root):
                                    f'named in lowercase letters, digits and hyphens (got "{path}")')
         elif path and not (root / path).is_file():
             c.fail(f'forms.{key}', f'{path} does not exist; add the file to the forms/ folder')
-    links = ('old_site', 'video')
-    legacy = c.obj(p.get('legacy'), 'legacy', links + ('pamphlets',))
-    for key in links:
-        c.url(legacy, key, 'legacy')
-    pamphlets = c.obj(legacy.get('pamphlets'), 'legacy.pamphlets')
-    for key, pamphlet in pamphlets.items():
-        where = f'legacy.pamphlets.{key}'
-        pamphlet = c.obj(pamphlet, where, ('url', 'label'))
-        c.url(pamphlet, 'url', where)
-        c.text(pamphlet, 'label', where)
+    legacy = c.obj(p.get('legacy'), 'legacy', ('old_site',))
+    c.url(legacy, 'old_site', 'legacy')
 
 
 def _check_nav(c, raw, pages):
@@ -253,21 +245,16 @@ def _check_hours(c, raw):
             previous_close = closes
 
 
-def _check_services(c, raw, pamphlets):
+def _check_services(c, raw):
     s = c.obj(raw, TOP, ('home_cards', 'services', 'products'))
     for list_key in ('home_cards', 'services'):
         entries = c.items(s.get(list_key), list_key)
         for i, entry in enumerate(entries):
             where = f'{list_key}[{i}]'
-            entry = c.obj(entry, where, ('icon', 'title', 'summary', 'pamphlet'))
+            entry = c.obj(entry, where, ('icon', 'title', 'summary'))
             c.icon(entry, 'icon', where)
             c.text(entry, 'title', where)
             c.text(entry, 'summary', where)
-            pamphlet = c.text(entry, 'pamphlet', where, optional=True)
-            if list_key == 'home_cards' and pamphlet:
-                c.fail(f'{where}.pamphlet', 'home cards have no download link')
-            elif pamphlet and pamphlet not in pamphlets:
-                c.fail(f'{where}.pamphlet', f'unknown pamphlet "{pamphlet}" (see practice.json legacy.pamphlets)')
         c.unique([e.get('title') for e in entries if isinstance(e, dict)], list_key, 'title')
     products = c.items(s.get('products'), 'products')
     for i, product in enumerate(products):
@@ -366,9 +353,7 @@ def load(data_dir, pages):
     _check_practice(checker('practice.json'), raw['practice.json'], data_dir.parent)
     _check_nav(checker('nav.json'), raw['nav.json'], pages)
     _check_hours(checker('hours.json'), raw['hours.json'])
-    legacy = raw['practice.json'].get('legacy') if isinstance(raw['practice.json'], dict) else None
-    pamphlets = legacy.get('pamphlets') if isinstance(legacy, dict) else None
-    _check_services(checker('services.json'), raw['services.json'], pamphlets if isinstance(pamphlets, dict) else {})
+    _check_services(checker('services.json'), raw['services.json'])
     testimonial_ids = _check_testimonials(checker('testimonials.json'), raw['testimonials.json'])
     _check_home_quotes(checker('home-quotes.json'), raw['home-quotes.json'], testimonial_ids)
     _check_strings(checker('recipe-staples.json'), raw['recipe-staples.json'], 'staple')
