@@ -16,9 +16,9 @@ generator/         the generator itself
   data.py          loads data/*.json and stops the build on any problem
   layout.py        shared head, header, footer, page hero and closing CTA band
   pages/           one module per page; prose used on only one page lives here
-                   (not_found.py is the 404 page; privacy.py and accessibility.py
-                   are the footer's legal pages, see Privacy policy and accessibility
-                   statement)
+                   (not_found.py is the 404 page; privacy.py, accessibility.py and
+                   good_faith_estimate.py are the footer's legal pages, see Legal
+                   pages)
   seo.py           canonical URLs, link-preview tags, the home page's JSON-LD,
                    sitemap.xml and robots.txt (see Search engines and link previews)
   card.py          the /card redirect behind the business-card QR code (see below)
@@ -65,8 +65,7 @@ The build stops with a non-zero exit and a message naming the file and field whe
 - a required field is missing or empty;
 - an id is used twice, or a home-page quote names a testimonial that doesn't exist;
 - an icon name is unknown, or a menu entry points at a page the build doesn't make;
-- the footer's privacy policy or accessibility statement link points at a page the build
-  doesn't make (see Privacy policy and accessibility statement);
+- a link in the footer's legal row points at a page the build doesn't make (see Legal pages);
 - a data value contains HTML markup or an entity;
 - a testimonial has a straight `'` or `"`, or is wrapped in quote marks (the page adds its own);
 - a success-story category id is already used on that page (`topics`, `topics-h`, `main`,
@@ -93,9 +92,8 @@ The build stops with a non-zero exit and a message naming the file and field whe
   font;
 - a page, stylesheet or SVG in the finished site would load anything from another site as it
   opens (a script, image, font, stylesheet, `preconnect`, frame or embed), or a page has a
-  form or form field. The privacy policy says neither happens (see Privacy policy and
-  accessibility statement). Links people click, the canonical link and link-preview tags may
-  point anywhere;
+  form or form field. The privacy policy says neither happens (see Legal pages). Links
+  people click, the canonical link and link-preview tags may point anywhere;
 - a link on a page to the site's own pages or files ends in `.html`, or leads nowhere: no
   page or file at that address, or no element with the `#section`'s id (see Links). Links
   to other sites aren't checked.
@@ -160,13 +158,19 @@ banned-word check (`generator/checks.py`) can't read PDFs, so also check the new
 for those words. The accessibility statement describes the forms' known problems (see below);
 check that it still fits the new file.
 
-## Privacy policy and accessibility statement
+## Legal pages
 
-Every page's footer links to `privacy.html` and `accessibility.html` (`LEGAL_LINKS` in
-`generator/layout.py`). Their text is in `generator/pages/privacy.py` and
-`generator/pages/accessibility.py`; the phone, email and address come from
-`data/practice.json`.
+Every page's footer links to `privacy.html`, `accessibility.html` and
+`good-faith-estimate.html` (`LEGAL_LINKS` in `generator/layout.py`). Their text is in
+`generator/pages/`; the phone, email and address come from `data/practice.json`.
 
+- **The Good Faith Estimate notice is required.** Under the No Surprises Act, a provider must
+  display information about uninsured and self-pay patients' right to a Good Faith Estimate
+  prominently on its website, where search engines can find it, as well as in the office and
+  wherever people schedule or ask about costs (45 CFR 149.610(b)(1)(iii)). The page is the
+  CMS standard notice word for word (April 2022); only its last paragraph, how to ask this
+  office, is the practice's own. If CMS revises its notice, copy the new text exactly. The new
+  patients page's insurance card links to it too.
 - **Keep the privacy policy true.** It says the site sets no cookies, has no analytics,
   tracking or forms, loads nothing on its pages from other sites and is hosted on GitHub
   Pages, and it names the services the pages link to: Facebook, Instagram, Google Maps and
@@ -178,7 +182,8 @@ Every page's footer links to `privacy.html` and `accessibility.html` (`LEGAL_LIN
   would load anything from another site, or has a form (see Build and preview). It can't see
   what a script does once it runs, so check any new script by hand. The legal pages also link
   to GitHub's documentation and privacy statement, the Meta and Google privacy policies and
-  the W3C's WCAG 2.1; those are plain links and load nothing.
+  the W3C's WCAG 2.1, and the Good Faith Estimate page links to CMS; those are plain links and
+  load nothing.
 - **Keep the accessibility statement true.** Its "What the site does" list restates the
   accessibility floor in DESIGN.md. If the floor changes, or the new-patient forms do, update
   the statement and its `LAST_REVIEWED` date.

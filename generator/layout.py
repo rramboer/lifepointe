@@ -12,7 +12,8 @@ from .icons import svg
 
 V = '<span class="vertebra" aria-hidden="true"></span>'
 # The footer's legal links, as (page, link text). The build stops if a page here isn't one it makes.
-LEGAL_LINKS = (('privacy.html', 'Privacy policy'), ('accessibility.html', 'Accessibility statement'))
+LEGAL_LINKS = (('privacy.html', 'Privacy policy'), ('accessibility.html', 'Accessibility statement'),
+               ('good-faith-estimate.html', 'Good Faith Estimate'))
 
 
 def head(title, description, base='', extra=''):
