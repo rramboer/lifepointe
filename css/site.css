@@ -417,16 +417,18 @@ a[href^="tel:"], .nowrap { white-space: nowrap; }
   display: flex; flex-wrap: wrap; gap: .75rem 2rem; justify-content: space-between;
   font-size: .85rem; color: var(--navy-faint);
 }
-.social-row { display: flex; gap: .8rem; margin-top: 1.2rem; }
+/* Social logos: plain white glyphs, 29px (Instagram's minimum), no container shape. Each link is
+   a 44px target, so neighbouring glyphs sit 15px apart: Instagram's clear space is half the
+   glyph (14.5px). The row is pulled left so the first glyph lines up with the text above.
+   Meta's rules forbid recoloring the logos, so hover only lifts them; they stay white. */
+.social-row { display: flex; margin: 1.2rem 0 0 -7.5px; }
 .social-row a {
-  width: 40px; height: 40px; border-radius: 50%;
+  width: 44px; height: 44px; border-radius: 6px;
   display: grid; place-items: center;
-  background: rgba(255, 255, 255, .1); color: #fff;
+  color: #fff; transition: transform .15s ease;
 }
-/* Meta's and Instagram's brand rules: never recolor the logos. Hover only lightens the circle
-   behind them; the logo stays white (8.5:1). */
-.social-row a:hover { background: rgba(255, 255, 255, .2); color: #fff; }
-.social-row svg { width: 19px; height: 19px; }
+.social-row a:hover { color: #fff; transform: translateY(-2px); }
+.social-row svg { width: 29px; height: 29px; }
 
 /* ---- Page-top banner (interior pages) ----------------------------------- */
 
