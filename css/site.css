@@ -221,8 +221,10 @@ a[href^="tel:"], .nowrap { white-space: nowrap; }
 }
 .site-header__logo { flex: none; display: inline-flex; }
 .site-header__logo img { width: 180px; height: auto; }
-.site-nav { margin-left: auto; }
-.site-nav ul { display: flex; gap: .25rem; list-style: none; margin: 0; padding: 0; }
+.site-nav { margin-left: auto; min-width: 0; }
+/* Under larger text or user text spacing, the menu wraps rather than pushing the button
+   off-screen. */
+.site-nav ul { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .25rem; list-style: none; margin: 0; padding: 0; }
 .site-nav a {
   display: block; padding: .55rem .6rem;
   font: 700 .92rem/1.2 var(--font-body);
@@ -241,7 +243,9 @@ a[href^="tel:"], .nowrap { white-space: nowrap; }
 }
 .nav-toggle svg { display: block; }
 
-@media (max-width: 1080px) {
+/* The desktop bar needs about 1065px between the gutters, and a desktop scrollbar takes up
+   to 17px of the window, so the hamburger covers windows up to 1179px. */
+@media (max-width: 1179px) {
   .nav-toggle { display: inline-flex; }
   .site-header__cta { display: none; }
   .site-nav {
@@ -274,7 +278,7 @@ a[href^="tel:"], .nowrap { white-space: nowrap; }
 /* Primary action: official green with navy text (6.8:1). Hover lifts; the color never shifts. */
 .btn--primary { background: var(--green); color: var(--navy); }
 .btn--primary:hover { background: var(--green); color: var(--navy); box-shadow: 0 0 0 3px var(--navy) inset, 0 6px 18px rgba(132, 189, 0, .4); }
-.on-dark .btn--primary:hover { box-shadow: 0 0 0 3px #fff inset, 0 6px 18px rgba(0, 0, 0, .25); }
+.on-dark .btn--primary:hover { box-shadow: 0 0 0 3px #fff inset, 0 6px 18px rgba(0, 32, 91, .3); }
 
 .btn--ghost { background: transparent; color: var(--navy); border-color: var(--navy); }
 .btn--ghost:hover { background: var(--navy); color: #fff; }
@@ -382,6 +386,9 @@ a[href^="tel:"], .nowrap { white-space: nowrap; }
 .mt-2 { margin-top: 2rem; }      /* pre-CTA / group gap */
 .link-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .6rem; }
 .list-tight { padding-left: 1.1em; }
+/* A longer list (services: products): two columns where they fit, read top to bottom */
+.list-columns { columns: 2 18rem; column-gap: clamp(1.5rem, 4vw, 3.5rem); }
+.list-columns li { break-inside: avoid; }
 .muted { color: var(--ink-soft); }
 .hint { font-size: .85rem; color: var(--ink-soft); }
 .card-stack { display: grid; gap: 1.25rem; }
@@ -416,7 +423,9 @@ a[href^="tel:"], .nowrap { white-space: nowrap; }
   display: grid; place-items: center;
   background: rgba(255, 255, 255, .1); color: #fff;
 }
-.social-row a:hover { background: var(--green); color: var(--navy); }
+/* Meta's and Instagram's brand rules: never recolor the logos. Hover only lightens the circle
+   behind them; the logo stays white (8.5:1). */
+.social-row a:hover { background: rgba(255, 255, 255, .2); color: #fff; }
 .social-row svg { width: 19px; height: 19px; }
 
 /* ---- Page-top banner (interior pages) ----------------------------------- */

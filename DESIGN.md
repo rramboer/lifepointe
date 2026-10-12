@@ -14,7 +14,8 @@ so the one signature element carries the design.
 ## Color
 The palette is the three official Pantone inks from the 2012 logo sheet, and nothing else.
 The colors themselves never change; only how much of each is used. Every neutral is a tint
-of the navy (navy mixed with white), so no new hue enters the palette.
+of the navy (navy mixed with white), so no new hue enters the palette. Shadows and glows are
+navy or green at low opacity, never black.
 
 | Ink | Screen | Role | Rule |
 |---|---|---|---|
@@ -69,6 +70,8 @@ success-stories: topic chips jump to one section per category (heading = categor
 vertebra each, alternating background, a "Back to topics" link). Quotes of uneven length flow
 in up to three columns (`.quote-columns`), read top to bottom; the home page keeps three
 cards in a row.
+services: the products list runs in two columns where they fit (`.list-columns`), read top to
+bottom, under a full-width heading.
 contact: the `#appointment` section pairs the hours table with a booking card: a green
 "Call" button, a ghost "Email us" button (a mailto with the subject and a name / phone /
 preferred times template filled in) and a note to leave health details out of email. When
@@ -76,6 +79,8 @@ practice.json has a `booking_url`, a green "Book online" button leads and Call t
 so the card keeps one primary action. No form, no embed: nothing on the site collects health
 information or loads a third-party widget.
 Shared header (sticky, green CTA → contact#appointment) + footer (navy-ink, white logo).
+The footer's Facebook icon is the whole logo, a disc with the "f" cut out, at least 16px wide:
+Meta's brand rules forbid the "f" on its own.
 The closing CTA band is shared verbatim on five pages; new-patients tailors it ("Ready for
 your first visit?") and contact omits it — deliberate: never CTA to the page you're on.
 privacy and accessibility omit it too: they are reference text, not sales pages. Each is plain
@@ -90,9 +95,10 @@ and contact; its links start with `/` because GitHub Pages serves it at any dept
 Skip link + `scroll-padding-top` clearing the sticky header, landmarks, aria-current nav,
 focus-visible everywhere (navy on light, green on dark), AA contrast, reduced-motion kills all animation,
 mobile nav = button + aria-expanded + focus-scoped Escape, hours table marks "(today)" for
-screen readers, no horizontal scroll at 320px. Hamburger below 1081px (the desktop bar
-needs ~976px of content width). accessibility.html tells visitors about this floor; keep it
-in step.
+screen readers, no horizontal scroll at 320px. Hamburger at 1179px and below (the desktop bar
+needs ~1065px of content width, plus up to 17px for a desktop scrollbar); under user text
+spacing the desktop menu wraps to a second row rather than pushing the button off-screen.
+accessibility.html tells visitors about this floor; keep it in step.
 
 ## Building
 `python3 build.py` builds the nine pages, the 404 page, `sitemap.xml`, `robots.txt` and the
