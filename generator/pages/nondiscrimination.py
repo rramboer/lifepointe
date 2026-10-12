@@ -9,8 +9,10 @@ goes on intake forms, the Notice of Privacy Practices and the other documents li
 45 CFR 92.11(c)(5).
 
 The notice of nondiscrimination follows HHS's 2024 sample notice and covers what 92.10(a)(1)
-requires. A practice with fewer than 15 employees needs no Section 1557 coordinator or
-grievance procedure (92.7, 92.8(c)), so it names the office instead. The English language-help
+requires: how to file a complaint with HHS's Office for Civil Rights and where the notice is
+online (92.10(a)(1)(vii) and (viii)) close its first section. A practice with fewer than 15
+employees needs no Section 1557 coordinator or grievance procedure (92.7, 92.8(c)), so it names
+the office for requests and has no section inviting complaints to the practice itself. The English language-help
 notice follows HHS's 2024 sample; the translations in data/language-help.json are HHS's own,
 copied exactly. Never edit or machine-translate them.
 """
@@ -83,6 +85,10 @@ def render(site):
         </li>
       </ul>
       <p>We provide these free of charge and in a timely manner. If you need reasonable modifications, appropriate auxiliary aids and services, or language assistance services, call <a href="{tel}">{phone}</a> (TTY: {TTY}), email <a href="{email_link}">{email}</a>, or ask at the front desk.</p>
+      <p>You can file a civil rights complaint with the U.S. Department of Health and Human Services, Office for Civil Rights, electronically through the Office for Civil Rights Complaint Portal, available at <a class="url" href="{esc(OCR_PORTAL)}">{esc(OCR_PORTAL)}</a>, or by mail or phone at:</p>
+      <p>U.S. Department of Health and Human Services<br>200 Independence Avenue, SW<br>Room 509F, HHH Building<br>Washington, D.C. 20201<br><span class="nowrap">1-800-368-1019</span>, <span class="nowrap">800-537-7697</span> (TDD)</p>
+      <p>Complaint forms are available at <a class="url" href="{esc(OCR_FORMS)}">{esc(OCR_FORMS)}</a>.</p>
+      <p>This notice is available at {name}&rsquo;s website: <span class="url">{url}</span>.</p>
     </div>
   </div>
 </section>
@@ -97,21 +103,6 @@ def render(site):
       <ul class="taglines">
 {taglines}
       </ul>
-    </div>
-  </div>
-</section>
-
-<section class="section" aria-labelledby="complaint-h">
-  {V}
-  <div class="wrap">
-    <span class="eyebrow">Complaints</span>
-    <h2 id="complaint-h" class="display-2">If you believe we&rsquo;ve discriminated</h2>
-    <div class="measure mt-15">
-      <p>If you believe that {name} has failed to provide these services or discriminated in another way on the basis of race, color, national origin, age, disability, or sex, please tell us: call <a href="{tel}">{phone}</a>, email <a href="{email_link}">{email}</a>, or write to {name}, {esc(p.address)}.</p>
-      <p>You can also file a civil rights complaint with the U.S. Department of Health and Human Services, Office for Civil Rights, electronically through the Office for Civil Rights Complaint Portal, available at <a class="url" href="{esc(OCR_PORTAL)}">{esc(OCR_PORTAL)}</a>, or by mail or phone at:</p>
-      <p>U.S. Department of Health and Human Services<br>200 Independence Avenue, SW<br>Room 509F, HHH Building<br>Washington, D.C. 20201<br><span class="nowrap">1-800-368-1019</span>, <span class="nowrap">800-537-7697</span> (TDD)</p>
-      <p>Complaint forms are available at <a class="url" href="{esc(OCR_FORMS)}">{esc(OCR_FORMS)}</a>.</p>
-      <p>This notice is available at {name}&rsquo;s website: <span class="url">{url}</span>.</p>
     </div>
   </div>
 </section>
