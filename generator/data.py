@@ -139,7 +139,8 @@ def _read(data_dir, filename):
 
 def _check_practice(c, raw, root):
     p = c.obj(raw, TOP, ('name', 'legal_name', 'doctor', 'phone', 'fax', 'email', 'address', 'geo',
-                         'maps_url', 'social', 'recipe_book_url', 'site_url', 'booking_url', 'forms'))
+                         'maps_url', 'review_url', 'social', 'recipe_book_url', 'site_url', 'booking_url',
+                         'forms'))
     c.text(p, 'name', TOP)
     c.text(p, 'legal_name', TOP)
     fax = c.text(p, 'fax', TOP)
@@ -181,6 +182,7 @@ def _check_practice(c, raw, root):
         c.fail('phone.tel', f'must be +1 and the 10-digit number, digits only, like +12485550123 (got "{tel}")')
     elif tel and display and SHOWN_NUMBER.fullmatch(display) and display.replace('-', '') != tel[2:]:
         c.fail('phone', f'display "{display}" and tel "{tel}" are different numbers')
+    c.url(p, 'review_url', TOP)
     c.url(p, 'recipe_book_url', TOP)
     site_url = c.text(p, 'site_url', TOP)
     if site_url and not SITE_URL.fullmatch(site_url):

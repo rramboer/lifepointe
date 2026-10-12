@@ -115,7 +115,7 @@ email template's buttons use the same form.
 
 | File | What it holds |
 |---|---|
-| `data/practice.json` | Practice name and legal name, the doctor's name and credentials, phone (`display`, written `248-555-0123`, and the `tel` dialing number), fax (written `248-555-0123`), email, address (`street, city, ST 12345`), map link and the coordinates of its pin (`geo`), social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `booking_url` is the online booking page: when it is set, the contact page's appointment section leads with a "Book online" button and the business-card QR code goes there (see below); `null` means the QR code goes to the contact page. `forms` holds the paths of the adult and child new-patient PDFs (see New-patient forms). |
+| `data/practice.json` | Practice name and legal name, the doctor's name and credentials, phone (`display`, written `248-555-0123`, and the `tel` dialing number), fax (written `248-555-0123`), email, address (`street, city, ST 12345`), map link and the coordinates of its pin (`geo`), `review_url` (the "Leave a review" button on the success stories page: Google's write-a-review link for the practice's listing, `https://search.google.com/local/writereview?placeid=` and the listing's place ID), social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `booking_url` is the online booking page: when it is set, the contact page's appointment section leads with a "Book online" button and the business-card QR code goes there (see below); `null` means the QR code goes to the contact page. `forms` holds the paths of the adult and child new-patient PDFs (see New-patient forms). |
 | `data/nav.json` | The header menu, in order. `footer_label` changes an entry's text in the footer's Explore list. |
 | `data/hours.json` | Office hours, Monday through Sunday, in 24-hour `HH:MM`. `"hours": []` means closed. This one list feeds both hours tables (home and contact) and the footer summary. |
 | `data/services.json` | `home_cards` (home page "What we do"), `services` (services page) and `products`. |
@@ -195,8 +195,8 @@ Every page's footer links to `privacy.html`, `accessibility.html`, `nondiscrimin
   patients page's insurance card links to it too.
 - **Keep the privacy policy true.** It says the site sets no cookies, has no analytics,
   tracking or forms, loads nothing on its pages from other sites and is hosted on GitHub
-  Pages, and it names the services the pages link to: Facebook, Instagram, Google Maps and
-  Google Drive. Before adding an embed, a script, font or image from another site, a form,
+  Pages, and it names the services the pages link to: Facebook, Instagram, Google reviews,
+  Google Maps, and Google Drive. Before adding an embed, a script, font or image from another site, a form,
   analytics, a new host or a link to another service, update the policy and its
   `LAST_UPDATED` date. Setting `booking_url` adds "our online booking service" to the policy's
   list of other sites by itself; still update its date, and add a link to the booking
