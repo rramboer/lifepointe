@@ -24,7 +24,7 @@ def render(site):
     appointment_mail = esc(mailto(p.email, APPOINTMENT_SUBJECT, APPOINTMENT_BODY))
     # With an online booking page, it is the one primary action; call and email follow it.
     if p.booking_url:
-        heading = 'Book online, call or email us'
+        heading = 'Book online, call, or email us'
         book_online = f'<a class="btn btn--primary" href="{esc(p.booking_url)}">Book online</a>\n        '
         call_style = 'btn--ghost'
     else:
@@ -83,7 +83,7 @@ def render(site):
         {book_online}<a class="btn {call_style}" href="{tel}">Call {phone}</a>
         <a class="btn btn--ghost" href="{appointment_mail}">Email us</a>
       </div>
-      <p class="muted mt-15">Emailing <a href="{appointment_mail}">{email}</a>? Please share only your name, phone number and preferred days and times, and leave out any health details.</p>
+      <p class="muted mt-15">Emailing <a href="{appointment_mail}">{email}</a>? Please share only your name, phone number, and preferred days and times, and leave out any health details.</p>
     </div>
   </div>
 </section>

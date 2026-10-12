@@ -68,7 +68,10 @@ spacing — new one-offs should become classes.
 index, about, services, new-patients, success-stories, recipe-book, contact, plus the
 footer's legal pages, privacy and accessibility. The practice's own pages and wording only,
 nothing invented. Testimonials are taken verbatim from archived copies of the old site (typo
-fixes only); entries that name former staff are left out, never edited.
+fixes only); entries that name former staff are left out, never edited. The site's own text
+uses the serial (Oxford) comma in every list of three or more ("name, phone number, and
+preferred times"), "&" lists too; quoted text (testimonials, the CMS and HHS notices) stays as
+written.
 success-stories: topic chips jump to one section per category (heading = category name, one
 vertebra each, alternating background, a "Back to topics" link). Quotes of uneven length flow
 in up to three columns (`.quote-columns`), read top to bottom; the home page keeps three
