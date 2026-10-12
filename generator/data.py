@@ -33,6 +33,10 @@ LOOKS_LIKE_HTML = re.compile(r'&(#[0-9]+|#x[0-9a-fA-F]+|[a-zA-Z][a-zA-Z0-9]*);|<
 # quote isn't wrapped in marks of its own. It may still start or end with an inner quotation.
 WRAPPED = re.compile(r'\s*(?:["“].*["”]|[\'‘].*[\'’])\s*', re.DOTALL)
 STRAIGHT_QUOTES = re.compile('["\']')
+# A language tag for the lang attribute (BCP 47): "es", "zh-Hant", "sr-Latn".
+LANG_TAG = re.compile(r'[a-z]{2,3}(-[A-Za-z0-9]{2,8})*')
+# The blanks in a language-help notice, filled with the practice's numbers when the page is built.
+NOTICE_BLANK = re.compile(r'\{[^{}]*\}')
 
 
 def _at(where, key):
@@ -331,6 +335,37 @@ def _check_team(c, raw):
         c.text(membership, 'label', where)
 
 
+def _check_language_help(c, raw):
+    """The notice of free language help in each language (nondiscrimination page and footer).
+    Each text is copied from the source exactly, with {phone} and {tty} where it has blanks.
+    edition is the year of the HHS text: 2024, or 2016 where HHS has no 2024 translation."""
+    top = c.obj(raw, TOP, ('source', 'languages'))
+    c.text(top, 'source', TOP)
+    languages = c.items(top.get('languages'), 'languages')
+    for i, entry in enumerate(languages):
+        where = f'languages[{i}]'
+        entry = c.obj(entry, where, ('language', 'name', 'lang', 'dir', 'edition', 'text'))
+        c.text(entry, 'language', where)
+        c.text(entry, 'name', where)
+        lang = c.text(entry, 'lang', where)
+        if lang and not LANG_TAG.fullmatch(lang):
+            c.fail(f'{where}.lang', f'must be a language tag like es, ar or zh-Hant (got "{lang}")')
+        if entry.get('dir') not in ('ltr', 'rtl'):
+            c.fail(f'{where}.dir', 'must be "ltr" (left to right) or "rtl" (right to left, as in Arabic)')
+        if entry.get('edition') not in ('2016', '2024'):
+            c.fail(f'{where}.edition', 'must be "2024" or "2016", the year of the HHS translation')
+        text = c.text(entry, 'text', where)
+        if text:
+            blanks = NOTICE_BLANK.findall(text)
+            if blanks.count('{phone}') != 1 or any(b not in ('{phone}', '{tty}') for b in blanks) \
+                    or blanks.count('{tty}') > 1:
+                c.fail(f'{where}.text', 'must have {phone} once where the phone number goes, and at most one '
+                                        '{tty}; no other {...} blanks')
+    entries = [e for e in languages if isinstance(e, dict)]
+    c.unique([e.get('lang') for e in entries], 'languages', 'lang')
+    c.unique([e.get('language') for e in entries], 'languages', 'language')
+
+
 def _namespace(value):
     """JSON objects become attribute-style namespaces so templates read site.practice.phone.display."""
     if isinstance(value, dict):
@@ -344,7 +379,7 @@ def load(data_dir, pages):
     """Read and check every data file. `pages` is the set of filenames the build generates."""
     raw = {name: _read(data_dir, name) for name in (
         'practice.json', 'nav.json', 'hours.json', 'services.json',
-        'testimonials.json', 'home-quotes.json', 'recipe-staples.json', 'team.json')}
+        'testimonials.json', 'home-quotes.json', 'recipe-staples.json', 'team.json', 'language-help.json')}
     errors = []
 
     def checker(name):
@@ -360,6 +395,7 @@ def load(data_dir, pages):
     _check_home_quotes(checker('home-quotes.json'), raw['home-quotes.json'], testimonial_ids)
     _check_strings(checker('recipe-staples.json'), raw['recipe-staples.json'], 'staple')
     _check_team(checker('team.json'), raw['team.json'])
+    _check_language_help(checker('language-help.json'), raw['language-help.json'])
     if errors:
         raise BuildError('the data files have problems:\n  ' + '\n  '.join(errors))
 
@@ -372,4 +408,5 @@ def load(data_dir, pages):
         home_quotes=_namespace(raw['home-quotes.json']),
         recipe_staples=raw['recipe-staples.json'],
         team=_namespace(raw['team.json']),
+        language_help=_namespace(raw['language-help.json']),
     )

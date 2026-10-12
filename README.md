@@ -16,9 +16,9 @@ generator/         the generator itself
   data.py          loads data/*.json and stops the build on any problem
   layout.py        shared head, header, footer, page hero and closing CTA band
   pages/           one module per page; prose used on only one page lives here
-                   (not_found.py is the 404 page; privacy.py, accessibility.py and
-                   good_faith_estimate.py are the footer's legal pages, see Legal
-                   pages)
+                   (not_found.py is the 404 page; privacy.py, accessibility.py,
+                   nondiscrimination.py and good_faith_estimate.py are the footer's
+                   legal pages, see Legal pages)
   seo.py           canonical URLs, link-preview tags, the home page's JSON-LD,
                    sitemap.xml and robots.txt (see Search engines and link previews)
   card.py          the /card redirect behind the business-card QR code (see below)
@@ -66,6 +66,8 @@ The build stops with a non-zero exit and a message naming the file and field whe
 - an id is used twice, or a home-page quote names a testimonial that doesn't exist;
 - an icon name is unknown, or a menu entry points at a page the build doesn't make;
 - a link in the footer's legal row points at a page the build doesn't make (see Legal pages);
+- a language-help notice has a bad `lang` tag, `dir` or `edition`, a repeated language, or
+  isn't exactly one `{phone}` blank and at most one `{tty}` blank;
 - a data value contains HTML markup or an entity;
 - a testimonial has a straight `'` or `"`, or is wrapped in quote marks (the page adds its own);
 - a success-story category id is already used on that page (`topics`, `topics-h`, `main`,
@@ -121,6 +123,7 @@ email template's buttons use the same form.
 | `data/home-quotes.json` | The testimonials shown on the home page, as a list of testimonial ids from `testimonials.json`. Each card's label line is its testimonial's category. |
 | `data/recipe-staples.json` | Staple ingredients on the recipe book page. |
 | `data/team.json` | Staff cards and professional memberships on the about page. |
+| `data/language-help.json` | The notice of free language help in each language, word for word from the U.S. Department of Health and Human Services (see Legal pages). Each entry has the language's English `language` name, its `name` in its own script (the footer shows it), its `lang` tag (`es`, `ar`, `zh-Hant`) and `dir` (`ltr`, or `rtl` for Arabic), the `edition` (`2024`, or `2016` where HHS has no 2024 translation), and its `text`, with `{phone}` where the phone number goes and `{tty}` for the relay number (711). |
 
 Rules for data files:
 
@@ -160,9 +163,27 @@ check that it still fits the new file.
 
 ## Legal pages
 
-Every page's footer links to `privacy.html`, `accessibility.html` and
+Every page's footer links to `privacy.html`, `accessibility.html`, `nondiscrimination.html` and
 `good-faith-estimate.html` (`LEGAL_LINKS` in `generator/layout.py`). Their text is in
 `generator/pages/`; the phone, email and address come from `data/practice.json`.
+
+- **The nondiscrimination notice is required.** The practice bills Medicare, so Section 1557
+  of the Affordable Care Act applies: a notice of nondiscrimination (45 CFR 92.10) and a
+  notice of free language help and auxiliary aids in English and Michigan's 15 most common
+  other languages (92.11) must be at a conspicuous place on the website. Every footer links
+  to the page and lists the languages in their own scripts, each linked to its notice. The
+  translations in `data/language-help.json` are HHS's own: copy any change from HHS word for
+  word, never machine-translate. The languages are HHS's list for Michigan (August 2016):
+  Spanish, Arabic, Chinese (both scripts), Syriac, Vietnamese, Albanian, Korean, Bengali,
+  Polish, German, Italian, Japanese, Russian, Serbo-Croatian and Tagalog. HHS's 2024
+  translations mention free language help and free aids; it has none for Syriac (it
+  translated Assyrian) or Serbo-Croatian, so those two are its 2016 versions, which mention
+  language help only. With fewer than 15 employees the practice needs no named coordinator
+  or grievance procedure, so the notice names the office.
+- **Printing that page gives the office poster.** The rules also want both notices posted in
+  the office in at least 20-point sans-serif type. `css/site.css` ("Printed notice") prints
+  only the notice, black on white, at 20pt and up. The language notice must also go on intake
+  forms and the Notice of Privacy Practices, among other papers (92.11(c)(5)).
 
 - **The Good Faith Estimate notice is required.** Under the No Surprises Act, a provider must
   display information about uninsured and self-pay patients' right to a Good Faith Estimate
@@ -194,7 +215,7 @@ Every page's footer links to `privacy.html`, `accessibility.html` and
 
 ## Fonts
 
-The site's two typefaces are served from `assets/fonts/`, so its pages send no request to
+The site's typefaces are served from `assets/fonts/`, so its pages send no request to
 Google or any other font service. The `@font-face` rules are at the top of `css/site.css`.
 The build stops if any published file names `fonts.googleapis.com` or `fonts.gstatic.com`,
 so Google Fonts can't come back unnoticed, and if a `url()` in the stylesheet names a font
@@ -208,7 +229,8 @@ file that isn't there. The email template isn't part of the published site (see
 - Each typeface is split into character sets (latin, latin-ext and, for Bricolage
   Grotesque, vietnamese), and each rule's `unicode-range` lists its file's characters. A
   browser downloads a file only when the page uses one of those characters, so the English
-  pages load just the three latin files, 88 KB in all. The seven files total 126 KB.
+  pages load just the three latin files, 88 KB, plus the 14 KB Syriac file for the footer's
+  language list. The eight files total 140 KB.
 - The licenses are `OFL-lato.txt` and `OFL-bricolagegrotesque.txt` in `assets/fonts/`
   (SIL Open Font License 1.1, which allows self-hosting). Keep them next to the fonts.
 - To add a Lato weight or style, request the CSS from
@@ -217,6 +239,11 @@ file that isn't there. The email template isn't part of the published site (see
   into `css/site.css` with the `url()` changed to `../assets/fonts/<file>` and
   `font-display: swap` kept. The Bricolage Grotesque files already contain weights 200 to
   800: for another weight in that range, widen the `font-weight` range in its three rules.
+- **Noto Sans Syriac Eastern** draws the Assyrian notice of free language help and its name
+  in the footer, because many phones have no Syriac font. It is Google Fonts' "syriac" file
+  (14 KB, weight 400), with its `unicode-range` cut to the Syriac blocks so it never draws
+  Arabic. Browsers download it on any page, since every footer names the language. License:
+  `OFL-notosanssyriaceastern.txt`.
 - The `/card` redirect loads no fonts: it shows for a moment at most.
 
 ## Search engines and link previews

@@ -82,14 +82,17 @@ practice.json has a `booking_url`, a green "Book online" button leads and Call t
 so the card keeps one primary action. No form, no embed: nothing on the site collects health
 information or loads a third-party widget.
 Shared header (sticky, green CTA → contact#appointment) + footer (navy-ink, white logo).
+Above the footer's copyright line, "Free language help" lists every language of the
+nondiscrimination page's notices in its own script (lang and dir set on each), linked to it.
 The footer's Facebook and Instagram logos follow Meta's brand rules: the official shapes
 (Facebook's whole disc with the "f" cut out, never the "f" alone), white, 29px (Instagram's
 minimum), with half a glyph of clear space and no container shape. Hover never recolors them.
 The closing CTA band is shared verbatim on five pages; new-patients tailors it ("Ready for
 your first visit?") and contact omits it — deliberate: never CTA to the page you're on.
-the legal pages (privacy, accessibility, Good Faith Estimate) omit it too: they are reference
-text, not sales pages. Each is plain prose in a `.measure` column (h2 per section, `.display-3`
-h3 per topic, `.mt-2` between topics), with the "Last updated" / "Last reviewed" date in the hero (`.page-hero__meta`).
+the legal pages (privacy, accessibility, nondiscrimination, Good Faith Estimate) omit it too:
+they are reference text, not sales pages. Each is plain prose in a `.measure` column (h2 per
+section, `.display-3` h3 per topic, `.mt-2` between topics), with the "Last updated" / "Last
+reviewed" date in the hero (`.page-hero__meta`).
 `/card` (the business-card QR code) is an unlisted redirect, not a page: logo, one line and a
 green button with navy text, its few styles inline, nothing loaded from other sites (README.md).
 `404.html` uses the shared header and footer with a short hero and two buttons, home (green)
