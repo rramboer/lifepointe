@@ -25,9 +25,9 @@ generator/         the generator itself
   hours.py         office-hours table and footer summary
   icons.py         inline SVG icons, by name
   helpers.py       esc(), which escapes every data value placed into HTML,
-                   page_href(), which writes a link to a page without .html,
+                   page_href(), which writes a link to a page without .html, and
                    mailto() for links that open a new email with the subject and
-                   body filled in, and number_word() for counts in running text
+                   body filled in
   static.py        the folders copied into the site as-is
   checks.py        checks the finished site and the files in email/ for text that
                    must never appear, and the site for stylesheet url()s that name
@@ -119,7 +119,7 @@ email template's buttons use the same form.
 | `data/nav.json` | The header menu, in order. `footer_label` changes an entry's text in the footer's Explore list. |
 | `data/hours.json` | Office hours, Monday through Sunday, in 24-hour `HH:MM`. `"hours": []` means closed. This one list feeds both hours tables (home and contact) and the footer summary. |
 | `data/services.json` | `home_cards` (home page "What we do"), `services` (services page) and `products`. |
-| `data/testimonials.json` | The success stories, by category, in page order. Each category has an `id` (its anchor, as in `success-stories#back-pain`), a `label` (its chip and heading) and its `testimonials`, each with a stable `id` (category id plus the patient's name), the `quote` and the `author`. The home page and the success-stories intro count the categories, so their wording follows this list. |
+| `data/testimonials.json` | The success stories, by category, in page order. Each category has an `id` (its anchor, as in `success-stories#back-pain`), a `label` (its chip and heading) and its `testimonials`, each with a stable `id` (category id plus the patient's name), the `quote` and the `author`. |
 | `data/home-quotes.json` | The testimonials shown on the home page, as a list of testimonial ids from `testimonials.json`. Each card's label line is its testimonial's category. |
 | `data/recipe-staples.json` | Staple ingredients on the recipe book page. |
 | `data/team.json` | Staff cards and professional memberships on the about page. |

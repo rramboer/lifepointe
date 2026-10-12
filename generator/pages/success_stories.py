@@ -1,6 +1,6 @@
 """Success stories page: a chip per category, then one section of testimonials per category."""
 from ..errors import BuildError
-from ..helpers import counted, esc
+from ..helpers import esc
 from ..icons import svg
 from ..layout import V, cta_band, page, page_hero
 
@@ -55,8 +55,7 @@ def render(site):
     sections = ''.join(_section(c, alt=(i % 2 == 0)) for i, c in enumerate(categories))
 
     body = page_hero('Success stories', 'In our patients&rsquo; own words',
-                     f'Select a topic to read testimonials from our patients &mdash; '
-                     f'{counted(len(categories), "category", "categories")} and counting.') + f'''
+                     'Select a topic to read testimonials from our patients.') + f'''
 <div class="rail-wrap">
 
 <section class="section" id="{TOPICS}" aria-labelledby="{TOPICS}-h">

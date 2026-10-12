@@ -1,5 +1,5 @@
 """Home page."""
-from ..helpers import counted, esc, page_href
+from ..helpers import esc, page_href
 from ..hours import hours_table
 from ..icons import icon, svg
 from ..layout import V, cta_band, page
@@ -92,7 +92,7 @@ def render(site):
   <div class="wrap">
     <span class="eyebrow">Patient stories</span>
     <h2 id="stories-h" class="display-2">Real words from real patients</h2>
-    <p class="lede measure mb-2">{counted(len(categories), 'category', 'categories').capitalize()} of success stories, in our patients&rsquo; own words.</p>
+    <p class="lede measure mb-2">Success stories, in our patients&rsquo; own words.</p>
     <div class="grid-3">
       {quotes_html}
     </div>
