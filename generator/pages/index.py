@@ -1,5 +1,5 @@
 """Home page."""
-from ..helpers import esc
+from ..helpers import counted, esc
 from ..hours import hours_table
 from ..icons import icon, svg
 from ..layout import V, cta_band, page
@@ -11,7 +11,8 @@ FILENAME = 'index.html'
 def render(site):
     p = site.practice
     maps = esc(p.maps_url)
-    labels = {c.id: c.label for c in site.testimonials.categories}
+    categories = site.testimonials.categories
+    stories = {t.id: (t, c.label) for c in categories for t in c.testimonials}
 
     cards_html = '\n'.join(
         f'''<a class="card card--link" href="services.html">
@@ -21,11 +22,12 @@ def render(site):
       <p class="card__more">Learn more &rarr;</p>
     </a>''' for card in site.services.home_cards)
 
+    # home-quotes.json lists testimonial ids; the label line is the testimonial's category.
     quotes_html = '\n'.join(
         f'''<figure class="quote">
-      <blockquote><p>{esc(q.quote)}</p></blockquote>
-      <footer>{esc(q.author)} <span>{esc(labels[q.category])} &middot; Lifepointe patient</span></footer>
-    </figure>''' for q in site.home_quotes)
+      <blockquote><p>{esc(t.quote)}</p></blockquote>
+      <footer>{esc(t.author)} <span>{esc(label)} &middot; Lifepointe patient</span></footer>
+    </figure>''' for t, label in (stories[tid] for tid in site.home_quotes))
 
     body = f'''
 <section class="section" aria-labelledby="hero-h">
@@ -90,7 +92,7 @@ def render(site):
   <div class="wrap">
     <span class="eyebrow">Patient stories</span>
     <h2 id="stories-h" class="display-2">Real words from real patients</h2>
-    <p class="lede measure mb-2">Fifteen categories of success stories, in our patients&rsquo; own words.</p>
+    <p class="lede measure mb-2">{counted(len(categories), 'category', 'categories').capitalize()} of success stories, in our patients&rsquo; own words.</p>
     <div class="grid-3">
       {quotes_html}
     </div>
