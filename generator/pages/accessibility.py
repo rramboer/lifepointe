@@ -23,7 +23,7 @@ def render(site):
 
     body = page_hero('Accessibility', 'Accessibility statement',
                      'We want everyone to be able to use this website, including people who use a screen '
-                     'reader, a keyboard, screen magnification or other assistive technology.',
+                     'reader, a keyboard, screen magnification, or other assistive technology.',
                      f'Last reviewed {LAST_REVIEWED}') + f'''
 <div class="rail-wrap">
 
@@ -41,7 +41,7 @@ def render(site):
         <li>A &ldquo;Skip to main content&rdquo; link comes first on every page, for keyboard and screen reader users.</li>
         <li>You can reach every link and button with a keyboard, and the one in focus always shows a clear outline.</li>
         <li>Text and background colors meet the WCAG AA contrast levels.</li>
-        <li>Pages are organized with headings, lists and landmarks (header, menu, main content and footer), so screen readers can move around them.</li>
+        <li>Pages are organized with headings, lists, and landmarks (header, menu, main content, and footer), so screen readers can move around them.</li>
         <li>Images have text descriptions. Purely decorative icons are hidden from screen readers.</li>
         <li>Icon-only links, such as Facebook and Instagram, have text labels for screen readers, and links to PDF files say &ldquo;(PDF)&rdquo;.</li>
         <li>The menu button tells screen readers whether the menu is open, and the Escape key closes it.</li>
@@ -64,7 +64,7 @@ def render(site):
         <li>Call <a href="{tel}">{phone}</a> (TTY users: call 711)</li>
         <li>Email <a href="{email_link}">{email}</a></li>
       </ul>
-      <p>Tell us which page you were on, what you were trying to do and what went wrong. We&rsquo;ll do our best to get you the information you need and to fix the problem.</p>
+      <p>Tell us which page you were on, what you were trying to do, and what went wrong. We&rsquo;ll do our best to get you the information you need and to fix the problem.</p>
       <p>We provide auxiliary aids and services, such as information in large print or other formats, and language assistance free of charge. Our <a href="{nondiscrimination_link}">nondiscrimination notice</a> explains how to ask for them, and how to file a complaint.</p>
     </div>
   </div>

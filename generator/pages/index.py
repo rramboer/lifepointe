@@ -41,7 +41,7 @@ def render(site):
         <a class="btn btn--ghost" href="{page_href('new-patients.html')}">What to expect</a>
       </div>
       <div class="badge-row rise rise-4 mt-2">
-        <span class="badge">{svg('shield')} In-network with BCBS, Medicare &amp; VA</span>
+        <span class="badge">{svg('shield')} In-network with BCBS, Medicare, &amp; VA</span>
         <span class="badge">{svg('users')} All ages welcome</span>
       </div>
     </div>

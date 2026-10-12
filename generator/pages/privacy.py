@@ -39,7 +39,7 @@ def render(site):
     # company's site that collects what people type into it. Name it among the outside links.
     # The /card redirect (generator/card.py) goes there too.
     if p.booking_url:
-        how_to_book = ('To book a visit, you call, email or use our online booking service, which is another '
+        how_to_book = ('To book a visit, you call, email, or use our online booking service, which is another '
                        'company&rsquo;s website. To ask a question, you call or email us.')
         booking_link = ', our online booking service'
         card_destination = 'our online booking service'
@@ -62,21 +62,21 @@ def render(site):
     <div class="measure mt-15">
       <p>This website belongs to {name} (legal name {esc(p.legal_name)}), called &ldquo;we&rdquo; or &ldquo;us&rdquo; here. This notice covers the website only. Your medical information is covered by our <a href="#notice-of-privacy-practices">Notice of Privacy Practices</a>, below.</p>
 
-      <h3 class="display-3 mt-2">No cookies, analytics or tracking</h3>
-      <p>This website doesn&rsquo;t use cookies, analytics, advertising or tracking tools of any kind, and we don&rsquo;t keep a record of who visits. Everything its pages load, including pictures, fonts and scripts, comes from this website itself, so reading a page sends nothing to Google, Facebook or any company other than our web host (below). The site&rsquo;s scripts only change how pages look and work in your browser, such as opening the menu on small screens or taking people who scan the QR code on our business card to {card_destination}. They send nothing anywhere.</p>
+      <h3 class="display-3 mt-2">No cookies, analytics, or tracking</h3>
+      <p>This website doesn&rsquo;t use cookies, analytics, advertising, or tracking tools of any kind, and we don&rsquo;t keep a record of who visits. Everything its pages load, including pictures, fonts, and scripts, comes from this website itself, so reading a page sends nothing to Google, Facebook, or any company other than our web host (below). The site&rsquo;s scripts only change how pages look and work in your browser, such as opening the menu on small screens or taking people who scan the QR code on our business card to {card_destination}. They send nothing anywhere.</p>
 
       <h3 class="display-3 mt-2">No forms</h3>
-      <p>There are no forms on this website, so it can&rsquo;t collect your name, contact details or health information. {how_to_book} The new patient forms are PDF files that you download. This website doesn&rsquo;t receive anything you type into them: we only see a form when you bring it in or send it to us.</p>
+      <p>There are no forms on this website, so it can&rsquo;t collect your name, contact details, or health information. {how_to_book} The new patient forms are PDF files that you download. This website doesn&rsquo;t receive anything you type into them: we only see a form when you bring it in or send it to us.</p>
 
       <h3 class="display-3 mt-2">Our web host</h3>
       <p>This website is hosted on GitHub Pages, a service of GitHub, Inc. Like any web server, GitHub&rsquo;s servers receive your device&rsquo;s IP address when you visit. The <a href="{esc(GITHUB_PAGES_DATA)}">GitHub Pages documentation</a> says that when a GitHub Pages site is visited, &ldquo;the visitor&rsquo;s IP address is logged and stored for security purposes.&rdquo; The <a href="{esc(GITHUB_PRIVACY)}">GitHub Privacy Statement</a> explains how GitHub handles that information.</p>
 
       <h3 class="display-3 mt-2">When you call or email us</h3>
-      <p>If you call or email us, we receive what you choose to tell us, such as your name, phone number, email address and the days and times that suit you. We use it to answer you and to schedule your care.</p>
-      <p>Regular email isn&rsquo;t a fully secure way to send health information. When you email us to book, please share only your name, phone number and preferred days and times. If you&rsquo;d rather not email your completed new patient forms, print them and bring them to your first visit. Health information you give us as a patient is covered by our Notice of Privacy Practices.</p>
+      <p>If you call or email us, we receive what you choose to tell us, such as your name, phone number, email address, and the days and times that suit you. We use it to answer you and to schedule your care.</p>
+      <p>Regular email isn&rsquo;t a fully secure way to send health information. When you email us to book, please share only your name, phone number, and preferred days and times. If you&rsquo;d rather not email your completed new patient forms, print them and bring them to your first visit. Health information you give us as a patient is covered by our Notice of Privacy Practices.</p>
 
       <h3 class="display-3 mt-2">Links to other websites</h3>
-      <p>Some links take you to other companies&rsquo; websites: our Facebook and Instagram pages{booking_link}, directions in Google Maps and our recipe book in Google Drive. Once you follow one of those links, that company&rsquo;s own privacy policy applies. Facebook and Instagram are covered by the <a href="{esc(META_PRIVACY)}">Meta Privacy Policy</a>, and Google Maps and Google Drive by the <a href="{esc(GOOGLE_PRIVACY)}">Google Privacy Policy</a>.</p>
+      <p>Some links take you to other companies&rsquo; websites: our Facebook and Instagram pages{booking_link}, directions in Google Maps, and our recipe book in Google Drive. Once you follow one of those links, that company&rsquo;s own privacy policy applies. Facebook and Instagram are covered by the <a href="{esc(META_PRIVACY)}">Meta Privacy Policy</a>, and Google Maps and Google Drive by the <a href="{esc(GOOGLE_PRIVACY)}">Google Privacy Policy</a>.</p>
 
       <h3 class="display-3 mt-2">Children</h3>
       <p>This website doesn&rsquo;t collect personal information from anyone, children included. Information about a child&rsquo;s care that a parent or guardian gives us is covered by our Notice of Privacy Practices.</p>
@@ -111,6 +111,6 @@ def render(site):
 
     return page(site, FILENAME,
                 f'Privacy Policy | {p.name}',
-                f'How the {p.name} website handles your information: no cookies, no tracking and no forms. '
+                f'How the {p.name} website handles your information: no cookies, no tracking, and no forms. '
                 f'Plus how to get a copy of our Notice of Privacy Practices.',
                 body)
