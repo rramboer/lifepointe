@@ -119,7 +119,7 @@ email template's buttons use the same form.
 | `data/nav.json` | The header menu, in order. `footer_label` changes an entry's text in the footer's Explore list. |
 | `data/hours.json` | Office hours, Monday through Sunday, in 24-hour `HH:MM`. `"hours": []` means closed. This one list feeds both hours tables (home and contact) and the footer summary. |
 | `data/services.json` | `home_cards` (home page "What we do"), `services` (services page) and `products`. |
-| `data/testimonials.json` | The success stories, by category, in page order. Each category has an `id` (its anchor, as in `success-stories#back-pain`), a `label` (its chip and heading) and its `testimonials`, each with a stable `id` (category id plus the patient's name), the `quote` and the `author`. The home page and the success-stories intro count the categories, so their wording follows this list. |
+| `data/testimonials.json` | The success stories, by category, in page order. Each category has an `id` (its anchor, as in `success-stories#back-pain`), a `label` (its chip and heading) and its `testimonials`, each with a stable `id` (category id plus the patient's name), the `quote` and the `author`. The success-stories intro counts the categories, so its wording follows this list. |
 | `data/home-quotes.json` | The testimonials shown on the home page, as a list of testimonial ids from `testimonials.json`. Each card's label line is its testimonial's category. |
 | `data/recipe-staples.json` | Staple ingredients on the recipe book page. |
 | `data/team.json` | Staff cards and professional memberships on the about page. |
