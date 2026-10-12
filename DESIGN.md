@@ -79,8 +79,9 @@ practice.json has a `booking_url`, a green "Book online" button leads and Call t
 so the card keeps one primary action. No form, no embed: nothing on the site collects health
 information or loads a third-party widget.
 Shared header (sticky, green CTA → contact#appointment) + footer (navy-ink, white logo).
-The footer's Facebook icon is the whole logo, a disc with the "f" cut out, at least 16px wide:
-Meta's brand rules forbid the "f" on its own.
+The footer's Facebook and Instagram logos follow Meta's brand rules: the official shapes
+(Facebook's whole disc with the "f" cut out, never the "f" alone), white, 29px (Instagram's
+minimum), with half a glyph of clear space and no container shape. Hover never recolors them.
 The closing CTA band is shared verbatim on five pages; new-patients tailors it ("Ready for
 your first visit?") and contact omits it — deliberate: never CTA to the page you're on.
 privacy and accessibility omit it too: they are reference text, not sales pages. Each is plain
