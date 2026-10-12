@@ -2,6 +2,9 @@
 from .errors import BuildError
 
 _LINE = 'width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"'
+# Arrows on action links, beside text rather than in a chip: 1em square (css/site.css .arrow),
+# with a stroke as heavy as bold Lato's.
+_ARROW = 'class="arrow{}" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"'
 ICONS = {
  'spine':   f'<svg {_LINE}><circle cx="12" cy="4" r="1.7"/><circle cx="12" cy="9.3" r="1.7"/><circle cx="12" cy="14.6" r="1.7"/><circle cx="12" cy="20" r="1.7"/></svg>',
  'hand':    f'<svg {_LINE}><path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V12"/><path d="M11 12V4.5a1.5 1.5 0 0 1 3 0V12"/><path d="M14 12V6a1.5 1.5 0 0 1 3 0v6"/><path d="M17 12v-1a1.5 1.5 0 0 1 3 0v4a7 7 0 0 1-7 7h-1a7 7 0 0 1-7-7v-2a1.5 1.5 0 0 1 3 0"/></svg>',
@@ -19,6 +22,8 @@ ICONS = {
  'pin':     f'<svg {_LINE}><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>',
  'download':f'<svg {_LINE}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
  'users':   f'<svg {_LINE}><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9.5" r="2.5"/><path d="M16.5 15.2a5 5 0 0 1 5 4.8"/></svg>',
+ 'arrow-right': f'<svg {_ARROW.format("")}><path d="M4 12h15M13 6l6 6-6 6"/></svg>',
+ 'arrow-up':    f'<svg {_ARROW.format(" arrow--up")}><path d="M12 20V5M6 11l6-6 6 6"/></svg>',
  # Official logo shapes, white on the navy footer, never recolored (Meta's brand rules for
  # Facebook and Instagram). Paths: Simple Icons 16.35.0 "facebook" and "instagram" (CC0),
  # tracings of the current logos; to match Meta byte for byte, swap in the paths from the files

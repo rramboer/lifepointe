@@ -6,7 +6,7 @@ appointment email asks only for a name, a phone number and preferred times.
 """
 from ..helpers import esc, mailto
 from ..hours import hours_table
-from ..icons import icon
+from ..icons import icon, svg
 from ..layout import V, page, page_hero
 
 FILENAME = 'contact.html'
@@ -61,7 +61,7 @@ def render(site):
         {icon('pin')}
         <h3 class="display-3">Find us</h3>
         <p>{esc(p.address)}</p>
-        <p><a href="{esc(p.maps_url)}">Get directions &rarr;</a></p>
+        <p class="action-link"><a href="{esc(p.maps_url)}">Get directions{svg('arrow-right')}</a></p>
       </div>
     </div>
   </div>

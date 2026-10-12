@@ -99,6 +99,15 @@ p { margin: 0 0 1em; }
 ul, ol { margin: 0 0 1em; padding-left: 1.25em; }
 a { color: var(--navy); text-decoration-thickness: 1px; text-underline-offset: .18em; }
 a:hover { color: var(--navy); text-decoration-thickness: 2px; }
+/* The arrow on an action link ("Learn more", "Get directions", "Back to topics"): an SVG from
+   icons.py, as heavy as the link's bold text. A text arrow came out thin: the self-hosted Lato
+   has no →, so browsers drew it from another font. It sits outside the underline and nudges
+   on hover. */
+.action-link { font-weight: 700; }
+.arrow { width: 1em; height: 1em; vertical-align: -.17em; margin-left: .2em; transition: transform .15s ease; }
+.arrow--up { margin: 0 .2em 0 0; }
+a:hover .arrow, .card--link:hover .arrow { transform: translateX(3px); }
+a:hover .arrow--up { transform: translateY(-3px); }
 /* Phone and fax numbers never break across lines at their hyphens. */
 a[href^="tel:"], .nowrap { white-space: nowrap; }
 
