@@ -4,8 +4,9 @@ how to report a problem.
 "What the site does" restates the accessibility floor in DESIGN.md. Keep the two in step: if
 the floor changes, or a page stops meeting it, update this list and LAST_REVIEWED.
 """
-from ..helpers import esc
+from ..helpers import esc, page_href
 from ..layout import V, page, page_hero
+from . import nondiscrimination
 
 FILENAME = 'accessibility.html'
 LAST_REVIEWED = 'October 2026'
@@ -18,6 +19,7 @@ def render(site):
     phone = esc(p.phone.display)
     email = esc(p.email)
     email_link = esc('mailto:' + p.email)
+    nondiscrimination_link = esc(page_href(nondiscrimination.FILENAME))
     # With a booking_url, the contact page links to an online booking service on another site.
     if p.booking_url:
         other_sites = 'Facebook, Instagram, Google Maps and our online booking service'
@@ -34,9 +36,10 @@ def render(site):
   {V}
   <div class="wrap">
     <span class="eyebrow">Our goal</span>
-    <h2 id="standard-h" class="display-2">Working toward WCAG 2.1 AA</h2>
+    <h2 id="standard-h" class="display-2">Meeting WCAG 2.1 AA</h2>
     <div class="measure mt-15">
       <p>We aim for this website to meet the <a href="{esc(WCAG_21)}">Web Content Accessibility Guidelines (WCAG) 2.1</a> at Level AA. These guidelines, from the World Wide Web Consortium (W3C), explain how to make web content more accessible to people with disabilities.</p>
+      <p>We last tested every page in {LAST_REVIEWED}, with an automated checker and by hand: using only a keyboard, zoomed in and on narrow screens, and checking color contrast and text spacing. We found no problems with WCAG 2.1 Level AA on the website&rsquo;s pages. The new patient forms still fall short; see below.</p>
 
       <h3 class="display-3 mt-2">What the site does</h3>
       <ul class="list-tight">
@@ -62,7 +65,7 @@ def render(site):
     <h2 id="limits-h" class="display-2">Where we know it falls short</h2>
     <div class="measure mt-15">
       <h3 class="display-3">New patient forms</h3>
-      <p>The fillable PDF forms may not be fully accessible. Some screen readers and PDF apps may not read every field clearly, and the body diagram on the adult form isn&rsquo;t fillable. If the forms don&rsquo;t work for you, <a href="{tel}">call us at {phone}</a>. We&rsquo;ll help, or fill them in with you at the office.</p>
+      <p>The fillable PDF forms aren&rsquo;t fully accessible yet. Screen readers may not announce every field clearly, and the body diagram on the adult form isn&rsquo;t fillable. We&rsquo;re working on it. Until then, <a href="{tel}">call us at {phone}</a> and we&rsquo;ll give you the forms in another format, such as large print, or fill them in with you by phone or at the office, free of charge.</p>
 
       <h3 class="display-3 mt-2">Other websites</h3>
       <p>Our recipe book is in Google Drive, and some links lead to {other_sites}. We don&rsquo;t control how accessible those sites are. If one of them doesn&rsquo;t work for you, please let us know.</p>
@@ -78,10 +81,11 @@ def render(site):
     <div class="measure mt-15">
       <p>If something on this website is hard to use, or you need information from it in another way, please contact us:</p>
       <ul class="list-tight">
-        <li>Call <a href="{tel}">{phone}</a></li>
+        <li>Call <a href="{tel}">{phone}</a> (TTY users: call 711)</li>
         <li>Email <a href="{email_link}">{email}</a></li>
       </ul>
       <p>Tell us which page you were on, what you were trying to do and what went wrong. We&rsquo;ll do our best to get you the information you need and to fix the problem.</p>
+      <p>We provide auxiliary aids and services, such as information in large print or other formats, and language assistance free of charge. Our <a href="{nondiscrimination_link}">nondiscrimination notice</a> explains how to ask for them, and how to file a complaint.</p>
     </div>
   </div>
 </section>
@@ -90,6 +94,6 @@ def render(site):
 
     return page(site, FILENAME,
                 f'Accessibility Statement | {p.name}',
-                f'How the {p.name} website works toward WCAG 2.1 AA, its known limitations, '
+                f'How the {p.name} website meets WCAG 2.1 AA, its known limitations, '
                 f'and how to tell us about a problem.',
                 body)

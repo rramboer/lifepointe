@@ -7,7 +7,7 @@
 /* Served from this site (assets/fonts/), so pages make no requests to Google. The files are
    Google Fonts' own woff2 files, unchanged, and each rule keeps its unicode-range: a browser
    downloads a file only for a page that uses a character in its range, so English pages load
-   just the three latin files. Bricolage Grotesque is a variable font: one file covers 700 and
+   just the three latin files and the small Syriac one (the footer's language list). Bricolage Grotesque is a variable font: one file covers 700 and
    800. Licenses: assets/fonts/OFL-*.txt. Updating: README.md, Fonts. */
 @font-face {
   font-family: "Bricolage Grotesque"; font-style: normal; font-weight: 700 800; font-display: swap;
@@ -54,6 +54,15 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
     U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
+/* Syriac script, for the Assyrian notice of free language help (nondiscrimination page and the
+   footer's language list). Many phones have no Syriac font. Google Fonts' "syriac" file for
+   Noto Sans Syriac Eastern, with its range cut to the Syriac blocks so it never draws Arabic.
+   Bold is synthesized. */
+@font-face {
+  font-family: "Noto Sans Syriac Eastern"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("../assets/fonts/noto-sans-syriac-eastern-400-syriac.woff2") format("woff2");
+  unicode-range: U+0700-074F, U+0860-086A;
+}
 
 :root {
   /* Official brand inks (logo sheet, 2012). Never substitute or shift these. */
@@ -74,8 +83,8 @@
   --radius: 10px;
   --radius-lg: 18px;
   --shadow: 0 1px 2px rgba(0, 32, 91, .05), 0 8px 24px rgba(0, 32, 91, .07);
-  --font-display: "Bricolage Grotesque", "Lato", "Helvetica Neue", Arial, sans-serif;
-  --font-body: "Lato", "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Bricolage Grotesque", "Lato", "Noto Sans Syriac Eastern", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Lato", "Noto Sans Syriac Eastern", "Helvetica Neue", Arial, sans-serif;
   --wrap: 1160px;
   --rail-w: 2px;
 }
@@ -110,6 +119,12 @@ a:hover .arrow, .card--link:hover .arrow { transform: translateX(3px); }
 a:hover .arrow--up { transform: translateY(-3px); }
 /* Phone and fax numbers never break across lines at their hyphens. */
 a[href^="tel:"], .nowrap { white-space: nowrap; }
+/* A web or email address written out in full may break anywhere, so it never makes a narrow
+   screen scroll sideways. */
+.url { overflow-wrap: anywhere; }
+/* A heading word too long for a narrow screen, such as "Nondiscrimination" with WCAG's text
+   spacing applied, breaks rather than running off the edge. */
+h1, h2, h3 { overflow-wrap: break-word; }
 
 /* ---- Accessibility floor ------------------------------------------------ */
 
@@ -438,6 +453,21 @@ a[href^="tel:"], .nowrap { white-space: nowrap; }
 }
 .social-row a:hover { color: #fff; transform: translateY(-2px); }
 .social-row svg { width: 29px; height: 29px; }
+/* Free language help: every language in its own script, linked to its notice
+   (nondiscrimination page). A light row above the copyright line. */
+.site-footer__languages { border-top: 1px solid rgba(255, 255, 255, .14); padding-block: 1.25rem; }
+.site-footer__languages h2 { margin-bottom: .6rem; }
+.site-footer__languages h2 a { color: inherit; }
+.site-footer__languages ul { display: flex; flex-wrap: wrap; gap: .35rem 1.1rem; font-size: .9rem; }
+
+/* ---- Nondiscrimination page --------------------------------------------- */
+
+/* The notice of free language help in each language. Each one's heading is its language's name
+   in its own script; right-to-left languages line up on the right. */
+.taglines { list-style: none; margin: 1.75rem 0 0; padding: 0; display: grid; gap: 1.25rem; }
+.taglines li { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 1rem 1.25rem; }
+.taglines p { margin: 0; }
+.tagline__name { font: 700 1.05rem/1.3 var(--font-body); margin: 0 0 .35rem; }
 
 /* ---- Page-top banner (interior pages) ----------------------------------- */
 
@@ -492,3 +522,26 @@ a[href^="tel:"], .nowrap { white-space: nowrap; }
   font: 700 .92rem/1.3 var(--font-body); color: var(--navy); text-decoration: none;
 }
 a.chip:hover { border-color: var(--navy); background: var(--navy-tint); color: var(--navy); }
+
+/* ---- Printed notice ----------------------------------------------------- */
+
+/* Printing the nondiscrimination page gives the office poster. Section 1557 asks for the notices
+   in at least 20-point sans-serif type where patients can read them (45 CFR 92.10(a)(2)(iv) and
+   92.11(c)(4)). Only the notice prints, black on white; the links' addresses are in its text. */
+@media print {
+  body:has(.notice-print) :is(.skip-link, .site-header, .site-footer, .vertebra, .page-hero__meta, .eyebrow) { display: none !important; }
+  body:has(.notice-print) .rail-wrap::before { display: none !important; }
+  body:has(.notice-print) main, body:has(.notice-print) main * {
+    color: #000 !important; background: none !important; box-shadow: none !important;
+    font-family: "Lato", "Noto Sans Syriac Eastern", Arial, sans-serif !important; font-size: 20pt !important; line-height: 1.35 !important;
+  }
+  body:has(.notice-print) main h1 { font-size: 30pt !important; font-weight: 700 !important; }
+  body:has(.notice-print) main h2 { font-size: 25pt !important; font-weight: 700 !important; margin-top: 18pt; }
+  body:has(.notice-print) main h3 { font-weight: 700 !important; }
+  body:has(.notice-print) main a { text-decoration: none; }
+  body:has(.notice-print) :is(.page-hero, .section) { padding-block: 0 !important; border: 0 !important; }
+  body:has(.notice-print) .measure { max-width: none; }
+  body:has(.notice-print) .taglines { display: block; margin-top: 12pt; }
+  body:has(.notice-print) .taglines li { border: 1px solid #000; border-radius: 0; padding: 6pt 8pt; margin: 0 0 10pt; break-inside: avoid; }
+  body:has(.notice-print) .measure > p, body:has(.notice-print) .measure li { margin-bottom: 8pt; }
+}

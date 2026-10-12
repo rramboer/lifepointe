@@ -20,6 +20,12 @@ def page_href(target, base=''):
     return path + hash_ + fragment
 
 
+def language_anchor(lang):
+    """The id of a language's notice of free language help on the nondiscrimination page:
+    'lang-es', 'lang-zh-hant'. The footer links to it."""
+    return 'lang-' + lang.lower()
+
+
 def mailto(address, subject='', body=''):
     """A mailto: link (RFC 6068) that opens a new email with the subject and body filled in.
 
