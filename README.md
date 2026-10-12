@@ -204,7 +204,7 @@ All of this is built from `site_url` in `data/practice.json`, in `generator/seo.
   `https://lifepointechiro.com/<page>.html` for the others, the same form as the site's own
   links. GitHub Pages also answers `/about` without `.html`; the canonical link tells search
   engines which address to list. Each page also has Open Graph and Twitter card tags, so a
-  shared link shows the page's title and description with the adjustment photo.
+  shared link shows the page's title and description with the practice's logo.
 - **JSON-LD.** The home page describes the practice for search engines as a schema.org
   `MedicalBusiness`: name, address, phone, fax, email, map coordinates and link, office hours
   (from `data/hours.json`) and the Facebook and Instagram pages. schema.org has no
@@ -213,8 +213,11 @@ All of this is built from `site_url` in `data/practice.json`, in `generator/seo.
   (the numbers after `!3d` and `!4d`); if the map link changes, update `geo` with it, and the
   build stops if they disagree. Once the site is live, check it by entering
   `https://lifepointechiro.com/` in Google's Rich Results Test.
-- **The link-preview image** is `assets/photo-adjustment.jpg`, set in `generator/seo.py`
-  with its width and height. The build stops if the file is missing or its size has changed.
+- **The link-preview image** is `assets/logo-share.png`, set in `generator/seo.py` with its
+  width and height; the JSON-LD uses it too. It is `assets/logo-full-color.svg`, 580px wide,
+  centered on a white 1200×630 PNG (link previews don't show SVG), so it stays whole when an
+  app crops the preview to a square. The build stops if the file is missing or its size has
+  changed. Facebook keeps an old preview for a while; its Sharing Debugger fetches a new one.
 - **`sitemap.xml`** lists every page in `PAGES`. **`robots.txt`** lets search engines crawl
   everything and gives the sitemap's address.
 - **`404.html`** is the page GitHub Pages shows, with status 404, for any address that

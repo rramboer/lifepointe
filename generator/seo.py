@@ -21,11 +21,12 @@ ROBOTS = 'robots.txt'
 FILES = (SITEMAP, ROBOTS)
 SITEMAP_NS = 'http://www.sitemaps.org/schemas/sitemap/0.9'
 
-# The picture a shared link shows (Open Graph). The width and height are the file's own;
+# The picture a shared link shows (Open Graph), also the JSON-LD image: the full-color logo
+# centered on white, 580px wide, so it stays whole when an app crops the preview to a square.
+# Link previews don't show SVG, hence a PNG. The width and height are the file's own;
 # check_images() stops the build if the file is missing or a different size.
-SHARE_IMAGE = 'assets/photo-adjustment.jpg'
-SHARE_IMAGE_SIZE = (1396, 930)
-SHARE_IMAGE_ALT = 'A chiropractor examining a patient’s spine and posture by hand'
+SHARE_IMAGE = 'assets/logo-share.png'
+SHARE_IMAGE_SIZE = (1200, 630)
 LOGO = 'assets/logo-full-color.svg'
 
 # schema.org has no chiropractic type (Chiropractic is only a MedicineSystem value).
@@ -67,8 +68,7 @@ def check_images(root):
         raise BuildError(f'{SHARE_IMAGE}: can\'t read its width and height; use a JPEG or PNG')
     if size != SHARE_IMAGE_SIZE:
         raise BuildError(f'{SHARE_IMAGE} is {size[0]}x{size[1]}, but SHARE_IMAGE_SIZE in generator/seo.py '
-                         f'says {SHARE_IMAGE_SIZE[0]}x{SHARE_IMAGE_SIZE[1]}; update it, and the width and '
-                         f'height wherever a page shows this file')
+                         f'says {SHARE_IMAGE_SIZE[0]}x{SHARE_IMAGE_SIZE[1]}; update it')
 
 
 def canonical_url(site, filename):
@@ -88,7 +88,7 @@ def head_tags(site, filename, title, description):
         ('og:image', f'{site.practice.site_url}/{SHARE_IMAGE}'),
         ('og:image:width', width),
         ('og:image:height', height),
-        ('og:image:alt', SHARE_IMAGE_ALT),
+        ('og:image:alt', f'{site.practice.name} logo'),
         ('og:locale', 'en_US'),
     ]
     tags = [f'<link rel="canonical" href="{esc(url)}">']
