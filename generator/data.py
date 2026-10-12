@@ -133,8 +133,7 @@ def _read(data_dir, filename):
 
 def _check_practice(c, raw, root):
     p = c.obj(raw, TOP, ('name', 'legal_name', 'doctor', 'phone', 'fax', 'email', 'address', 'geo',
-                         'maps_url', 'social', 'recipe_book_url', 'site_url', 'booking_url', 'forms',
-                         'legacy'))
+                         'maps_url', 'social', 'recipe_book_url', 'site_url', 'booking_url', 'forms'))
     c.text(p, 'name', TOP)
     c.text(p, 'legal_name', TOP)
     fax = c.text(p, 'fax', TOP)
@@ -200,8 +199,6 @@ def _check_practice(c, raw, root):
                                    f'named in lowercase letters, digits and hyphens (got "{path}")')
         elif path and not (root / path).is_file():
             c.fail(f'forms.{key}', f'{path} does not exist; add the file to the forms/ folder')
-    legacy = c.obj(p.get('legacy'), 'legacy', ('old_site',))
-    c.url(legacy, 'old_site', 'legacy')
 
 
 def _check_nav(c, raw, pages):

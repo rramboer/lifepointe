@@ -4,14 +4,15 @@ import shutil
 import sys
 from pathlib import Path
 
-from . import card, checks, data, seo, static
+from . import card, checks, data, layout, seo, static
 from .errors import BuildError
 from .pages import PAGES, not_found
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_OUT = ROOT / 'dist'
-# Never write the output into the repo root or over source folders.
-SOURCE_DIRS = ['.git', '.github', 'data', 'generator'] + static.STATIC_DIRS
+# Never write the output into the repo root or over source folders (all of email/, not just
+# the images/ that the site publishes).
+SOURCE_DIRS = ['.git', '.github', 'data', 'generator'] + [name.split('/')[0] for name in static.STATIC_DIRS]
 # Every build leaves this empty file in its output. --out only empties a folder that has it.
 BUILD_MARKER = '.site-build'
 
@@ -54,6 +55,10 @@ def build(out_arg=None):
     if reserved:
         raise BuildError(f'{" and ".join(sorted(reserved))}: made by the build itself (404 page or '
                          f'generator/seo.py); give the page another FILENAME')
+    unlinked = [href for href, _ in layout.LEGAL_LINKS if href not in filenames]
+    if unlinked:
+        raise BuildError(f'the footer links to {" and ".join(unlinked)}, which the build doesn\'t make; add '
+                         f'the page to PAGES in generator/pages/__init__.py or fix LEGAL_LINKS in generator/layout.py')
     seo.check_images(ROOT)
     site = data.load(ROOT / 'data', set(filenames))
     rendered = [(page.FILENAME, page.render(site)) for page in PAGES]
@@ -83,6 +88,10 @@ def build(out_arg=None):
     if missing:
         raise BuildError(f'a stylesheet names files the output doesn\'t have ({len(missing)} found):\n  '
                          + '\n  '.join(missing))
+    offsite = checks.offsite_loads(out, site.practice.site_url)
+    if offsite:
+        raise BuildError(f'the output loads something from another site or has a form, which privacy.html '
+                         f'says it never does ({len(offsite)} found):\n  ' + '\n  '.join(offsite))
     print(f'built {len(rendered)} pages, {not_found.FILENAME}, {seo.SITEMAP}, {seo.ROBOTS} and the /card '
           f'redirect into {_shown(out)}/ (copied {", ".join(copied)}; {scanned} text files checked)')
 

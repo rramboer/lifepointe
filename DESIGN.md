@@ -1,6 +1,6 @@
 # Lifepointe Website — Design System
 
-The website for Lifepointe Chiropractic & Wellness Center. Static HTML/CSS/JS; the seven
+The website for Lifepointe Chiropractic & Wellness Center. Static HTML/CSS/JS; the nine
 pages are generated (see Building below) so the shared chrome stays identical across all of
 them.
 
@@ -61,10 +61,10 @@ Post-heading gap `.mt-15` (1.5rem); pre-CTA / group gap `.mt-2` (2rem). No other
 spacing — new one-offs should become classes.
 
 ## Pages
-index, about, services, new-patients, success-stories, recipe-book, contact. The practice's
-own pages and wording only, nothing invented. Testimonials are taken verbatim from archived
-copies of the old site (typo fixes only); entries that name former staff are left out, never
-edited.
+index, about, services, new-patients, success-stories, recipe-book, contact, plus the
+footer's legal pages, privacy and accessibility. The practice's own pages and wording only,
+nothing invented. Testimonials are taken verbatim from archived copies of the old site (typo
+fixes only); entries that name former staff are left out, never edited.
 success-stories: topic chips jump to one section per category (heading = category name, one
 vertebra each, alternating background, a "Back to topics" link). Quotes of uneven length flow
 in up to three columns (`.quote-columns`), read top to bottom; the home page keeps three
@@ -78,6 +78,9 @@ information or loads a third-party widget.
 Shared header (sticky, green CTA → contact#appointment) + footer (navy-ink, white logo).
 The closing CTA band is shared verbatim on five pages; new-patients tailors it ("Ready for
 your first visit?") and contact omits it — deliberate: never CTA to the page you're on.
+privacy and accessibility omit it too: they are reference text, not sales pages. Each is plain
+prose in a `.measure` column (h2 per section, `.display-3` h3 per topic, `.mt-2` between
+topics), with the "Last updated" / "Last reviewed" date in the hero (`.page-hero__meta`).
 `/card` (the business-card QR code) is an unlisted redirect, not a page: logo, one line and a
 green button with navy text, its few styles inline, nothing loaded from other sites (README.md).
 `404.html` uses the shared header and footer with a short hero and two buttons, home (green)
@@ -88,10 +91,11 @@ Skip link + `scroll-padding-top` clearing the sticky header, landmarks, aria-cur
 focus-visible everywhere (navy on light, green on dark), AA contrast, reduced-motion kills all animation,
 mobile nav = button + aria-expanded + focus-scoped Escape, hours table marks "(today)" for
 screen readers, no horizontal scroll at 320px. Hamburger below 1081px (the desktop bar
-needs ~976px of content width).
+needs ~976px of content width). accessibility.html tells visitors about this floor; keep it
+in step.
 
 ## Building
-`python3 build.py` builds the seven pages, the 404 page, `sitemap.xml`, `robots.txt` and the
+`python3 build.py` builds the nine pages, the 404 page, `sitemap.xml`, `robots.txt` and the
 `/card` redirect into `dist/` (see README.md). GitHub Actions runs the same build on every
 pull request and every push to `main`, and deploys `main` to GitHub Pages (README.md,
 Deploy). The generated HTML is never committed. Edit content in `data/*.json`, page markup
@@ -99,5 +103,5 @@ in `generator/pages/`, the shared header, footer and CTA band in `generator/layo
 styling in css/site.css, behavior in js/site.js.
 
 ## Known placeholders
-- The footer privacy and accessibility links still point at the old website, through `legacy`
-  in data/practice.json. A later change replaces them.
+- The Notice of Privacy Practices section of privacy.html says what the notice is and how to
+  ask for a copy. It stays until the practice's own notice replaces it (README.md).

@@ -3,8 +3,11 @@ import shutil
 
 from .errors import BuildError
 
-# Folders copied as-is into the site. Add a name here to publish another folder.
-STATIC_DIRS = ['css', 'js', 'assets', 'email', 'forms']
+# Folders copied as-is into the site, each to the same path. Add a name here to publish another
+# folder. From email/ only images/ is published, because emails load their pictures from
+# https://lifepointechiro.com/email/images/. The template itself is pasted into an email
+# platform and previewed by opening the file, so it is not a page on the site.
+STATIC_DIRS = ['css', 'js', 'assets', 'email/images', 'forms']
 
 
 def copy_static(root, out):
