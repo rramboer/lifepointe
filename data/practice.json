@@ -3,13 +3,13 @@
   "legal_name": "Lifepointe Chiropractic Center",
   "doctor": {
     "name": "Dr. Greg Ramboer",
-    "credentials": "DC"
+    "credentials": "D.C., CCWP"
   },
   "phone": {
-    "display": "(248) 623-6107",
+    "display": "248-623-6107",
     "tel": "+12486236107"
   },
-  "fax": "(248) 623-6443",
+  "fax": "248-623-6443",
   "email": "lifepointechiro@gmail.com",
   "address": "5896 Dixie Hwy, Ste A, Clarkston, MI 48346",
   "geo": { "latitude": 42.7066913, "longitude": -83.4049681 },

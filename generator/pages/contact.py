@@ -55,7 +55,7 @@ def render(site):
       <div class="card">
         {icon('fax')}
         <h3 class="display-3">Fax</h3>
-        <p>{esc(p.fax)}</p>
+        <p class="nowrap">{esc(p.fax)}</p>
       </div>
       <div class="card">
         {icon('pin')}
@@ -92,5 +92,5 @@ def render(site):
 
     return page(site, FILENAME,
                 f'Contact & Appointments | {p.name}',
-                f'Contact Lifepointe Chiropractic in Clarkston, MI — request an appointment by email or call {p.phone.display}.',
+                f'Contact {p.name} in Clarkston, MI — request an appointment by email or call {p.phone.display}.',
                 body)
