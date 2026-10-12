@@ -12,6 +12,9 @@ BANNED = [
     r'mama',
     r'nursing(?:\s|&nbsp;|&#160;|&#xa0;)+pillow',
     r'deardoc',
+    # The old appointment form's hosts. It loaded trackers and asked for health details.
+    r'leadconnector',
+    r'msgsndr',
 ]
 
 

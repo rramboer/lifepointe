@@ -335,10 +335,6 @@ a:hover { color: var(--navy); text-decoration-thickness: 2px; }
 .card-stack { display: grid; gap: 1.25rem; }
 .card-stack--sticky { position: sticky; top: calc(var(--header-h) + 24px); }
 .btn-row--center { justify-content: center; margin-top: 2rem; }
-.card--form { padding: .75rem; }
-.card--form iframe { width: 100%; min-height: 640px; border: 0; border-radius: 12px; }
-@media (max-width: 540px) { .card--form iframe { min-height: 80vh; } }
-.form-fallback { padding: .5rem .75rem 0; margin: 0; font-size: .9rem; color: var(--ink-soft); }
 .site-footer__tagline { margin-top: 1rem; max-width: 26em; }
 
 /* ---- Footer ------------------------------------------------------------- */
