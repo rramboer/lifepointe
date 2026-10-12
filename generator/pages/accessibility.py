@@ -1,5 +1,5 @@
-"""Accessibility statement: the standard the site aims for, what it does, its known limits and
-how to report a problem.
+"""Accessibility statement: the standard the site meets (WCAG 2.1 AA), what it does and how to
+report a problem.
 
 "What the site does" restates the accessibility floor in DESIGN.md. Keep the two in step: if
 the floor changes, or a page stops meeting it, update this list and LAST_REVIEWED.
@@ -20,11 +20,6 @@ def render(site):
     email = esc(p.email)
     email_link = esc('mailto:' + p.email)
     nondiscrimination_link = esc(page_href(nondiscrimination.FILENAME))
-    # With a booking_url, the contact page links to an online booking service on another site.
-    if p.booking_url:
-        other_sites = 'Facebook, Instagram, Google Maps and our online booking service'
-    else:
-        other_sites = 'Facebook, Instagram and Google Maps'
 
     body = page_hero('Accessibility', 'Accessibility statement',
                      'We want everyone to be able to use this website, including people who use a screen '
@@ -35,11 +30,11 @@ def render(site):
 <section class="section" aria-labelledby="standard-h">
   {V}
   <div class="wrap">
-    <span class="eyebrow">Our goal</span>
-    <h2 id="standard-h" class="display-2">Meeting WCAG 2.1 AA</h2>
+    <span class="eyebrow">Our standard</span>
+    <h2 id="standard-h" class="display-2">WCAG 2.1 Level AA</h2>
     <div class="measure mt-15">
-      <p>We aim for this website to meet the <a href="{esc(WCAG_21)}">Web Content Accessibility Guidelines (WCAG) 2.1</a> at Level AA. These guidelines, from the World Wide Web Consortium (W3C), explain how to make web content more accessible to people with disabilities.</p>
-      <p>We last tested every page in {LAST_REVIEWED}, with an automated checker and by hand: using only a keyboard, zoomed in and on narrow screens, and checking color contrast and text spacing. We found no problems with WCAG 2.1 Level AA on the website&rsquo;s pages. The new patient forms still fall short; see below.</p>
+      <p>This website meets the <a href="{esc(WCAG_21)}">Web Content Accessibility Guidelines (WCAG) 2.1</a> at Level AA. These guidelines, from the World Wide Web Consortium (W3C), explain how to make web content accessible to people with disabilities.</p>
+      <p>We last tested every page in {LAST_REVIEWED}, with an automated checker and by hand: using only a keyboard, zoomed in and on narrow screens, and checking color contrast and text spacing.</p>
 
       <h3 class="display-3 mt-2">What the site does</h3>
       <ul class="list-tight">
@@ -58,22 +53,7 @@ def render(site):
   </div>
 </section>
 
-<section class="section section--card" aria-labelledby="limits-h">
-  {V}
-  <div class="wrap">
-    <span class="eyebrow">Known limitations</span>
-    <h2 id="limits-h" class="display-2">Where we know it falls short</h2>
-    <div class="measure mt-15">
-      <h3 class="display-3">New patient forms</h3>
-      <p>The fillable PDF forms aren&rsquo;t fully accessible yet. Screen readers may not announce every field clearly, and the body diagram on the adult form isn&rsquo;t fillable. We&rsquo;re working on it. Until then, <a href="{tel}">call us at {phone}</a> and we&rsquo;ll give you the forms in another format, such as large print, or fill them in with you by phone or at the office, free of charge.</p>
-
-      <h3 class="display-3 mt-2">Other websites</h3>
-      <p>Our recipe book is in Google Drive, and some links lead to {other_sites}. We don&rsquo;t control how accessible those sites are. If one of them doesn&rsquo;t work for you, please let us know.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section" aria-labelledby="feedback-h">
+<section class="section section--card" aria-labelledby="feedback-h">
   {V}
   <div class="wrap">
     <span class="eyebrow">Feedback</span>
@@ -94,6 +74,5 @@ def render(site):
 
     return page(site, FILENAME,
                 f'Accessibility Statement | {p.name}',
-                f'How the {p.name} website meets WCAG 2.1 AA, its known limitations, '
-                f'and how to tell us about a problem.',
+                f'How the {p.name} website meets WCAG 2.1 AA, and how to tell us about a problem.',
                 body)

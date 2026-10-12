@@ -158,8 +158,9 @@ To update a form, replace the file and keep its name, so the links stay the same
 new file before committing it: its fields should still fill in, and they should all be blank,
 because anything saved in the file is published to everyone who downloads it. The build's
 banned-word check (`generator/checks.py`) can't read PDFs, so also check the new file's text
-for those words. The accessibility statement describes the forms' known problems (see below);
-check that it still fits the new file.
+for those words. The accessibility statement says the site meets WCAG 2.1 AA (see Legal
+pages), so a new form should too: tagged, with its language and title set, and a tooltip on
+every field (in LibreOffice, each control's Help text), which is what screen readers announce.
 
 ## Legal pages
 
@@ -197,17 +198,18 @@ Every page's footer links to `privacy.html`, `accessibility.html`, `nondiscrimin
   Pages, and it names the services the pages link to: Facebook, Instagram, Google Maps and
   Google Drive. Before adding an embed, a script, font or image from another site, a form,
   analytics, a new host or a link to another service, update the policy and its
-  `LAST_UPDATED` date. Setting `booking_url` adds "our online booking service" to both pages'
-  lists of other sites by itself; still update both dates, and add a link to the booking
+  `LAST_UPDATED` date. Setting `booking_url` adds "our online booking service" to the policy's
+  list of other sites by itself; still update its date, and add a link to the booking
   service's own privacy policy. The build holds the pages to part of this: it stops if one
   would load anything from another site, or has a form (see Build and preview). It can't see
   what a script does once it runs, so check any new script by hand. The legal pages also link
   to GitHub's documentation and privacy statement, the Meta and Google privacy policies and
   the W3C's WCAG 2.1, and the Good Faith Estimate page links to CMS; those are plain links and
   load nothing.
-- **Keep the accessibility statement true.** Its "What the site does" list restates the
-  accessibility floor in DESIGN.md. If the floor changes, or the new-patient forms do, update
-  the statement and its `LAST_REVIEWED` date.
+- **Keep the accessibility statement true.** It says the website meets WCAG 2.1 Level AA, so
+  keep every page and the new-patient forms to that standard. Its "What the site does" list
+  restates the accessibility floor in DESIGN.md. If the floor changes, update the statement and
+  its `LAST_REVIEWED` date.
 - **The Notice of Privacy Practices is a placeholder.** The privacy policy's last section
   (`#notice-of-privacy-practices`) only says what the notice is and how to ask for a copy.
   Replace it with the practice's own notice, on that page or as a linked file. A covered
