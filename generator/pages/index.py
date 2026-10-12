@@ -1,5 +1,5 @@
 """Home page."""
-from ..helpers import counted, esc
+from ..helpers import counted, esc, page_href
 from ..hours import hours_table
 from ..icons import icon, svg
 from ..layout import V, cta_band, page
@@ -15,7 +15,7 @@ def render(site):
     stories = {t.id: (t, c.label) for c in categories for t in c.testimonials}
 
     cards_html = '\n'.join(
-        f'''<a class="card card--link" href="services.html">
+        f'''<a class="card card--link" href="{page_href('services.html')}">
       {icon(card.icon)}
       <h3 class="display-3">{esc(card.title)}</h3>
       <p>{esc(card.summary)}</p>
@@ -37,8 +37,8 @@ def render(site):
       <h1 id="hero-h" class="display-1 rise rise-2">Health comes from within.<br>We clear the way.</h1>
       <p class="lede rise rise-3">Your body is built to heal itself &mdash; our job is to remove what&rsquo;s interfering. Since 2001, Lifepointe has cared for Clarkston families at every age, from newborns just minutes old to the most experienced members of our community.</p>
       <div class="btn-row rise rise-4 mt-15">
-        <a class="btn btn--primary" href="contact.html#appointment">Request an appointment</a>
-        <a class="btn btn--ghost" href="new-patients.html">What to expect</a>
+        <a class="btn btn--primary" href="{page_href('contact.html#appointment')}">Request an appointment</a>
+        <a class="btn btn--ghost" href="{page_href('new-patients.html')}">What to expect</a>
       </div>
       <div class="badge-row rise rise-4 mt-2">
         <span class="badge">{svg('shield')} In-network with BCBS, Medicare &amp; VA</span>
@@ -64,7 +64,7 @@ def render(site):
       <h2 id="approach-h" class="display-2">More than back-pain doctors</h2>
       <p>Chiropractic is a drug-free healthcare profession focused on the musculoskeletal and nervous systems. Your nervous system &mdash; brain, spinal cord, and the nerves branching to every cell, tissue, and organ &mdash; just happens to be housed inside your spine.</p>
       <p>We&rsquo;re highly specialized in analyzing joint mobility and correcting subluxations (misalignments) in the spine, using gentle techniques that restore proper joint function and, more importantly, nervous system communication. We get to the root cause &mdash; and the symptoms begin to go away on their own.</p>
-      <a class="btn btn--ghost" href="about.html#chiropractic-care">Learn about chiropractic care</a>
+      <a class="btn btn--ghost" href="{page_href('about.html#chiropractic-care')}">Learn about chiropractic care</a>
     </div>
     <figure class="photo">
       <img src="assets/photo-stretch.jpg" alt="A person stretching comfortably at home, arms extended" width="1920" height="1281" loading="lazy">
@@ -82,7 +82,7 @@ def render(site):
       {cards_html}
     </div>
     <div class="btn-row mt-2">
-      <a class="btn btn--primary" href="services.html">See all services &amp; products</a>
+      <a class="btn btn--primary" href="{page_href('services.html')}">See all services &amp; products</a>
     </div>
   </div>
 </section>
@@ -97,7 +97,7 @@ def render(site):
       {quotes_html}
     </div>
     <div class="btn-row mt-2">
-      <a class="btn btn--ghost" href="success-stories.html">Read more success stories</a>
+      <a class="btn btn--ghost" href="{page_href('success-stories.html')}">Read more success stories</a>
     </div>
   </div>
 </section>
@@ -109,7 +109,7 @@ def render(site):
       <span class="eyebrow">Your first visit</span>
       <h2 id="visit-h" class="display-2">Know what to expect before you walk in</h2>
       <p>Your first visit is a thorough spinal and nervous system exam &mdash; hands-on palpation, posture and range-of-motion checks, and X-rays only if your age and situation call for them. Then we explain everything at your Report of Findings.</p>
-      <a class="btn btn--ghost" href="new-patients.html">The full first-visit guide</a>
+      <a class="btn btn--ghost" href="{page_href('new-patients.html')}">The full first-visit guide</a>
     </div>
     <div class="card">
       {icon('clip')}

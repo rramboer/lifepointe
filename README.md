@@ -9,6 +9,7 @@ library, so there is nothing to install.
 
 ```
 build.py           entry point: python3 build.py [--out DIR]
+preview.py         serves the built site on this computer, as GitHub Pages does
 data/              the site's content as JSON (most edits happen here)
 generator/         the generator itself
   main.py          the build: check data, render pages, copy static folders, check output
@@ -24,13 +25,14 @@ generator/         the generator itself
   hours.py         office-hours table and footer summary
   icons.py         inline SVG icons, by name
   helpers.py       esc(), which escapes every data value placed into HTML,
+                   page_href(), which writes a link to a page without .html,
                    mailto() for links that open a new email with the subject and
                    body filled in, and number_word() for counts in running text
   static.py        the folders copied into the site as-is
   checks.py        checks the finished site and the files in email/ for text that
                    must never appear, and the site for stylesheet url()s that name
-                   a missing file and for anything a page would load from another
-                   site
+                   a missing file, for anything a page would load from another
+                   site and for links that keep .html or lead nowhere
 css/ js/ assets/   stylesheet, script, logos, favicon, photos and web fonts (see Fonts)
 email/             standalone HTML email template (see email/README.md); only its images/
                    are published, at /email/images/
@@ -44,10 +46,12 @@ dist/             build output (not committed)
 
 ```sh
 python3 build.py
-python3 -m http.server --bind 127.0.0.1 --directory dist 8000
+python3 preview.py
 ```
 
-Then open <http://localhost:8000>. Each build empties `dist/` and writes it again: the nine
+Then open <http://localhost:8000>. `preview.py` serves `dist/` the way GitHub Pages does
+(Python's own `http.server` doesn't): `/about` loads `about.html`, and an address with no
+page gets `404.html`. Only this computer can connect; Ctrl+C stops it. Each build empties `dist/` and writes it again: the nine
 pages, `404.html`, `sitemap.xml`, `robots.txt` and the `/card` redirect, plus copies of `css/`,
 `js/`, `assets/`, `email/images/` and `forms/`. The email template itself isn't published: it
 is pasted into an email platform, and opening the file previews it.
@@ -91,7 +95,21 @@ The build stops with a non-zero exit and a message naming the file and field whe
   opens (a script, image, font, stylesheet, `preconnect`, frame or embed), or a page has a
   form or form field. The privacy policy says neither happens (see Privacy policy and
   accessibility statement). Links people click, the canonical link and link-preview tags may
-  point anywhere.
+  point anywhere;
+- a link on a page to the site's own pages or files ends in `.html`, or leads nowhere: no
+  page or file at that address, or no element with the `#section`'s id (see Links). Links
+  to other sites aren't checked.
+
+## Links
+
+Every page is a file such as `about.html`, but links leave out the `.html`:
+`lifepointechiro.com/about`, `lifepointechiro.com/contact#appointment`. GitHub Pages serves
+`about.html` at `/about` (the `.html` address also still works). The code, `data/nav.json`
+and `LEGAL_LINKS` name pages by file name; `page_href()` in `generator/helpers.py` writes each
+link, and the home page's link is the site's root (`./`, or `/` on the 404 page). A link
+written by hand in a page module goes through `page_href()` too; the build stops if one
+keeps `.html` or leads nowhere. The canonical URLs, the sitemap, the `/card` redirect and the
+email template's buttons use the same form.
 
 ## Editing content
 
@@ -101,7 +119,7 @@ The build stops with a non-zero exit and a message naming the file and field whe
 | `data/nav.json` | The header menu, in order. `footer_label` changes an entry's text in the footer's Explore list. |
 | `data/hours.json` | Office hours, Monday through Sunday, in 24-hour `HH:MM`. `"hours": []` means closed. This one list feeds both hours tables (home and contact) and the footer summary. |
 | `data/services.json` | `home_cards` (home page "What we do"), `services` (services page) and `products`. |
-| `data/testimonials.json` | The success stories, by category, in page order. Each category has an `id` (its anchor, as in `success-stories.html#back-pain`), a `label` (its chip and heading) and its `testimonials`, each with a stable `id` (category id plus the patient's name), the `quote` and the `author`. The home page and the success-stories intro count the categories, so their wording follows this list. |
+| `data/testimonials.json` | The success stories, by category, in page order. Each category has an `id` (its anchor, as in `success-stories#back-pain`), a `label` (its chip and heading) and its `testimonials`, each with a stable `id` (category id plus the patient's name), the `quote` and the `author`. The home page and the success-stories intro count the categories, so their wording follows this list. |
 | `data/home-quotes.json` | The testimonials shown on the home page, as a list of testimonial ids from `testimonials.json`. Each card's label line is its testimonial's category. |
 | `data/recipe-staples.json` | Staple ingredients on the recipe book page. |
 | `data/team.json` | Staff cards and professional memberships on the about page. |
@@ -201,9 +219,9 @@ file that isn't there. The email template isn't part of the published site (see
 All of this is built from `site_url` in `data/practice.json`, in `generator/seo.py`.
 
 - **Canonical URLs** are `https://lifepointechiro.com/` for the home page and
-  `https://lifepointechiro.com/<page>.html` for the others, the same form as the site's own
-  links. GitHub Pages also answers `/about` without `.html`; the canonical link tells search
-  engines which address to list. Each page also has Open Graph and Twitter card tags, so a
+  `https://lifepointechiro.com/<page>` (no `.html`) for the others, the same form as the
+  site's own links (see Links). GitHub Pages also answers `/about.html`; the canonical link
+  tells search engines which address to list. Each page also has Open Graph and Twitter card tags, so a
   shared link shows the page's title and description with the practice's logo.
 - **JSON-LD.** The home page describes the practice for search engines as a schema.org
   `MedicalBusiness`: name, address, phone, fax, email, map coordinates and link, office hours
@@ -225,8 +243,7 @@ All of this is built from `site_url` in `data/practice.json`, in `generator/seo.
   isn't in the sitemap. Pages serves it at the missing address itself, at any depth, so its
   links start with `/`, like the `/card` page's. On the temporary
   `rramboer.github.io/lifepointe/` address it therefore shows without styles; test it on
-  `lifepointechiro.com` or a local preview. `python3 -m http.server` answers a missing page
-  with its own error, not `404.html`; open `/404.html` directly instead.
+  `lifepointechiro.com` or in `preview.py`, which serves it for any missing address too.
 
 ## Business-card QR code (/card)
 
@@ -243,13 +260,12 @@ Printed cards last for years, so that address must always work.
 - **To change where it goes, set `booking_url`** in `data/practice.json` to a full `https://`
   address, such as the online booking page once there is one. That also adds a "Book online"
   button to the contact page's appointment section. While `booking_url` is `null`,
-  it goes to the contact page's appointment section, `/contact.html#appointment`, so keep
+  it goes to the contact page's appointment section, `/contact#appointment`, so keep
   `id="appointment"` on that section; the build stops if it is gone. The page itself is
   `generator/card.py`, and no other page may use the file name `card.html`.
 - Its links start with `/`, so they only work at the root of a domain. On the temporary
   `rramboer.github.io/lifepointe/` address it redirects to a page that doesn't exist; test it
-  on `lifepointechiro.com`, or in a local preview at `/card.html` (Python's preview server
-  doesn't map `/card` to `card.html` the way GitHub Pages does).
+  on `lifepointechiro.com`, or at `/card` in `preview.py`.
 - After changing it, open `/card` on the live site on a phone, and scan a printed card.
 
 ## Deploy
@@ -267,11 +283,12 @@ committed. The workflow is `.github/workflows/deploy.yml`.
   cancels its older run. To preview it, open the run from the pull request's checks, download
   `github-pages` from the run's summary page, and unzip it outside the repository folder (for
   example in Downloads, so the built pages can't be committed by mistake). Then, in that
-  folder, unpack the `artifact.tar` inside and serve it to this computer only:
+  folder, unpack the `artifact.tar` inside and serve it to this computer only, with
+  `preview.py` from your copy of the repository:
 
   ```sh
   mkdir preview && python3 -c "import tarfile; tarfile.open('artifact.tar').extractall('preview', filter='data')"
-  python3 -m http.server --bind 127.0.0.1 --directory preview 8000
+  python3 path/to/lifepointe/preview.py preview
   ```
 
   Only preview pull requests opened by you or a collaborator you trust: a pull request from a

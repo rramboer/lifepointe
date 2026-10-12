@@ -1,7 +1,9 @@
 """Checks on the finished output folder and the email files. Any problem fails the build."""
 import re
 from html.parser import HTMLParser
-from urllib.parse import unquote
+from urllib.parse import unquote, urljoin, urlsplit
+
+from .helpers import page_href
 
 # Text that must never appear anywhere in the published site, nor in any text file under
 # email/: only email/images/ is published, but the template and signatures are pasted into
@@ -214,4 +216,47 @@ def offsite_loads(out, site_url):
             parser.close()
             found = parser.found
         problems += [f'{path.relative_to(out).as_posix()}:{line}: {what}' for line, what in found]
+    return problems
+
+
+class _Links(HTMLParser):
+    """Collects (line, href) for each link (<a href>) in a page."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.found = []
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'a':
+            self.found += [(self.getpos()[0], value) for name, value in attrs if name == 'href' and value]
+
+
+def broken_links(out, site_url):
+    """'file:line: ...' for each link on a page to this site that keeps .html (links leave it
+    out, as helpers.page_href does) or leads nowhere: no page or file at that address, or no
+    element with the #section's id. Each link is read from the address GitHub Pages serves its
+    page at (about.html at /about), as a browser reads it. Links to other sites aren't checked."""
+    problems = []
+    pages = {path.name: path.read_text(encoding='utf-8') for path in sorted(out.glob('*.html'))}
+    for name, text in pages.items():
+        parser = _Links()
+        parser.feed(text)
+        parser.close()
+        here = urljoin(site_url + '/', page_href(name))
+        for line, href in parser.found:
+            url = urlsplit(urljoin(here, href.strip()))
+            if f'{url.scheme}://{url.netloc}' != site_url:
+                continue
+            path = unquote(url.path).lstrip('/')
+            where = f'{name}:{line}: "{href}"'
+            if path.endswith('.html'):
+                problems.append(f'{where} ends in .html; link to the page without it (helpers.page_href)')
+                continue
+            filename = 'index.html' if not path else path if '.' in path.rsplit('/', 1)[-1] else path + '.html'
+            target = (out / filename).resolve()
+            if out.resolve() not in target.parents or not target.is_file():
+                problems.append(f'{where} leads to no page or file in the output')
+            elif url.fragment and filename in pages and not re.search(
+                    r'\sid="' + re.escape(url.fragment) + '"', pages[filename]):
+                problems.append(f'{where}: {filename} has no id="{url.fragment}"')
     return problems

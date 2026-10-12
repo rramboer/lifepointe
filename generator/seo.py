@@ -2,8 +2,9 @@
 page's schema.org JSON-LD, sitemap.xml and robots.txt.
 
 Every address is built from practice.json site_url. A page's canonical URL is site_url + '/'
-for the home page and site_url + '/<file>.html' for the rest, the same form as the site's own
-links. The sitemap lists exactly the pages in pages.PAGES, so a new page is added there only.
+for the home page and site_url + '/<file name without .html>' for the rest, the same form as
+the site's own links (helpers.page_href). The sitemap lists exactly the pages in pages.PAGES,
+so a new page is added there only.
 """
 import json
 import re
@@ -13,7 +14,7 @@ from xml.sax.saxutils import escape as xml_escape
 
 from .data import ADDRESS
 from .errors import BuildError
-from .helpers import esc
+from .helpers import esc, page_href
 
 HOME = 'index.html'
 SITEMAP = 'sitemap.xml'
@@ -72,7 +73,7 @@ def check_images(root):
 
 
 def canonical_url(site, filename):
-    return f'{site.practice.site_url}/{"" if filename == HOME else filename}'
+    return f'{site.practice.site_url}/{"" if filename == HOME else page_href(filename)}'
 
 
 def head_tags(site, filename, title, description):
