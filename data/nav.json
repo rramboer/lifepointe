@@ -1,0 +1,8 @@
+[
+  { "label": "About", "footer_label": "About us", "href": "about.html" },
+  { "label": "Services & products", "href": "services.html" },
+  { "label": "Success stories", "href": "success-stories.html" },
+  { "label": "New patients", "href": "new-patients.html" },
+  { "label": "Recipe book", "href": "recipe-book.html" },
+  { "label": "Contact", "href": "contact.html" }
+]

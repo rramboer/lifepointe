@@ -1,0 +1,39 @@
+{
+  "name": "Lifepointe Chiropractic & Wellness Center",
+  "legal_name": "Lifepointe Chiropractic Center",
+  "doctor": {
+    "name": "Dr. Greg Ramboer",
+    "credentials": "DC"
+  },
+  "phone": {
+    "display": "(248) 623-6107",
+    "tel": "+12486236107"
+  },
+  "fax": "(248) 623-6443",
+  "email": "lifepointechiro@gmail.com",
+  "address": "5896 Dixie Hwy, Ste A, Clarkston, MI 48346",
+  "maps_url": "https://www.google.com/maps/place/Lifepointe+Chiropractic+and+Wellness+Center/@42.7066913,-83.4049681,15z/data=!4m5!3m4!1s0x0:0xa9dd54196a5af191!8m2!3d42.7066913!4d-83.4049681",
+  "social": {
+    "facebook": "https://www.facebook.com/lifepointewellness/",
+    "instagram": "https://www.instagram.com/lifepointe.chiropractic/"
+  },
+  "recipe_book_url": "https://drive.google.com/drive/folders/1gd1SYQlyzjPkBetDiqH9II4pzZ_H9Nxt",
+  "legacy": {
+    "old_site": "https://lifepointechiropractic.com",
+    "appointment_form": "https://api.leadconnectorhq.com/widget/form/f8vb0aCndV7BQySGJTI7",
+    "appointment_form_script": "https://link.msgsndr.com/js/form_embed.js",
+    "adult_forms": "https://res2.yourwebsite.life/res/62f173898d9d30000fa9b6b9/62f53d6f602bec000da85f13",
+    "child_forms": "https://res2.yourwebsite.life/res/62f173898d9d30000fa9b6b9/62f53d8125203f000dcbf00d",
+    "video": "https://vimeo.com/737699204",
+    "pamphlets": {
+      "health_assessment": {
+        "url": "https://res2.yourwebsite.life/res/62f173898d9d30000fa9b6b9/62f3246e6f6f3a000de4f063",
+        "label": "Download the health assessment pamphlet"
+      },
+      "nutrition": {
+        "url": "https://res2.yourwebsite.life/res/62f173898d9d30000fa9b6b9/62f324a98b3ec5000e69cdd5",
+        "label": "Download the nutrition consultation pamphlet"
+      }
+    }
+  }
+}

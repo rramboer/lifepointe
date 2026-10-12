@@ -52,8 +52,7 @@ reflows. An `[if mso]` block forces Outlook desktop onto Arial so it never defau
 | Muted text on navy / links on navy / fine print on navy | `#CCD2DE` / `#E6E9EF` / `#9EAAC1` | navy tints, all AA on navy |
 | Page background / dividers | `#F0F2F5` / `#E0E4EB` | navy tints |
 
-No gold, indigo or near-black: those came from the old DearDoc site, not the brand. See
-`../lifepointe-website/DESIGN.md` for the full color rules.
+No gold, indigo or near-black. See `../DESIGN.md` for the full color rules.
 
 ## Before you send — three things to replace
 1. **Logo — host it and use an absolute URL.** `images/lifepointe-logo.png` is referenced by a
