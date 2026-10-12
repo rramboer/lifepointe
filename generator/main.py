@@ -97,6 +97,10 @@ def build(out_arg=None):
     if offsite:
         raise BuildError(f'the output loads something from another site or has a form, which privacy.html '
                          f'says it never does ({len(offsite)} found):\n  ' + '\n  '.join(offsite))
+    broken = checks.broken_links(out, site.practice.site_url)
+    if broken:
+        raise BuildError(f'links on the pages keep .html or lead nowhere ({len(broken)} found):\n  '
+                         + '\n  '.join(broken))
     print(f'built {len(rendered)} pages, {not_found.FILENAME}, {seo.SITEMAP}, {seo.ROBOTS} and the /card '
           f'redirect into {_shown(out)}/ (copied {", ".join(copied)}; {scanned} text files checked, '
           f'plus {email_scanned} in email/)')

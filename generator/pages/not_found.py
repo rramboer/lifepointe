@@ -5,7 +5,7 @@ site's own files starts with / (BASE). Those links only work at the root of a do
 rramboer.github.io/lifepointe/ preview it shows without styles. It is noindex and not in
 pages.PAGES, so it stays out of the sitemap.
 """
-from ..helpers import esc
+from ..helpers import esc, page_href
 from ..layout import V, page, page_hero
 
 FILENAME = '404.html'
@@ -23,8 +23,8 @@ def render(site):
   <div class="wrap">
     <h2 id="next-h" class="display-2">Where to next?</h2>
     <div class="btn-row mt-15">
-      <a class="btn btn--primary" href="{BASE}index.html">Go to the home page</a>
-      <a class="btn btn--ghost" href="{BASE}contact.html">Contact us</a>
+      <a class="btn btn--primary" href="{page_href('index.html', BASE)}">Go to the home page</a>
+      <a class="btn btn--ghost" href="{page_href('contact.html', BASE)}">Contact us</a>
     </div>
     <p class="mt-2">Questions? <a href="{esc('tel:' + p.phone.tel)}">Call {esc(p.phone.display)}</a>.</p>
   </div>

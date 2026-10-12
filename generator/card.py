@@ -5,7 +5,7 @@ working. The page is card.html, like every other page: GitHub Pages answers /car
 as it answers /about from about.html. It is not in the menu or linked from the site.
 
 The destination is practice.json booking_url, or the contact page's appointment section
-while that is null. Its paths are root-absolute.
+while that is null. Its paths are root-absolute and leave out .html, like every link.
 The meta refresh redirects without JavaScript; the script at the end of the body redirects
 without adding /card to the browser history, after the fallback link is on the page.
 """
@@ -17,7 +17,7 @@ from .errors import BuildError
 from .helpers import esc
 
 FILES = ('card.html',)
-DEFAULT_TARGET = '/contact.html#appointment'
+DEFAULT_TARGET = '/contact#appointment'
 
 
 def target(site):
@@ -35,11 +35,12 @@ def check_target(site, pages):
     if not to.startswith('/'):
         return
     path, _, fragment = to[1:].partition('#')
-    if path not in pages:
-        raise BuildError(f'/card goes to {to}, but the build makes no {path}. '
+    filename = path + '.html' if path else 'index.html'
+    if filename not in pages:
+        raise BuildError(f'/card goes to {to}, but the build makes no {filename}. '
                          f'Change DEFAULT_TARGET in generator/card.py.')
-    if fragment and not re.search(r'\sid="' + re.escape(fragment) + '"', pages[path]):
-        raise BuildError(f'/card goes to {to}, but {path} has no id="{fragment}". Keep that id on '
+    if fragment and not re.search(r'\sid="' + re.escape(fragment) + '"', pages[filename]):
+        raise BuildError(f'/card goes to {to}, but {filename} has no id="{fragment}". Keep that id on '
                          f'the appointment section, or change DEFAULT_TARGET in generator/card.py.')
 
 

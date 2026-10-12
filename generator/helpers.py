@@ -7,6 +7,19 @@ def esc(value):
     return html.escape(str(value), quote=True)
 
 
+def page_href(target, base=''):
+    """The link to one of the site's pages, from its file name and an optional #section:
+    'about.html#team' -> 'about#team'. Links leave out .html: GitHub Pages (and preview.py)
+    serve about.html at /about. The home page is the site's root, './' or base. The result is
+    a URL, not HTML: pass a value from data/ through esc()."""
+    filename, hash_, fragment = target.partition('#')
+    if filename == 'index.html':
+        path = base or './'
+    else:
+        path = base + (filename[:-len('.html')] if filename.endswith('.html') else filename)
+    return path + hash_ + fragment
+
+
 def mailto(address, subject='', body=''):
     """A mailto: link (RFC 6068) that opens a new email with the subject and body filled in.
 
