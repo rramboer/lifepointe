@@ -26,6 +26,7 @@ def head(title, description, base='', extra=''):
   <title>{esc(title)}</title>
   <meta name="description" content="{esc(description)}">
   <link rel="icon" type="image/svg+xml" href="{base}assets/favicon.svg">
+  <link rel="apple-touch-icon" href="{base}assets/apple-touch-icon.png">
   <link rel="stylesheet" href="{base}css/site.css">{extra_html}
 </head>'''
 
