@@ -73,7 +73,7 @@ def render(site):
   {V}
   <div class="wrap center">
     <p class="lede measure-center">Has Lifepointe made a difference for you?</p>
-    <a class="btn btn--ghost" href="{esc(p.review_url)}">Leave a review</a>
+    <a class="btn btn--ghost" href="{esc(p.review_url or p.maps_url)}">Leave a review</a>
   </div>
 </section>
 </div>
