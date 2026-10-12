@@ -1,5 +1,5 @@
 """New patients page: the first visit, step by step, and the intake forms."""
-from ..helpers import esc, page_href
+from ..helpers import esc, in_series, page_href
 from ..icons import icon
 from ..layout import V, cta_band, page, page_hero
 from . import good_faith_estimate
@@ -50,7 +50,7 @@ def render(site):
       <div class="card">
         {icon('shield')}
         <h3 class="display-3">Insurance</h3>
-        <p>In-network with Blue Cross Blue Shield, Medicare, Medicare Advantage, and Veterans Affairs; other policies accepted out-of-network. Questions? <a href="{esc('tel:' + p.phone.tel)}">Call {esc(p.phone.display)}</a>.</p>
+        <p>In-network with {in_series(esc(plan) for plan in p.in_network)}; other policies accepted out-of-network. Questions? <a href="{esc('tel:' + p.phone.tel)}">Call {esc(p.phone.display)}</a>.</p>
         <p>Paying for your care yourself? You can ask for a <a href="{esc(page_href(good_faith_estimate.FILENAME))}">Good Faith Estimate</a> of the cost.</p>
       </div>
     </div>
