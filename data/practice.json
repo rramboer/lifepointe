@@ -21,6 +21,16 @@
   "recipe_book_url": "https://drive.google.com/drive/folders/1gd1SYQlyzjPkBetDiqH9II4pzZ_H9Nxt",
   "site_url": "https://lifepointechiro.com",
   "booking_url": null,
+  "in_network": [
+    "Aetna",
+    "ASR",
+    "Blue Cross Blue Shield",
+    "Blue Care Network",
+    "Cofinity",
+    "Medicare",
+    "Medicare Advantage",
+    "Veterans Affairs"
+  ],
   "forms": {
     "adult": "forms/new-patient-adult.pdf",
     "child": "forms/new-patient-child.pdf"

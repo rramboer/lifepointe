@@ -139,7 +139,8 @@ def _read(data_dir, filename):
 
 def _check_practice(c, raw, root):
     p = c.obj(raw, TOP, ('name', 'legal_name', 'doctor', 'phone', 'fax', 'email', 'address', 'geo',
-                         'maps_url', 'social', 'recipe_book_url', 'site_url', 'booking_url', 'forms'))
+                         'maps_url', 'social', 'recipe_book_url', 'site_url', 'booking_url', 'in_network',
+                         'forms'))
     c.text(p, 'name', TOP)
     c.text(p, 'legal_name', TOP)
     fax = c.text(p, 'fax', TOP)
@@ -196,6 +197,13 @@ def _check_practice(c, raw, root):
         if not isinstance(booking, str) or not WEB_ADDRESS.fullmatch(booking):
             c.fail('booking_url', f'must be null or an https:// address with a domain and no spaces, '
                                   f'like https://example.com/book (got {json.dumps(booking, ensure_ascii=False)})')
+    # The insurance plans the practice is in-network with, in the order the pages list them
+    # (home page and new patients page).
+    plans = c.items(p.get('in_network'), 'in_network')
+    for i, plan in enumerate(plans):
+        if not isinstance(plan, str) or not plan.strip():
+            c.fail(f'in_network[{i}]', 'must be non-empty text, the plan\'s name')
+    c.unique([plan for plan in plans if isinstance(plan, str)], 'in_network', 'plan')
     social = c.obj(p.get('social'), 'social', ('facebook', 'instagram'))
     c.url(social, 'facebook', 'social')
     c.url(social, 'instagram', 'social')

@@ -20,6 +20,15 @@ def page_href(target, base=''):
     return path + hash_ + fragment
 
 
+def in_series(items):
+    """Items joined for running text, with the serial comma: 'A', 'A and B', 'A, B, and C'.
+    Items are HTML already, so escape data values first."""
+    items = list(items)
+    if len(items) < 3:
+        return ' and '.join(items)
+    return ', '.join(items[:-1]) + ', and ' + items[-1]
+
+
 def language_anchor(lang):
     """The id of a language's notice of free language help on the nondiscrimination page:
     'lang-es', 'lang-zh-hant'. The footer links to it."""
