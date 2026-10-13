@@ -38,6 +38,7 @@ Rule of thumb: **green means "do something", red means "this is Lifepointe"**.
 | --navy-tint | #F0F2F5 | hover wash, icon chips (navy 6%) |
 | --navy-muted / --navy-link / --navy-faint | #CCD2DE / #E6E9EF / #9EAAC1 | text tiers on navy (10.2 / 12.7 / 6.6 : 1) |
 | --header-h | 76px | header height; drives scroll-padding + sticky offsets |
+| --wrap | 1280px | widest the content gets (half of a 2560px-wide screen, such as a 27-inch monitor); paragraphs stay narrower (`.measure`, 46em) so lines stay easy to read |
 
 The primary button's hover adds a navy (or white, on dark) inner ring and lifts; the green
 itself never shifts. The footer uses the same navy as `.section--navy` with a hairline top
