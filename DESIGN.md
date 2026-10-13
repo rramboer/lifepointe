@@ -42,7 +42,9 @@ Rule of thumb: **green means "do something", red means "this is Lifepointe"**.
 | --wrap | 1280px | widest the content gets (half of a 2560px-wide screen, such as a 27-inch monitor); paragraphs stay narrower (`.measure`, 46em) so lines stay easy to read |
 
 The primary button's hover adds a navy (or white, on dark) inner ring and lifts; the green
-itself never shifts. The footer uses the same navy as `.section--navy` with a hairline top
+itself never shifts. On phones (540px and narrower) the buttons in the page content span
+the column, so a stacked pair lines up and each is an easy thumb target; small buttons
+(`.btn--sm`: the header's, the home card's Get directions) keep their size. The footer uses the same navy as `.section--navy` with a hairline top
 border, so the closing CTA band and footer stay distinct without a second navy.
 
 ## Logo
