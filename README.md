@@ -217,9 +217,10 @@ Every page's footer links to `privacy.html`, `notice-of-privacy-practices.html`,
   164.520(c)(3)(i)). The page, `generator/pages/privacy_notice.py`, follows the office's
   "Notice of Privacy Practices" document, which is HHS's model notice for health care
   providers (revised February 2026) filled in. It is effective November 1, 2026
-  (`EFFECTIVE`). It differs from the document in only three ways:
+  (`EFFECTIVE`). It differs from the document in only these ways:
   - the contact details come from `practice.json`, so the email shown always works;
   - "the information on page 1" reads "at the top of this notice";
+  - the contact box's label has the site's serial comma, "Questions, requests, or complaints";
   - the free language help notice ends the page, as Section 1557 requires
     (92.11(c)(5)(ii)).
 

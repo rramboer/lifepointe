@@ -7,10 +7,11 @@ policy points here too.
 The text is the practice's own notice, "Notice of Privacy Practices" (Word and PDF, in the
 office's documents folder), which is HHS's model notice for health care providers, revised
 February 2026, with the practice's details filled in. Keep this page word for word in step with
-that document, apart from three web adaptations:
+that document, apart from these web adaptations:
 - the contact details come from data/practice.json, so the email shown is always one that
   works (the document gives office@lifepointechiro.com, live once that mailbox is set up);
 - "the information on page 1" reads "the information at the top of this notice";
+- the contact box's label has the serial comma the site uses, "Questions, requests, or complaints";
 - the notice of free language help ends the page, as 45 CFR 92.11(c)(5)(ii) requires
   (nondiscrimination.language_help).
 When the office changes its notice, update this page and EFFECTIVE.
@@ -65,7 +66,7 @@ def render(site):
     <h2 id="summary-h" class="display-2">Your Information. Your Rights. Our Responsibilities.</h2>
     <div class="measure mt-15">
       <div class="card">
-        <h3 class="display-3">Questions, requests or complaints</h3>
+        <h3 class="display-3">Questions, requests, or complaints</h3>
         <p>Privacy Officer &nbsp;&middot;&nbsp; {name}<br><a href="{tel}">{phone}</a> &nbsp;&middot;&nbsp; <a href="{email_link}">{email}</a><br>{address}</p>
       </div>
 

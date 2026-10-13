@@ -78,7 +78,7 @@ def page_hero(eyebrow, h1, lede='', meta=''):
 
 
 def cta_band(site, heading='Don&rsquo;t wait any longer to get relief from your pain.',
-             sub='Call, or send a request and a member of our team will reach out to you soon.', base=''):
+             sub='Call, or send a request, and a member of our team will reach out to you soon.', base=''):
     """Closing call-to-action band. heading and sub are trusted HTML."""
     phone = site.practice.phone
     return f'''

@@ -73,7 +73,7 @@ def render(site):
     <div>
       <span class="eyebrow">Request an appointment</span>
       <h2 id="appt-h" class="display-2">We&rsquo;d love to hear from you</h2>
-      <p>Send us a message and a member of our team will reach out to you soon. Prefer the phone? <a href="{tel}">Call {phone}</a> during office hours.</p>
+      <p>Send us a message, and a member of our team will reach out to you soon. Prefer the phone? <a href="{tel}">Call {phone}</a> during office hours.</p>
       {hours_table(site.hours, 'hours-table mt-15')}
     </div>
     <div class="card">
