@@ -1,0 +1,23 @@
+<!-- Drawn for the Lifepointe website on Lucide's 24-unit grid, in its style: three vertebrae
+     seen from the front, widening toward the low back, each with its transverse processes,
+     and a disc between each pair. -->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <rect x="9.5" y="2" width="5" height="3.2" rx="1" />
+  <path d="M6.5 3.6h3M14.5 3.6h3" />
+  <path d="M10.5 7.6h3" />
+  <rect x="9" y="10" width="6" height="3.6" rx="1.2" />
+  <path d="M5.5 11.8h3.5M15 11.8h3.5" />
+  <path d="M10.5 16h3" />
+  <rect x="8.5" y="18.4" width="7" height="3.6" rx="1.2" />
+  <path d="M5 20.2h3.5M15.5 20.2H19" />
+</svg>

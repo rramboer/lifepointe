@@ -6,7 +6,7 @@
       "summary": "Gentle, precise adjustments to improve function and help the body express optimal health."
     },
     {
-      "icon": "hand",
+      "icon": "massage",
       "title": "Licensed massage therapy",
       "summary": "Improved circulation, reduced stress, and adjustments that hold longer."
     },
@@ -16,17 +16,17 @@
       "summary": "High-quality digital X-ray, right in the office, when your exam calls for it."
     },
     {
-      "icon": "leaf",
+      "icon": "apple",
       "title": "Nutrition & sensitivity testing",
       "summary": "Personal nutritional consultations plus food allergy, microbiome, and metabolic testing."
     },
     {
-      "icon": "arrows",
+      "icon": "traction",
       "title": "Cervical & lumbar traction",
       "summary": "Relieves pressure on the spine and helps align the vertebrae."
     },
     {
-      "icon": "foot",
+      "icon": "footprints",
       "title": "Custom-made foot orthotics",
       "summary": "Designed to fit the specific contours of your feet."
     }
@@ -38,12 +38,12 @@
       "summary": "To improve function and help the body express optimal health."
     },
     {
-      "icon": "spine",
+      "icon": "physio",
       "title": "A variety of techniques",
       "summary": "Including Diversified, Activator, Logan Basic, Thompson, and Webster."
     },
     {
-      "icon": "arrows",
+      "icon": "traction",
       "title": "Cervical & lumbar traction",
       "summary": "Relieves pressure on the spine and helps to align the vertebrae."
     },
@@ -53,27 +53,27 @@
       "summary": "High-quality digital X-ray services for a variety of purposes."
     },
     {
-      "icon": "clip",
+      "icon": "report",
       "title": "Complete computerized health assessments",
       "summary": "A comprehensive picture of your health."
     },
     {
-      "icon": "leaf",
+      "icon": "apple",
       "title": "Personal nutritional consultations",
       "summary": "Diabetes, autoimmune conditions, autism spectrum disorders, weight loss, and more."
     },
     {
-      "icon": "leaf",
+      "icon": "test-tube",
       "title": "Food allergy & sensitivity testing",
       "summary": "Individualized microbiome and metabolic testing."
     },
     {
-      "icon": "hand",
+      "icon": "massage",
       "title": "Licensed massage therapy",
       "summary": "Improved circulation, reduced stress levels, and more."
     },
     {
-      "icon": "foot",
+      "icon": "footprints",
       "title": "Custom-made foot orthotics",
       "summary": "Designed to fit the specific contours of your feet."
     }

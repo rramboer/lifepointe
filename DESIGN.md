@@ -62,6 +62,13 @@ home-screen bookmark and for the small-card link preview in Messages. The full l
 - Both are self-hosted from `assets/fonts/` (README.md, Fonts): only these four weights, no
   italics, and no request to Google
 
+## Icons
+Line icons on a 24-unit grid, 1.8 stroke, round ends, navy, in a 46px `--navy-tint` tile on
+cards (40px in the contact panel). Lucide first; Tabler where it has the clearer picture
+(massage, physiotherapist, apple, medical clipboard); the spine is drawn for the site in
+the same style. One picture per meaning: no icon repeats within a grid of cards. Sources and
+licenses: README.md, Icons.
+
 ## Rhythm
 Sections are padded `--section-y` (40px on phones, up to 64px on desktop), interior page
 heroes 36–52px and cards 20–26px: enough to separate things without leaving screens of

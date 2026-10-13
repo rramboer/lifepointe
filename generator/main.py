@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_OUT = ROOT / 'dist'
 # Never write the output into the repo root or over source folders (all of email/, not just
 # the images/ that the site publishes).
-SOURCE_DIRS = ['.git', '.github', 'data', 'generator'] + [name.split('/')[0] for name in static.STATIC_DIRS]
+SOURCE_DIRS = ['.git', '.github', 'data', 'generator', 'icons'] + [name.split('/')[0] for name in static.STATIC_DIRS]
 # Every build leaves this empty file in its output. --out only empties a folder that has it.
 BUILD_MARKER = '.site-build'
 
