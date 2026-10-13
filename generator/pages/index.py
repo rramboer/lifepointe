@@ -1,5 +1,5 @@
 """Home page."""
-from ..helpers import esc, in_series, page_href
+from ..helpers import esc, page_href
 from ..hours import hours_table
 from ..icons import icon, svg
 from ..layout import V, cta_band, page
@@ -29,6 +29,8 @@ def render(site):
       <footer>{esc(t.author)} <span>{esc(label)} &middot; Lifepointe patient</span></footer>
     </figure>''' for t, label in (stories[tid] for tid in site.home_quotes))
 
+    plans = '\n      '.join(f'<li><span class="chip">{esc(plan)}</span></li>' for plan in p.in_network)
+
     body = f'''
 <section class="section" aria-labelledby="hero-h">
   <div class="wrap grid-2">
@@ -41,7 +43,7 @@ def render(site):
         <a class="btn btn--ghost" href="{page_href('new-patients.html')}">What to expect</a>
       </div>
       <div class="badge-row rise rise-4 mt-2">
-        <span class="badge">{svg('shield')} In-network with BCBS, Medicare, VA, &amp; more</span>
+        <span class="badge">{svg('shield')} In-network with {len(p.in_network)} insurance plans</span>
         <span class="badge">{svg('users')} All ages welcome</span>
       </div>
     </div>
@@ -51,6 +53,16 @@ def render(site):
       </figure>
       <div class="photo-chip">Serving Clarkston for 25 years<span>Est. July 2001</span></div>
     </div>
+  </div>
+</section>
+
+<section class="insurance-band" aria-labelledby="insurance-h">
+  <div class="wrap">
+    <h2 id="insurance-h" class="insurance-band__title">In-network with these insurance plans</h2>
+    <ul class="chip-grid insurance-band__list">
+      {plans}
+    </ul>
+    <p class="insurance-band__note">Other policies are accepted out-of-network.</p>
   </div>
 </section>
 
@@ -137,11 +149,6 @@ def render(site):
         <h3 class="display-3">{esc(p.name)}</h3>
         <p>{esc(p.address)}</p>
         <a class="btn btn--ghost btn--sm" href="{maps}">Get directions</a>
-      </div>
-      <div class="card">
-        {icon('shield')}
-        <h3 class="display-3">Insurance</h3>
-        <p>We are in-network with {in_series(f'<strong>{esc(plan)}</strong>' for plan in p.in_network)}. Other policies are accepted out-of-network.</p>
       </div>
     </div>
   </div>
