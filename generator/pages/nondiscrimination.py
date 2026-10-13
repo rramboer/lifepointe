@@ -2,8 +2,7 @@
 Care Act, 45 CFR 92.10 and 92.11.
 
 The practice bills Medicare, so these rules apply to it. Both notices must be at a conspicuous
-location on the website: every page's footer links here and lists the languages
-(layout.footer). They must also be posted in the office in at least 20-point sans-serif type:
+location on the website: every page's footer links here (layout.LEGAL_LINKS). They must also be posted in the office in at least 20-point sans-serif type:
 printing this page gives that poster (css/site.css, "Printed notice"). The language notice also
 goes on intake forms, the Notice of Privacy Practices and the other documents listed in
 45 CFR 92.11(c)(5).

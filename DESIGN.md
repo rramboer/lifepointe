@@ -85,8 +85,6 @@ practice.json has a `booking_url`, a green "Book online" button leads and Call t
 so the card keeps one primary action. No form, no embed: nothing on the site collects health
 information or loads a third-party widget.
 Shared header (sticky, green CTA → contact#appointment) + footer (navy-ink, white logo).
-Above the footer's copyright line, "Free language help" lists every language of the
-nondiscrimination page's notices in its own script (lang and dir set on each), linked to it.
 The footer's Facebook and Instagram logos follow Meta's brand rules: the official shapes
 (Facebook's whole disc with the "f" cut out, never the "f" alone), white, 29px (Instagram's
 minimum), with half a glyph of clear space and no container shape. Hover never recolors them.

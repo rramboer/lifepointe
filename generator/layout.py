@@ -6,7 +6,7 @@ them root-absolute, for the 404 page, which GitHub Pages serves at whatever addr
 missing, at any depth. Links to pages go through helpers.page_href, which leaves out .html.
 """
 from . import seo
-from .helpers import esc, language_anchor, page_href
+from .helpers import esc, page_href
 from .hours import hours_summary
 from .icons import svg
 
@@ -17,9 +17,6 @@ LEGAL_LINKS = (('privacy.html', 'Privacy policy'),
                ('accessibility.html', 'Accessibility statement'),
                ('nondiscrimination.html', 'Nondiscrimination notice'),
                ('good-faith-estimate.html', 'Good Faith Estimate'))
-# The page with the notice of free language help in each language (Section 1557, 45 CFR 92.11).
-# The footer lists every language in its own script, linked to its notice there.
-LANGUAGE_HELP = 'nondiscrimination.html'
 
 
 def head(title, description, base='', extra=''):
@@ -106,9 +103,6 @@ def footer(site, base=''):
     hours = '\n'.join(f'          <li>{line}</li>' for line in hours_summary(site.hours))
     legal = ' &nbsp;&middot;&nbsp; '.join(
         f'<a href="{esc(page_href(href, base))}">{esc(text)}</a>' for href, text in LEGAL_LINKS)
-    languages = '\n'.join(
-        f'        <li><a href="{esc(page_href(LANGUAGE_HELP + "#" + language_anchor(t.lang), base))}" lang="{esc(t.lang)}" '
-        f'dir="{esc(t.dir)}">{esc(t.name)}</a></li>' for t in site.language_help.languages)
     return f'''
 <footer class="site-footer on-dark">
   <div class="wrap">
@@ -145,12 +139,6 @@ def footer(site, base=''):
         </ul>
       </div>
     </div>
-    <nav class="site-footer__languages" aria-labelledby="language-help-label">
-      <h2 id="language-help-label"><a href="{esc(page_href(LANGUAGE_HELP + '#language-help-h', base))}">Free language help</a></h2>
-      <ul>
-{languages}
-      </ul>
-    </nav>
     <div class="site-footer__legal">
       <span>&copy; <span data-year>2026</span> {esc(p.legal_name)}. All rights reserved.</span>
       <span>{legal}</span>
