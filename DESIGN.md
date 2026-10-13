@@ -92,10 +92,11 @@ The footer's Facebook and Instagram logos follow Meta's brand rules: the officia
 minimum), with half a glyph of clear space and no container shape. Hover never recolors them.
 The closing CTA band is shared verbatim on five pages; new-patients tailors it ("Ready for
 your first visit?") and contact omits it — deliberate: never CTA to the page you're on.
-the legal pages (privacy, accessibility, nondiscrimination, Good Faith Estimate) omit it too:
-they are reference text, not sales pages. Each is plain prose in a `.measure` column (h2 per
-section, `.display-3` h3 per topic, `.mt-2` between topics), with the "Last updated" / "Last
-reviewed" date in the hero (`.page-hero__meta`).
+the legal pages (privacy, the Notice of Privacy Practices, accessibility, nondiscrimination,
+Good Faith Estimate) omit it too: they are reference text, not sales pages. Each is plain prose
+in a `.measure` column (h2 per section, `.display-3` h3 per topic, `.display-4` h4 inside a
+topic, `.mt-2` between topics), with the "Last updated", "Last reviewed" or "Effective" date in
+the hero (`.page-hero__meta`).
 `/card` (the business-card QR code) is an unlisted redirect, not a page: logo, one line and a
 green button with navy text, its few styles inline, nothing loaded from other sites (README.md).
 `404.html` uses the shared header and footer with a short hero and two buttons, home (green)
@@ -117,7 +118,3 @@ pull request and every push to `main`, and deploys `main` to GitHub Pages (READM
 Deploy). The generated HTML is never committed. Edit content in `data/*.json`, page markup
 in `generator/pages/`, the shared header, footer and CTA band in `generator/layout.py`,
 styling in css/site.css, behavior in js/site.js.
-
-## Known placeholders
-- The Notice of Privacy Practices section of privacy.html says what the notice is and how to
-  ask for a copy. It stays until the practice's own notice replaces it (README.md).

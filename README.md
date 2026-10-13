@@ -16,9 +16,9 @@ generator/         the generator itself
   data.py          loads data/*.json and stops the build on any problem
   layout.py        shared head, header, footer, page hero and closing CTA band
   pages/           one module per page; prose used on only one page lives here
-                   (not_found.py is the 404 page; privacy.py, accessibility.py,
-                   nondiscrimination.py and good_faith_estimate.py are the footer's
-                   legal pages, see Legal pages)
+                   (not_found.py is the 404 page; privacy.py, privacy_notice.py,
+                   accessibility.py, nondiscrimination.py and good_faith_estimate.py
+                   are the footer's legal pages, see Legal pages)
   seo.py           canonical URLs, link-preview tags, the home page's JSON-LD,
                    sitemap.xml and robots.txt (see Search engines and link previews)
   card.py          the /card redirect behind the business-card QR code (see below)
@@ -164,8 +164,9 @@ every field (in LibreOffice, each control's Help text), which is what screen rea
 
 ## Legal pages
 
-Every page's footer links to `privacy.html`, `accessibility.html`, `nondiscrimination.html` and
-`good-faith-estimate.html` (`LEGAL_LINKS` in `generator/layout.py`). Their text is in
+Every page's footer links to `privacy.html`, `notice-of-privacy-practices.html`,
+`accessibility.html`, `nondiscrimination.html` and `good-faith-estimate.html`
+(`LEGAL_LINKS` in `generator/layout.py`). Their text is in
 `generator/pages/`; the phone, email and address come from `data/practice.json`.
 
 - **The nondiscrimination notice is required.** The practice bills Medicare, so Section 1557
@@ -210,10 +211,19 @@ Every page's footer links to `privacy.html`, `accessibility.html`, `nondiscrimin
   keep every page and the new-patient forms to that standard. Its "What the site does" list
   restates the accessibility floor in DESIGN.md. If the floor changes, update the statement and
   its `LAST_REVIEWED` date.
-- **The Notice of Privacy Practices is a placeholder.** The privacy policy's last section
-  (`#notice-of-privacy-practices`) only says what the notice is and how to ask for a copy.
-  Replace it with the practice's own notice, on that page or as a linked file. A covered
-  entity with a website must post its notice prominently on it (45 CFR 164.520(c)(3)(i)).
+- **The Notice of Privacy Practices is the practice's own notice, word for word.** HIPAA
+  requires a covered entity with a website to post its notice prominently on it (45 CFR
+  164.520(c)(3)(i)). The page, `generator/pages/privacy_notice.py`, follows the office's
+  "Notice of Privacy Practices" document, which is HHS's model notice for health care
+  providers (revised February 2026) filled in. It is effective November 1, 2026
+  (`EFFECTIVE`). It differs from the document in only three ways:
+  - the contact details come from `practice.json`, so the email shown always works;
+  - "the information on page 1" reads "at the top of this notice";
+  - the free language help notice ends the page, as Section 1557 requires
+    (92.11(c)(5)(ii)).
+
+  When the office changes its notice, update the page and `EFFECTIVE` to match. The privacy
+  policy's last section links to it.
 
 ## Fonts
 

@@ -7,12 +7,12 @@ and which other sites it links to. Changing any of those means updating this pag
 LAST_UPDATED. The build stops if a page would load anything from another site or has a form
 (checks.offsite_loads).
 
-The Notice of Privacy Practices section is a placeholder. It only says what the notice is and
-how to get a copy. Replace it with the practice's own notice, on this page or as a linked file:
-a covered entity's website must prominently post its notice (45 CFR 164.520(c)(3)(i)).
+The Notice of Privacy Practices is its own page (privacy_notice.py). The last section here says
+what it is and links to it.
 """
-from ..helpers import esc
+from ..helpers import esc, page_href
 from ..layout import V, page, page_hero
+from . import privacy_notice
 
 FILENAME = 'privacy.html'
 LAST_UPDATED = 'October 2026'
@@ -35,6 +35,7 @@ def render(site):
     phone = esc(p.phone.display)
     email = esc(p.email)
     email_link = esc('mailto:' + p.email)
+    notice_link = esc(page_href(privacy_notice.FILENAME))
     # With a booking_url, the contact page links to an online booking service: another
     # company's site that collects what people type into it. Name it among the outside links.
     # The /card redirect (generator/card.py) goes there too.
@@ -60,7 +61,7 @@ def render(site):
     <span class="eyebrow">This website</span>
     <h2 id="website-h" class="display-2">How this website handles your information</h2>
     <div class="measure mt-15">
-      <p>This website belongs to {name} (legal name {esc(p.legal_name)}), called &ldquo;we&rdquo; or &ldquo;us&rdquo; here. This notice covers the website only. Your medical information is covered by our <a href="#notice-of-privacy-practices">Notice of Privacy Practices</a>, below.</p>
+      <p>This website belongs to {name} (legal name {esc(p.legal_name)}), called &ldquo;we&rdquo; or &ldquo;us&rdquo; here. This notice covers the website only. Your medical information is covered by our <a href="{notice_link}">Notice of Privacy Practices</a>.</p>
 
       <h3 class="display-3 mt-2">No cookies, analytics, or tracking</h3>
       <p>This website doesn&rsquo;t use cookies, analytics, advertising, or tracking tools of any kind, and we don&rsquo;t keep a record of who visits. Everything its pages load, including pictures, fonts, and scripts, comes from this website itself, so reading a page sends nothing to Google, Facebook, or any company other than our web host (below). The site&rsquo;s scripts only change how pages look and work in your browser, such as opening the menu on small screens or taking people who scan the QR code on our business card to {card_destination}. They send nothing anywhere.</p>
@@ -101,8 +102,8 @@ def render(site):
     <span class="eyebrow">Your medical information</span>
     <h2 id="npp-h" class="display-2">Notice of Privacy Practices</h2>
     <div class="measure mt-15">
-      <p>Our HIPAA Notice of Privacy Practices describes how medical information about you may be used and disclosed, and how you can get access to this information.</p>
-      <p>You can ask for a copy at any time. <a href="{tel}">Call us at {phone}</a> or ask at the front desk.</p>
+      <p>Our HIPAA <a href="{notice_link}">Notice of Privacy Practices</a>, effective {privacy_notice.EFFECTIVE}, describes how medical information about you may be used and disclosed, and how you can get access to this information.</p>
+      <p>You can also ask for a paper copy at any time. <a href="{tel}">Call us at {phone}</a> or ask at the front desk.</p>
     </div>
   </div>
 </section>

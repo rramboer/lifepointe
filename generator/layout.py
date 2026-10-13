@@ -12,7 +12,9 @@ from .icons import svg
 
 V = '<span class="vertebra" aria-hidden="true"></span>'
 # The footer's legal links, as (page, link text). The build stops if a page here isn't one it makes.
-LEGAL_LINKS = (('privacy.html', 'Privacy policy'), ('accessibility.html', 'Accessibility statement'),
+LEGAL_LINKS = (('privacy.html', 'Privacy policy'),
+               ('notice-of-privacy-practices.html', 'Notice of Privacy Practices'),
+               ('accessibility.html', 'Accessibility statement'),
                ('nondiscrimination.html', 'Nondiscrimination notice'),
                ('good-faith-estimate.html', 'Good Faith Estimate'))
 # The page with the notice of free language help in each language (Section 1557, 45 CFR 92.11).

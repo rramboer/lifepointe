@@ -152,6 +152,8 @@ h1, h2, h3 { overflow-wrap: break-word; }
 .display-1 { font-size: clamp(2.35rem, 1.4rem + 4vw, 3.9rem); font-weight: 800; letter-spacing: -.02em; }
 .display-2 { font-size: clamp(1.75rem, 1.3rem + 2vw, 2.5rem); font-weight: 700; letter-spacing: -.015em; }
 .display-3 { font-size: clamp(1.2rem, 1.05rem + .7vw, 1.45rem); font-weight: 700; }
+/* A heading inside a .display-3 topic, such as each right in the Notice of Privacy Practices */
+.display-4 { font-size: 1.1rem; font-weight: 700; margin-top: 1.5rem; }
 .display-page { font-size: clamp(2rem, 1.5rem + 2.2vw, 3rem); font-weight: 800; letter-spacing: -.018em; }
 .lede { font-size: clamp(1.1rem, 1rem + .5vw, 1.3rem); color: var(--ink-soft); line-height: 1.6; }
 
