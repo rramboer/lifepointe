@@ -23,7 +23,7 @@ generator/         the generator itself
                    sitemap.xml and robots.txt (see Search engines and link previews)
   card.py          the /card redirect behind the business-card QR code (see below)
   hours.py         office-hours table and footer summary
-  icons.py         inline SVG icons, by name
+  icons.py         inline SVG icons, by name, drawn from the files in icons/ (see Icons)
   helpers.py       esc(), which escapes every data value placed into HTML,
                    page_href(), which writes a link to a page without .html, and
                    mailto() for links that open a new email with the subject and
@@ -34,6 +34,7 @@ generator/         the generator itself
                    a missing file, for anything a page would load from another
                    site and for links that keep .html or lead nowhere
 css/ js/ assets/   stylesheet, script, logos, favicon, photos and web fonts (see Fonts)
+icons/             the icons' original SVG files and their licenses (see Icons); not published
 email/             standalone HTML email template (see email/README.md); only its images/
                    are published, at /email/images/
 forms/             the new-patient intake PDFs, published at /forms/ (see New-patient forms)
@@ -131,7 +132,7 @@ Rules for data files:
   `&rsquo;`. The build escapes everything. For a no-break space, type the U+00A0 character
   itself, or write the JSON escape `\u00a0`.
 - The order of every list is the order on the page. Nothing is sorted.
-- Icon names are the keys of `ICONS` in `generator/icons.py`.
+- Icon names are the keys of `FILES` (and `BRANDS`) in `generator/icons.py` (see Icons).
 - Keep the practice's own wording and fix typos only. Don't add claims, statistics, reviews,
   testimonials or quotes the practice didn't write.
 - Testimonials are the patients' exact words, typos fixed. Leave out the quote marks around
@@ -258,6 +259,28 @@ file that isn't there. The email template isn't part of the published site (see
   `unicode-range` cut to the Syriac blocks so it never draws Arabic, and only those two pages
   download it. License: `OFL-notosanssyriaceastern.txt`.
 - The `/card` redirect loads no fonts: it shows for a moment at most.
+
+## Icons
+
+The icons are drawn into the pages as inline SVG, so they load nothing. Their original files
+are in `icons/`, kept exactly as each icon set publishes them, with the set's license beside
+them; the folder isn't published. `generator/icons.py` names each icon (`FILES`) and keeps
+only the shapes from its file, drawn in the site's style: a 1.8 stroke with round ends,
+hidden from screen readers.
+
+- **Lucide** (`icons/lucide/`, from lucide-static 1.48.0): most icons. ISC license, plus MIT
+  for the icons Lucide took from Feather; both are in `icons/lucide/LICENSE`.
+- **Tabler Icons** (`icons/tabler/`, from @tabler/icons 3.48.0): massage, physiotherapist
+  ("A variety of techniques"), apple (nutrition) and the medical clipboard (health
+  assessments), where Tabler has a clearer picture than Lucide. MIT license,
+  `icons/tabler/LICENSE`. Both sets use the same 24-unit grid and round strokes.
+- **`icons/lifepointe/spine.svg`**: three vertebrae, drawn for this site on Lucide's grid
+  because neither set has a spine.
+- The Facebook and Instagram logos are `BRANDS` in `generator/icons.py` (Simple Icons, CC0),
+  drawn filled and never restyled (see DESIGN.md).
+- To add or change an icon, download its SVG from lucide.dev or tabler.io/icons (outline
+  style), save it unchanged in that set's folder, and add its name to `FILES`. The build
+  stops if a file is missing, isn't a 24×24 icon, or holds anything but simple shapes.
 
 ## Search engines and link previews
 

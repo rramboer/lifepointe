@@ -8,7 +8,7 @@ import re
 from types import SimpleNamespace
 
 from .errors import BuildError
-from .icons import ICONS
+from .icons import NAMES as ICON_NAMES
 
 DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 SLUG = re.compile(r'[a-z0-9]+(-[a-z0-9]+)*')
@@ -94,8 +94,8 @@ class Checker:
 
     def icon(self, obj, key, where):
         name = self.text(obj, key, where)
-        if name and name not in ICONS:
-            self.fail(_at(where, key), f'unknown icon "{name}" (known: {", ".join(sorted(ICONS))})')
+        if name and name not in ICON_NAMES:
+            self.fail(_at(where, key), f'unknown icon "{name}" (known: {", ".join(sorted(ICON_NAMES))})')
 
     def unique(self, values, where, what):
         seen = set()
