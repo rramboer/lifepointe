@@ -316,6 +316,12 @@ h1, h2, h3 { overflow-wrap: break-word; }
 .btn--sm { padding: .6rem 1.15rem; font-size: .92rem; }
 
 .btn-row { display: flex; flex-wrap: wrap; gap: .9rem; align-items: center; }
+/* Phones: buttons in the page content span the column, so a stacked pair lines up and each
+   is an easy thumb target. Small buttons (the header's, the home card's Get directions) keep
+   their size. */
+@media (max-width: 540px) {
+  main .btn:not(.btn--sm) { display: block; width: 100%; text-align: center; }
+}
 
 /* ---- Cards -------------------------------------------------------------- */
 
