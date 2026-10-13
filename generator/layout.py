@@ -64,14 +64,15 @@ def header(site, active, base=''):
 
 def page_hero(eyebrow, h1, lede='', meta=''):
     """Interior-page hero. Arguments are trusted HTML written in the page module. meta is a
-    short line under the lede, such as the date a legal page was last updated."""
-    lede_html = f'<p class="lede">{lede}</p>' if lede else ''
-    meta_html = f'\n    <p class="page-hero__meta">{meta}</p>' if meta else ''
+    short line under the lede, such as the date a legal page was last updated. Its lines fade
+    up on load one after another (.rise), like the home page's hero."""
+    lede_html = f'<p class="lede rise rise-3">{lede}</p>' if lede else ''
+    meta_html = f'\n    <p class="page-hero__meta rise rise-4">{meta}</p>' if meta else ''
     return f'''
 <section class="page-hero on-dark">
   <div class="wrap">
-    <span class="eyebrow">{eyebrow}</span>
-    <h1 class="display-page">{h1}</h1>
+    <span class="eyebrow rise">{eyebrow}</span>
+    <h1 class="display-page rise rise-2">{h1}</h1>
     {lede_html}{meta_html}
   </div>
 </section>'''

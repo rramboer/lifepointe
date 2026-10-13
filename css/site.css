@@ -87,7 +87,7 @@
   --font-body: "Lato", "Noto Sans Syriac Eastern", "Helvetica Neue", Arial, sans-serif;
   --wrap: 1480px;
   --section-y: clamp(2.5rem, 5vw, 4rem);   /* a section's top and bottom padding */
-  --rail-w: 2px;
+  --rail-w: 3px;
 }
 
 /* ---- Reset -------------------------------------------------------------- */
@@ -200,7 +200,10 @@ h1, h2, h3 { overflow-wrap: break-word; }
 
 /* ---- The spine rail (signature) -----------------------------------------
    A vertical rail in the left gutter of .has-rail sections. Each section
-   places one .vertebra node on it; script.js fills nodes on scroll. */
+   places one .vertebra node on it. As the page scrolls, site.js fills the
+   rail green down to a reading line 55% of the way down the window
+   (--rail-fill, 0 to 1) and lights each vertebra the fill has reached.
+   Without JS the rail stays grey. */
 
 .rail-wrap { position: relative; }
 .rail-wrap::before {
@@ -211,6 +214,18 @@ h1, h2, h3 { overflow-wrap: break-word; }
   top: 0; bottom: 0;
   width: var(--rail-w);
   background: var(--line);
+}
+.rail-wrap::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: max(1rem, calc((100% - var(--wrap)) / 2 + .75rem));
+  top: 0; bottom: 0;
+  width: var(--rail-w);
+  background: var(--green);
+  transform: scaleY(var(--rail-fill, 0));
+  transform-origin: top;
+  transition: transform .2s ease-out;
 }
 .rail-wrap .section { position: relative; }
 .vertebra {
@@ -230,8 +245,30 @@ h1, h2, h3 { overflow-wrap: break-word; }
   border-color: var(--navy);
   box-shadow: 0 0 0 5px rgba(132, 189, 0, .22);
 }
+/* The point at the fill's leading edge (site.js adds it), shown while the fill is moving
+   through the rail */
+.rail-head {
+  position: absolute;
+  z-index: 2;
+  left: calc(max(1rem, (100% - var(--wrap)) / 2 + .75rem) + var(--rail-w) / 2);
+  top: calc(var(--rail-fill, 0) * 100%);
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 4px rgba(132, 189, 0, .22);
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: top .2s ease-out, opacity .3s ease;
+}
+.rail-head.is-moving { opacity: 1; }
+/* A soft pop as the fill reaches a node (not for the ones already lit when the page opens) */
+.rail-ready .vertebra.is-lit { animation: vertebra-pop .5s cubic-bezier(.2, .7, .3, 1); }
+@keyframes vertebra-pop {
+  40% { transform: translateX(-50%) scale(1.45); }
+}
 @media (max-width: 720px) {
-  .rail-wrap::before, .vertebra { display: none; }
+  .rail-wrap::before, .rail-wrap::after, .rail-head, .vertebra { display: none; }
 }
 
 /* ---- Header ------------------------------------------------------------- */
@@ -241,7 +278,9 @@ h1, h2, h3 { overflow-wrap: break-word; }
   background: rgba(255, 255, 255, .92);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
+  transition: box-shadow .25s ease;
 }
+.site-header.is-scrolled { box-shadow: 0 6px 20px rgba(0, 32, 91, .08); }  /* set by site.js */
 .site-header__bar {
   display: flex; align-items: center; gap: 1rem;
   min-height: var(--header-h);
@@ -346,7 +385,9 @@ h1, h2, h3 { overflow-wrap: break-word; }
   display: grid; place-items: center;
   background: var(--navy-tint); color: var(--navy);
   margin-bottom: .8rem;
+  transition: background-color .18s ease, color .18s ease;
 }
+.card--link:is(:hover, :focus-visible) .card__icon { background: var(--navy); color: #fff; }
 .card__icon svg { width: 24px; height: 24px; }
 
 /* Contact: call, email, fax, and address in one panel. The 1px gaps over a --line background
@@ -523,6 +564,17 @@ h1, h2, h3 { overflow-wrap: break-word; }
 .rise-3 { animation-delay: .2s; }
 .rise-4 { animation-delay: .3s; }
 
+/* Scroll reveal (site.js): content below the first screen fades up once, the first time it
+   scrolls into view; things arriving together follow each other by 70ms. site.js marks only
+   what starts below the window, does nothing under prefers-reduced-motion, and takes the
+   classes off afterwards so hover effects keep their own timing. */
+.reveal {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity .6s ease, transform .6s cubic-bezier(.2, .7, .3, 1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+.reveal.is-revealed { opacity: 1; transform: none; }
+
 /* Floating chip over the hero photo */
 .photo-chip {
   position: absolute;
@@ -564,8 +616,9 @@ a.chip:hover { border-color: var(--navy); background: var(--navy-tint); color: v
    in at least 20-point sans-serif type where patients can read them (45 CFR 92.10(a)(2)(iv) and
    92.11(c)(4)). Only the notice prints, black on white; the links' addresses are in its text. */
 @media print {
+  .reveal { opacity: 1 !important; transform: none !important; }
   body:has(.notice-print) :is(.skip-link, .site-header, .site-footer, .vertebra, .page-hero__meta, .eyebrow) { display: none !important; }
-  body:has(.notice-print) .rail-wrap::before { display: none !important; }
+  body:has(.notice-print) :is(.rail-wrap::before, .rail-wrap::after) { display: none !important; }
   body:has(.notice-print) main, body:has(.notice-print) main * {
     color: #000 !important; background: none !important; box-shadow: none !important;
     font-family: "Lato", "Noto Sans Syriac Eastern", Arial, sans-serif !important; font-size: 20pt !important; line-height: 1.35 !important;

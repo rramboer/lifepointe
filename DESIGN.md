@@ -6,10 +6,14 @@ them.
 
 ## Concept
 The page's structural device is the subject itself: **alignment**. A vertical "spine rail"
-runs down the content gutter with one vertebra node per section; nodes light green as each
-section enters view (IntersectionObserver; static without JS; motion killed by
-`prefers-reduced-motion`). "Lifepointe" = points along a line. Everything else stays quiet
-so the one signature element carries the design.
+runs down the content gutter with one vertebra node per section. As the page scrolls, the
+rail fills green, a small green point rides the fill's leading edge, and each node lights
+(with a soft pop) as the fill reaches it: just as its section's eyebrow reaches a reading line
+55% of the way down the window. A page opens with the fill at the first node, never halfway
+down, and it catches up as you scroll; at the bottom of the page the whole rail is lit (grey
+and static without JS). "Lifepointe" =
+points along a line. Everything else stays quiet so the one signature element carries the
+design.
 
 ## Color
 The palette is the three official Pantone inks from the 2012 logo sheet, and nothing else.
@@ -63,6 +67,23 @@ home-screen bookmark and for the small-card link preview in Messages. The full l
 - Eyebrow: Lato 700, 12px, +.17em tracking, uppercase, with a short red tick before it — navy on light; green text and tick on dark
 - Both are self-hosted from `assets/fonts/` (README.md, Fonts): only these four weights, no
   italics, and no request to Google
+
+## Motion
+Few, quiet, and each with a job; all of it in css/site.css and js/site.js, nothing loaded.
+- **Hero entrance** (`.rise`): every page's opening lines fade up once on load, 100ms apart:
+  the home hero, and the navy banner (eyebrow, title, line below, date) on every other page.
+- **Spine rail** (see Concept): the fill, its point, and the nodes follow the scroll.
+- **Scroll reveal** (`.reveal`): below the first screen, each section's blocks, and the cards,
+  columns, quotes, and steps in its grids, fade up 14px the first time they scroll into view,
+  70ms apart when they arrive together. Only what starts below the window is ever hidden, so
+  nothing on screen blinks; print shows everything.
+- **Hover**: link cards lift 3px, their icon tile turns navy with a white icon, and action
+  arrows nudge 3px; buttons lift 1px. Keyboard focus gets the card's tile change too.
+- **Header**: a soft navy shadow appears once the page has scrolled.
+
+`prefers-reduced-motion` turns all of it off: no reveal (nothing is hidden), no entrance,
+pop, or transitions; the rail still shows progress, without movement. No parallax, nothing
+that moves on its own, no counters.
 
 ## Icons
 Line icons on a 24-unit grid, 1.8 stroke, round ends, navy, in a 46px `--navy-tint` tile on
