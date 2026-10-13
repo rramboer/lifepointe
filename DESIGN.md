@@ -70,7 +70,8 @@ home-screen bookmark and for the small-card link preview in Messages. The full l
 
 ## Motion
 Few, quiet, and each with a job; all of it in css/site.css and js/site.js, nothing loaded.
-- **Hero entrance** (`.rise`): the home hero's lines fade up once on load, 100ms apart.
+- **Hero entrance** (`.rise`): every page's opening lines fade up once on load, 100ms apart:
+  the home hero, and the navy banner (eyebrow, title, line below, date) on every other page.
 - **Spine rail** (see Concept): the fill, its point, and the nodes follow the scroll.
 - **Scroll reveal** (`.reveal`): below the first screen, each section's blocks, and the cards,
   columns, quotes, and steps in its grids, fade up 14px the first time they scroll into view,
