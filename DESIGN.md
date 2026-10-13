@@ -38,6 +38,7 @@ Rule of thumb: **green means "do something", red means "this is Lifepointe"**.
 | --navy-tint | #F0F2F5 | hover wash, icon chips (navy 6%) |
 | --navy-muted / --navy-link / --navy-faint | #CCD2DE / #E6E9EF / #9EAAC1 | text tiers on navy (10.2 / 12.7 / 6.6 : 1) |
 | --header-h | 76px | header height; drives scroll-padding + sticky offsets |
+| --section-y | clamp(2.5rem, 5vw, 4rem) | a section's top and bottom padding (40–64px); the rail's nodes sit level with each section's eyebrow from it |
 | --wrap | 1280px | widest the content gets (half of a 2560px-wide screen, such as a 27-inch monitor); paragraphs stay narrower (`.measure`, 46em) so lines stay easy to read |
 
 The primary button's hover adds a navy (or white, on dark) inner ring and lifts; the green
@@ -62,7 +63,9 @@ home-screen bookmark and for the small-card link preview in Messages. The full l
   italics, and no request to Google
 
 ## Rhythm
-Post-heading gap `.mt-15` (1.5rem); pre-CTA / group gap `.mt-2` (2rem). No other inline
+Sections are padded `--section-y` (40px on phones, up to 64px on desktop), interior page
+heroes 36–52px and cards 20–26px: enough to separate things without leaving screens of
+empty space. Post-heading gap `.mt-15` (1.5rem); pre-CTA / group gap `.mt-2` (2rem). No other inline
 spacing — new one-offs should become classes.
 
 ## Pages
