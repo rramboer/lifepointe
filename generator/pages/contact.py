@@ -22,6 +22,11 @@ def render(site):
     email = esc(p.email)
     email_link = esc('mailto:' + p.email)
     appointment_mail = esc(mailto(p.email, APPOINTMENT_SUBJECT, APPOINTMENT_BODY))
+    # In the narrow contact panel columns, the email may break only before the @, and the
+    # address keeps "Clarkston, MI 48346" together (practice.json's format is "street, city, ST 12345").
+    email_wrapping = email.replace('@', '<wbr>@')
+    street, city, state_zip = p.address.rsplit(', ', 2)
+    address = f'{esc(street)}, <span class="nowrap">{esc(city)}, {esc(state_zip)}</span>'
     # With an online booking page, it is the one primary action; call and email follow it.
     if p.booking_url:
         heading = 'Book online, call, or email us'
@@ -41,26 +46,22 @@ def render(site):
   <div class="wrap">
     <span class="eyebrow">Reach us</span>
     <h2 id="reach-h" class="display-2">Every way to say hello</h2>
-    <div class="grid-4 mt-15">
-      <div class="card">
-        {icon('phone')}
-        <h3 class="display-3">Call us</h3>
+    <div class="contact-panel mt-15">
+      <div class="contact-panel__item">
+        <div class="contact-panel__head">{icon('phone')}<h3 class="display-3">Call us</h3></div>
         <p><a href="{tel}">{phone}</a></p>
       </div>
-      <div class="card">
-        {icon('mail')}
-        <h3 class="display-3">Email us</h3>
-        <p><a href="{email_link}">{email}</a></p>
+      <div class="contact-panel__item">
+        <div class="contact-panel__head">{icon('mail')}<h3 class="display-3">Email us</h3></div>
+        <p><a href="{email_link}">{email_wrapping}</a></p>
       </div>
-      <div class="card">
-        {icon('fax')}
-        <h3 class="display-3">Fax</h3>
+      <div class="contact-panel__item">
+        <div class="contact-panel__head">{icon('fax')}<h3 class="display-3">Fax</h3></div>
         <p class="nowrap">{esc(p.fax)}</p>
       </div>
-      <div class="card">
-        {icon('pin')}
-        <h3 class="display-3">Find us</h3>
-        <p>{esc(p.address)}</p>
+      <div class="contact-panel__item">
+        <div class="contact-panel__head">{icon('pin')}<h3 class="display-3">Find us</h3></div>
+        <p>{address}</p>
         <p class="action-link"><a href="{esc(p.maps_url)}">Get directions{svg('arrow-right')}</a></p>
       </div>
     </div>

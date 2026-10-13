@@ -83,7 +83,10 @@ in up to three columns (`.quote-columns`), read top to bottom; the home page kee
 cards in a row.
 services: the products list runs in two columns where they fit (`.list-columns`), read top to
 bottom, under a full-width heading.
-contact: the `#appointment` section pairs the hours table with a booking card: a green
+contact: "Every way to say hello" is one panel (`.contact-panel`) of call, email, fax, and
+address, split by hairlines: four columns on a desktop, 2×2 below 1180px, one column below
+641px, so short items never sit in empty boxes. The email may break only before the @, and
+the address keeps "Clarkston, MI 48346" on one line. The `#appointment` section pairs the hours table with a booking card: a green
 "Call" button, a ghost "Email us" button (a mailto with the subject and a name / phone /
 preferred times template filled in) and a note to leave health details out of email. When
 practice.json has a `booking_url`, a green "Book online" button leads and Call turns ghost,
