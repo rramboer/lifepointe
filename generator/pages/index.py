@@ -29,10 +29,10 @@ def render(site):
       <footer>{esc(t.author)} <span>{esc(label)} &middot; Lifepointe patient</span></footer>
     </figure>''' for t, label in (stories[tid] for tid in site.home_quotes))
 
-    plans = '\n      '.join(f'<li><span class="chip">{esc(plan)}</span></li>' for plan in p.in_network)
+    plans = '\n          '.join(f'<li><span class="chip">{esc(plan)}</span></li>' for plan in p.in_network)
 
     body = f'''
-<section class="section" aria-labelledby="hero-h">
+<section class="section hero" aria-labelledby="hero-h">
   <div class="wrap grid-2">
     <div>
       <span class="eyebrow rise">Family chiropractic &middot; Clarkston, Michigan</span>
@@ -43,7 +43,6 @@ def render(site):
         <a class="btn btn--ghost" href="{page_href('new-patients.html')}">What to expect</a>
       </div>
       <div class="badge-row rise rise-4 mt-2">
-        <span class="badge">{svg('shield')} In-network with {len(p.in_network)} insurance plans</span>
         <span class="badge">{svg('users')} All ages welcome</span>
       </div>
     </div>
@@ -54,15 +53,16 @@ def render(site):
       <div class="photo-chip">Serving Clarkston for <span data-since="{esc(p.opened)}">{years_since(p.opened)}</span> years<span class="photo-chip__note">Est. {month_year(p.opened)}</span></div>
     </div>
   </div>
-</section>
-
-<section class="insurance-band" aria-labelledby="insurance-h">
   <div class="wrap">
-    <h2 id="insurance-h" class="insurance-band__title">In-network with these insurance plans</h2>
-    <ul class="chip-grid insurance-band__list">
-      {plans}
-    </ul>
-    <p class="insurance-band__note">Other policies are accepted out-of-network.</p>
+    <div class="hero-plans rise rise-4">
+      <div class="hero-plans__row">
+        <h2 id="plans-h" class="hero-plans__title">{svg('shield')} In-network with<span class="visually-hidden"> these insurance plans</span></h2>
+        <ul class="chip-grid" aria-labelledby="plans-h">
+          {plans}
+        </ul>
+      </div>
+      <p class="hero-plans__note">Other policies are accepted out-of-network.</p>
+    </div>
   </div>
 </section>
 
