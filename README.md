@@ -123,7 +123,7 @@ email template's buttons use the same form.
 | `data/home-quotes.json` | The testimonials shown on the home page, as a list of testimonial ids from `testimonials.json`. Each card's label line is its testimonial's category. |
 | `data/recipe-staples.json` | Staple ingredients on the recipe book page. |
 | `data/team.json` | Staff cards and professional memberships on the about page. |
-| `data/language-help.json` | The notice of free language help in each language, word for word from the U.S. Department of Health and Human Services (see Legal pages). Each entry has the language's English `language` name, its `name` in its own script (the footer shows it), its `lang` tag (`es`, `ar`, `zh-Hant`) and `dir` (`ltr`, or `rtl` for Arabic), the `edition` (`2024`, or `2016` where HHS has no 2024 translation), and its `text`, with `{phone}` where the phone number goes and `{tty}` for the relay number (711). |
+| `data/language-help.json` | The notice of free language help in each language, word for word from the U.S. Department of Health and Human Services (see Legal pages). Each entry has the language's English `language` name, its `name` in its own script (the heading of its notice), its `lang` tag (`es`, `ar`, `zh-Hant`) and `dir` (`ltr`, or `rtl` for Arabic), the `edition` (`2024`, or `2016` where HHS has no 2024 translation), and its `text`, with `{phone}` where the phone number goes and `{tty}` for the relay number (711). |
 
 Rules for data files:
 
@@ -172,8 +172,9 @@ Every page's footer links to `privacy.html`, `notice-of-privacy-practices.html`,
 - **The nondiscrimination notice is required.** The practice bills Medicare, so Section 1557
   of the Affordable Care Act applies: a notice of nondiscrimination (45 CFR 92.10) and a
   notice of free language help and auxiliary aids in English and Michigan's 15 most common
-  other languages (92.11) must be at a conspicuous place on the website. Every footer links
-  to the page and lists the languages in their own scripts, each linked to its notice. The
+  other languages (92.11) must be at a conspicuous place on the website: the page, linked from
+  every footer's legal row as "Nondiscrimination notice". The Notice of Privacy Practices
+  carries the language notice too. The
   translations in `data/language-help.json` are HHS's own: copy any change from HHS word for
   word, never machine-translate. The languages are HHS's list for Michigan (August 2016):
   Spanish, Arabic, Chinese (both scripts), Syriac, Vietnamese, Albanian, Korean, Bengali,
@@ -241,8 +242,7 @@ file that isn't there. The email template isn't part of the published site (see
 - Each typeface is split into character sets (latin, latin-ext and, for Bricolage
   Grotesque, vietnamese), and each rule's `unicode-range` lists its file's characters. A
   browser downloads a file only when the page uses one of those characters, so the English
-  pages load just the three latin files, 88 KB, plus the 14 KB Syriac file for the footer's
-  language list. The eight files total 140 KB.
+  pages load just the three latin files, 88 KB. The eight files total 140 KB.
 - The licenses are `OFL-lato.txt` and `OFL-bricolagegrotesque.txt` in `assets/fonts/`
   (SIL Open Font License 1.1, which allows self-hosting). Keep them next to the fonts.
 - To add a Lato weight or style, request the CSS from
@@ -251,11 +251,11 @@ file that isn't there. The email template isn't part of the published site (see
   into `css/site.css` with the `url()` changed to `../assets/fonts/<file>` and
   `font-display: swap` kept. The Bricolage Grotesque files already contain weights 200 to
   800: for another weight in that range, widen the `font-weight` range in its three rules.
-- **Noto Sans Syriac Eastern** draws the Assyrian notice of free language help and its name
-  in the footer, because many phones have no Syriac font. It is Google Fonts' "syriac" file
-  (14 KB, weight 400), with its `unicode-range` cut to the Syriac blocks so it never draws
-  Arabic. Browsers download it on any page, since every footer names the language. License:
-  `OFL-notosanssyriaceastern.txt`.
+- **Noto Sans Syriac Eastern** draws the Assyrian notice of free language help (on the
+  nondiscrimination page and the Notice of Privacy Practices), because many phones have no
+  Syriac font. It is Google Fonts' "syriac" file (14 KB, weight 400), with its
+  `unicode-range` cut to the Syriac blocks so it never draws Arabic, and only those two pages
+  download it. License: `OFL-notosanssyriaceastern.txt`.
 - The `/card` redirect loads no fonts: it shows for a moment at most.
 
 ## Search engines and link previews

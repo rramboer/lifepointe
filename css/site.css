@@ -7,7 +7,7 @@
 /* Served from this site (assets/fonts/), so pages make no requests to Google. The files are
    Google Fonts' own woff2 files, unchanged, and each rule keeps its unicode-range: a browser
    downloads a file only for a page that uses a character in its range, so English pages load
-   just the three latin files and the small Syriac one (the footer's language list). Bricolage Grotesque is a variable font: one file covers 700 and
+   just the three latin files. Bricolage Grotesque is a variable font: one file covers 700 and
    800. Licenses: assets/fonts/OFL-*.txt. Updating: README.md, Fonts. */
 @font-face {
   font-family: "Bricolage Grotesque"; font-style: normal; font-weight: 700 800; font-display: swap;
@@ -54,8 +54,8 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
     U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-/* Syriac script, for the Assyrian notice of free language help (nondiscrimination page and the
-   footer's language list). Many phones have no Syriac font. Google Fonts' "syriac" file for
+/* Syriac script, for the Assyrian notice of free language help (the nondiscrimination page and
+   the Notice of Privacy Practices). Many phones have no Syriac font. Google Fonts' "syriac" file for
    Noto Sans Syriac Eastern, with its range cut to the Syriac blocks so it never draws Arabic.
    Bold is synthesized. */
 @font-face {
@@ -455,12 +455,6 @@ h1, h2, h3 { overflow-wrap: break-word; }
 }
 .social-row a:hover { color: #fff; transform: translateY(-2px); }
 .social-row svg { width: 29px; height: 29px; }
-/* Free language help: every language in its own script, linked to its notice
-   (nondiscrimination page). A light row above the copyright line. */
-.site-footer__languages { border-top: 1px solid rgba(255, 255, 255, .14); padding-block: 1.25rem; }
-.site-footer__languages h2 { margin-bottom: .6rem; }
-.site-footer__languages h2 a { color: inherit; }
-.site-footer__languages ul { display: flex; flex-wrap: wrap; gap: .35rem 1.1rem; font-size: .9rem; }
 
 /* ---- Nondiscrimination page --------------------------------------------- */
 

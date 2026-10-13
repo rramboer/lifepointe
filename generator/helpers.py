@@ -31,7 +31,7 @@ def in_series(items):
 
 def language_anchor(lang):
     """The id of a language's notice of free language help on the nondiscrimination page:
-    'lang-es', 'lang-zh-hant'. The footer links to it."""
+    'lang-es', 'lang-zh-hant', so a link can point straight at one language."""
     return 'lang-' + lang.lower()
 
 
