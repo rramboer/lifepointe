@@ -13,6 +13,7 @@ from .icons import ICONS
 DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 SLUG = re.compile(r'[a-z0-9]+(-[a-z0-9]+)*')
 TIME = re.compile(r'([01][0-9]|2[0-3]):[0-5][0-9]')
+OPENED = re.compile(r'(19|20)[0-9]{2}-(0[1-9]|1[0-2])')
 TEL = re.compile(r'\+1[0-9]{10}')
 # How the phone and fax numbers are written on the site and the business card.
 SHOWN_NUMBER = re.compile(r'[0-9]{3}-[0-9]{3}-[0-9]{4}')
@@ -138,11 +139,15 @@ def _read(data_dir, filename):
 
 
 def _check_practice(c, raw, root):
-    p = c.obj(raw, TOP, ('name', 'legal_name', 'doctor', 'phone', 'fax', 'email', 'address', 'geo',
+    p = c.obj(raw, TOP, ('name', 'legal_name', 'opened', 'doctor', 'phone', 'fax', 'email', 'address', 'geo',
                          'maps_url', 'social', 'recipe_book_url', 'site_url', 'booking_url', 'in_network',
                          'forms'))
     c.text(p, 'name', TOP)
     c.text(p, 'legal_name', TOP)
+    # The month the practice opened, YYYY-MM: the home page counts the years from it.
+    opened = c.text(p, 'opened', TOP)
+    if opened and not OPENED.fullmatch(opened):
+        c.fail('opened', f'must be the year and month, like 2001-07 (got "{opened}")')
     fax = c.text(p, 'fax', TOP)
     if fax and not SHOWN_NUMBER.fullmatch(fax):
         c.fail('fax', f'must be written like 248-555-0123 (got "{fax}")')
