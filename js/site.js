@@ -48,6 +48,14 @@
     }
   });
 
+  /* Years since the practice opened (home page photo chip, data-since="YYYY-MM"). The build
+     writes the same number; this keeps it right if the site isn't rebuilt for a while. */
+  document.querySelectorAll('[data-since]').forEach(function (el) {
+    var since = el.getAttribute('data-since').split('-'), now = new Date();
+    var years = now.getFullYear() - Number(since[0]) - (now.getMonth() + 1 < Number(since[1]) ? 1 : 0);
+    if (years > 0) el.textContent = years;
+  });
+
   /* Footer year */
   document.querySelectorAll('[data-year]').forEach(function (el) {
     el.textContent = new Date().getFullYear();

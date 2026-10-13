@@ -506,7 +506,7 @@ h1, h2, h3 { overflow-wrap: break-word; }
   padding: .8rem 1.1rem;
   font: 700 .92rem/1.35 var(--font-body); color: var(--navy);
 }
-.photo-chip span { display: block; font-weight: 400; color: var(--ink-soft); font-size: .84rem; }
+.photo-chip__note { display: block; font-weight: 400; color: var(--ink-soft); font-size: .84rem; }
 .hero-media { position: relative; }
 @media (max-width: 900px) { .photo-chip { left: 1rem; } }
 

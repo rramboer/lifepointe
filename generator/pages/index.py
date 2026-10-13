@@ -1,5 +1,5 @@
 """Home page."""
-from ..helpers import esc, page_href
+from ..helpers import esc, month_year, page_href, years_since
 from ..hours import hours_table
 from ..icons import icon, svg
 from ..layout import V, cta_band, page
@@ -51,7 +51,7 @@ def render(site):
       <figure class="photo">
         <img src="assets/photo-adjustment.jpg" alt="A chiropractor examining a patient&rsquo;s spine and posture by hand" width="1396" height="930">
       </figure>
-      <div class="photo-chip">Serving Clarkston for 25 years<span>Est. July 2001</span></div>
+      <div class="photo-chip">Serving Clarkston for <span data-since="{esc(p.opened)}">{years_since(p.opened)}</span> years<span class="photo-chip__note">Est. {month_year(p.opened)}</span></div>
     </div>
   </div>
 </section>
