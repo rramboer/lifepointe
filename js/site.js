@@ -20,41 +20,93 @@
     });
   }
 
-  /* Scroll effects, measured once per frame: the header's shadow once the page has scrolled,
-     and the spine rail, which fills green down to a reading line 55% of the way down the
-     window, with a point at the fill's leading edge, and lights each vertebra the fill has
-     passed. At the bottom of the page the whole rail is lit, so short pages and the last
-     section are never left half filled. */
+  /* Scroll effects: the header's shadow once the page has scrolled, and the spine rail.
+
+     The rail's green fill is a function of the scroll position, worked out from a few stops
+     (layoutRails): it reaches each vertebra just as that section's eyebrow reaches a reading
+     line 55% of the way down the window, and the whole rail at the bottom of the page. On a
+     page whose first sections open above the reading line, the fill starts at the first
+     vertebra instead of halfway down, and catches up as you scroll. Vertebrae too close to
+     the bottom to ever reach the reading line share the last stretch of scrolling, so every
+     one lights. Between stops the fill moves evenly, with a point at its leading edge. */
   var header = document.querySelector('.site-header');
-  var rails = Array.prototype.slice.call(document.querySelectorAll('.rail-wrap'));
-  rails.forEach(function (rail) {
+  var rails = Array.prototype.slice.call(document.querySelectorAll('.rail-wrap')).map(function (el) {
     var head = document.createElement('span');
     head.className = 'rail-head';
     head.setAttribute('aria-hidden', 'true');
-    rail.appendChild(head);
+    el.appendChild(head);
+    return { el: el, head: head, nodes: Array.prototype.slice.call(el.querySelectorAll('.vertebra')) };
   });
+
+  function layoutRails() {
+    var reading = window.innerHeight * 0.55;
+    var maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
+    rails.forEach(function (rail) {
+      var top = rail.el.getBoundingClientRect().top + window.scrollY;
+      var height = rail.el.offsetHeight || 1;
+      /* Each vertebra's place on the rail, 0 (top) to 1 (bottom) */
+      rail.marks = rail.nodes.map(function (node) {
+        var box = node.getBoundingClientRect();
+        return (box.top + box.height / 2 + window.scrollY - top) / height;
+      });
+      /* [scroll position, fill] pairs, in scroll order */
+      var stops = [];
+      var startFill = Math.min(Math.max((reading - top) / height, 0), rail.marks.length ? rail.marks[0] : 1);
+      if (top - reading > 0) stops.push([0, 0], [top - reading, 0]);
+      else stops.push([0, startFill]);
+      rail.marks.concat([1]).forEach(function (mark) {
+        if (mark > startFill) stops.push([top + mark * height - reading, mark]);
+      });
+      /* Vertebrae already above the reading line when the page opens light one by one over
+         the first stretch of scrolling, each after a further 15% of the window */
+      var gap = window.innerHeight * 0.15;
+      for (var j = 1; j < stops.length; j++) {
+        if (stops[j][1] > stops[j - 1][1]) stops[j][0] = Math.max(stops[j][0], stops[j - 1][0] + gap);
+      }
+      /* Stops past the end of the scroll share the last stretch, the final one at the bottom */
+      var late = stops.findIndex(function (stop) { return stop[0] >= maxScroll; });
+      if (late !== -1) {
+        var from = late > 0 ? stops[late - 1][0] : 0, count = stops.length - late;
+        for (var i = late; i < stops.length; i++) stops[i][0] = from + (maxScroll - from) * (i - late + 1) / count;
+      }
+      rail.stops = stops;
+      rail.whole = maxScroll === 0;
+    });
+  }
+
+  function fillAt(rail, scroll) {
+    if (rail.whole) return 1;
+    var stops = rail.stops;
+    if (scroll <= stops[0][0]) return stops[0][1];
+    for (var i = 1; i < stops.length; i++) {
+      var a = stops[i - 1], b = stops[i];
+      if (scroll <= b[0]) return b[0] === a[0] ? b[1] : a[1] + (b[1] - a[1]) * (scroll - a[0]) / (b[0] - a[0]);
+    }
+    return 1;
+  }
+
   var ticking = false;
   function onScroll() {
     ticking = false;
-    var doc = document.documentElement;
     if (header) header.classList.toggle('is-scrolled', window.scrollY > 4);
-    var line = window.innerHeight * 0.55;
-    var atBottom = window.scrollY + window.innerHeight >= doc.scrollHeight - 2;
     rails.forEach(function (rail) {
-      var box = rail.getBoundingClientRect();
-      var fill = atBottom ? 1 : Math.min(Math.max((line - box.top) / box.height, 0), 1);
-      rail.style.setProperty('--rail-fill', fill.toFixed(4));
-      rail.querySelector('.rail-head').classList.toggle('is-moving', fill > 0 && fill < 1);
-      rail.querySelectorAll('.vertebra').forEach(function (node) {
-        node.classList.toggle('is-lit', atBottom || node.getBoundingClientRect().top < line);
+      var fill = fillAt(rail, window.scrollY);
+      rail.el.style.setProperty('--rail-fill', fill.toFixed(4));
+      rail.head.classList.toggle('is-moving', fill > 0 && fill < 1);
+      rail.nodes.forEach(function (node, i) {
+        node.classList.toggle('is-lit', fill >= rail.marks[i] - 0.0005);
       });
     });
   }
   function requestScroll() {
     if (!ticking) { ticking = true; window.requestAnimationFrame(onScroll); }
   }
+  function relayout() { layoutRails(); requestScroll(); }
   window.addEventListener('scroll', requestScroll, { passive: true });
-  window.addEventListener('resize', requestScroll);
+  window.addEventListener('resize', relayout);
+  window.addEventListener('load', relayout);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(relayout);
+  layoutRails();
   onScroll();
   /* Nodes lit from here on pop as the fill reaches them (css .rail-ready) */
   window.requestAnimationFrame(function () { document.documentElement.classList.add('rail-ready'); });

@@ -7,9 +7,11 @@ them.
 ## Concept
 The page's structural device is the subject itself: **alignment**. A vertical "spine rail"
 runs down the content gutter with one vertebra node per section. As the page scrolls, the
-rail fills green down to a reading line 55% of the way down the window, a small green point
-rides the fill's leading edge, and each node lights (with a soft pop) as the fill reaches it;
-at the bottom of the page the whole rail is lit (grey and static without JS). "Lifepointe" =
+rail fills green, a small green point rides the fill's leading edge, and each node lights
+(with a soft pop) as the fill reaches it: just as its section's eyebrow reaches a reading line
+55% of the way down the window. A page opens with the fill at the first node, never halfway
+down, and it catches up as you scroll; at the bottom of the page the whole rail is lit (grey
+and static without JS). "Lifepointe" =
 points along a line. Everything else stays quiet so the one signature element carries the
 design.
 
