@@ -150,7 +150,7 @@ def footer(site, base=''):
       </ul>
     </nav>
     <div class="site-footer__legal">
-      <span>&copy; <span data-year>2026</span> {name}. All rights reserved.</span>
+      <span>&copy; <span data-year>2026</span> {esc(p.legal_name)}. All rights reserved.</span>
       <span>{legal}</span>
     </div>
   </div>
