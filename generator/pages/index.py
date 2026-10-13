@@ -79,7 +79,7 @@ def render(site):
       <a class="btn btn--ghost" href="{page_href('about.html#chiropractic-care')}">Learn about chiropractic care</a>
     </div>
     <figure class="photo">
-      <img src="assets/photo-stretch.jpg" alt="A person stretching comfortably at home, arms extended" width="1920" height="1281" loading="lazy">
+      <img src="assets/photo-posture-check.jpg" alt="A chiropractor&rsquo;s hands on a patient&rsquo;s shoulder and upper back, checking posture" width="1440" height="960" loading="lazy">
     </figure>
   </div>
 </section>
