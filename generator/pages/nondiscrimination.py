@@ -41,6 +41,23 @@ def fill(text, site, rtl):
     return html.replace('{phone}', number).replace('{tty}', f'<span dir="ltr">{TTY}</span>')
 
 
+def language_help(site):
+    """The notice of free language help and auxiliary aids (45 CFR 92.11): HHS's English sentence,
+    then HHS's notice in each language, each with its own lang and dir. This page shows it, and so
+    does the Notice of Privacy Practices, which must carry it too (92.11(c)(5)(ii))."""
+    phone = site.practice.phone
+    tel = esc('tel:' + phone.tel)
+    taglines = '\n'.join(
+        f'''        <li id="{esc(language_anchor(t.lang))}" lang="{esc(t.lang)}" dir="{esc(t.dir)}">
+          <h3 class="tagline__name">{esc(t.name)}</h3>
+          <p>{fill(t.text, site, t.dir == 'rtl')}</p>
+        </li>''' for t in site.language_help.languages)
+    return f'''<p>ATTENTION: Free language assistance services are available to you. Appropriate auxiliary aids and services to provide information in accessible formats are also available free of charge. Call <a href="{tel}">{esc(phone.display)}</a> (TTY: {TTY}) or speak to your provider.</p>
+      <ul class="taglines">
+{taglines}
+      </ul>'''
+
+
 def render(site):
     p = site.practice
     name = esc(p.name)
@@ -49,12 +66,6 @@ def render(site):
     email = esc(p.email)
     email_link = esc('mailto:' + p.email)
     url = esc(f'{p.site_url.removeprefix("https://")}/nondiscrimination')
-
-    taglines = '\n'.join(
-        f'''        <li id="{esc(language_anchor(t.lang))}" lang="{esc(t.lang)}" dir="{esc(t.dir)}">
-          <h3 class="tagline__name">{esc(t.name)}</h3>
-          <p>{fill(t.text, site, t.dir == 'rtl')}</p>
-        </li>''' for t in site.language_help.languages)
 
     body = page_hero('Your rights', 'Nondiscrimination notice',
                      'We don&rsquo;t discriminate, and we offer free language help and free aids for people '
@@ -99,10 +110,7 @@ def render(site):
     <span class="eyebrow">Language help</span>
     <h2 id="language-help-h" class="display-2">Free language help and other formats</h2>
     <div class="measure mt-15">
-      <p>ATTENTION: Free language assistance services are available to you. Appropriate auxiliary aids and services to provide information in accessible formats are also available free of charge. Call <a href="{tel}">{phone}</a> (TTY: {TTY}) or speak to your provider.</p>
-      <ul class="taglines">
-{taglines}
-      </ul>
+      {language_help(site)}
     </div>
   </div>
 </section>
