@@ -29,7 +29,7 @@ _ARROW = 'class="arrow{}" width="16" height="16" viewBox="0 0 24 24" fill="none"
 _ATTRS = {'arrow-right': _ARROW.format(''), 'arrow-up': _ARROW.format(' arrow--up')}
 
 FILES = {
-    # Service cards (data/services.json), and the massage therapist in data/team.json
+    # Service cards (data/services.json)
     'spine':       'lifepointe/spine.svg',
     'physio':      'tabler/physiotherapist.svg',
     'traction':    'lucide/unfold-vertical.svg',

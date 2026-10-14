@@ -1,6 +1,6 @@
 """About page: Dr. Greg, the team, and what chiropractic is."""
 from ..helpers import esc
-from ..icons import icon, svg
+from ..icons import svg
 from ..layout import V, cta_band, page, page_hero
 
 FILENAME = 'about.html'
@@ -11,15 +11,32 @@ def _name(person):
     return f'{esc(person.name)}, {esc(credentials)}' if credentials else esc(person.name)
 
 
+def _team_card(person):
+    """A team member's card: the headshot, or their initials in its place until there is one
+    (data/team.json "photo": null), then name, title and any bio. The photo area is the same
+    4:5 box either way, so adding a headshot doesn't change the card. The name is the heading
+    right below, so the picture is decorative (alt="")."""
+    photo = getattr(person, 'photo', None)
+    if photo:
+        picture = f'<img src="{esc(photo)}" alt="" width="400" height="500" loading="lazy">'
+    else:
+        words = person.name.split()
+        picture = f'<span class="team-card__initials">{esc(words[0][0] + words[-1][0])}</span>'
+    bio = getattr(person, 'bio', None)
+    bio_html = f'\n          <p>{esc(bio)}</p>' if bio else ''
+    return f'''<div class="card team-card">
+        <div class="team-card__photo" aria-hidden="true">{picture}</div>
+        <div class="team-card__body">
+          <h3 class="display-3">{_name(person)}</h3>
+          <p class="team-card__title">{esc(person.title)}</p>{bio_html}
+        </div>
+      </div>'''
+
+
 def render(site):
     p = site.practice
 
-    staff_html = '\n'.join(
-        f'''<div class="card measure">
-        {icon(person.icon)}
-        <h3 class="display-3">{_name(person)}</h3>
-        <p>{esc(person.bio)}</p>
-      </div>''' for person in site.team.staff)
+    staff_html = '\n      '.join(_team_card(person) for person in site.team.staff)
 
     badges_html = '\n'.join(
         f'      <span class="badge">{svg(m.icon)} {esc(m.label)}</span>' for m in site.team.memberships)
@@ -56,7 +73,7 @@ def render(site):
   <div class="wrap">
     <span class="eyebrow">The team</span>
     <h2 id="team-h" class="display-2">The people who&rsquo;ll take care of you</h2>
-    <div>
+    <div class="team-grid mt-15">
       {staff_html}
     </div>
     <div class="badge-row mt-2">

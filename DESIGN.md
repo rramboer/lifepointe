@@ -133,6 +133,9 @@ The footer's Facebook and Instagram logos follow Meta's brand rules: the officia
 minimum), with half a glyph of clear space and no container shape. Hover never recolors them.
 The closing CTA band is shared verbatim on five pages; new-patients tailors it ("Ready for
 your first visit?") and contact omits it — deliberate: never CTA to the page you're on.
+about: the team are cards 16rem wide (two across on phones) with a 4:5 headshot on top, or the
+person's initials on navy tint until there is one, then name and title; adding a photo never
+changes a card's size.
 the legal pages (privacy, the Notice of Privacy Practices, accessibility, nondiscrimination,
 Good Faith Estimate) omit it too: they are reference text, not sales pages. Each is plain prose
 in a `.measure` column (h2 per section, `.display-3` h3 per topic, `.display-4` h4 inside a

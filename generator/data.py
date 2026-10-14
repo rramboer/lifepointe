@@ -25,6 +25,9 @@ SITE_URL = re.compile(r'https://[a-z0-9-]+(\.[a-z0-9-]+)+')
 MAP_PIN = re.compile(r'!3d(-?[0-9]+(?:\.[0-9]+)?)!4d(-?[0-9]+(?:\.[0-9]+)?)')
 # https://, a domain with at least one dot, an optional port, then any path, query or fragment.
 WEB_ADDRESS = re.compile(r'https://[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+(:[0-9]+)?([/?#]\S*)?')
+# A team member's headshot in the repo's assets/team/ folder (published with assets/), named
+# after the person in lowercase letters, digits and hyphens.
+TEAM_PHOTO = re.compile(r'assets/team/[a-z0-9]+(-[a-z0-9]+)*\.(jpg|png)')
 # A PDF in the repo's forms/ folder, which is published as-is; pages link to it by this path.
 FORM_PATH = re.compile(r'forms/[a-z0-9]+(-[a-z0-9]+)*\.pdf')
 TOP = '(top level)'
@@ -330,16 +333,26 @@ def _check_strings(c, raw, what):
     c.unique([v for v in values if isinstance(v, str)], TOP, what)
 
 
-def _check_team(c, raw):
+def _check_team(c, raw, root):
     t = c.obj(raw, TOP, ('staff', 'memberships'))
     staff = c.items(t.get('staff'), 'staff')
     for i, person in enumerate(staff):
         where = f'staff[{i}]'
-        person = c.obj(person, where, ('name', 'credentials', 'icon', 'bio'))
+        person = c.obj(person, where, ('name', 'credentials', 'title', 'photo', 'bio'))
         c.text(person, 'name', where)
         c.text(person, 'credentials', where, optional=True)
-        c.icon(person, 'icon', where)
-        c.text(person, 'bio', where)
+        c.text(person, 'title', where)
+        c.text(person, 'bio', where, optional=True)
+        # The headshot; null shows the person's initials in its place until there is one.
+        if 'photo' not in person:
+            c.fail(_at(where, 'photo'), 'missing (use null until there is a headshot)')
+        elif person['photo'] is not None:
+            photo = person['photo']
+            if not isinstance(photo, str) or not TEAM_PHOTO.fullmatch(photo):
+                c.fail(_at(where, 'photo'), f'must be null or a JPEG or PNG in assets/team/, like '
+                                            f'assets/team/sybil-olson.jpg (got {json.dumps(photo, ensure_ascii=False)})')
+            elif not (root / photo).is_file():
+                c.fail(_at(where, 'photo'), f'{photo} does not exist; add the file to assets/team/')
     c.unique([p.get('name') for p in staff if isinstance(p, dict)], 'staff', 'name')
     for i, membership in enumerate(c.items(t.get('memberships'), 'memberships')):
         where = f'memberships[{i}]'
@@ -407,7 +420,7 @@ def load(data_dir, pages):
     testimonial_ids = _check_testimonials(checker('testimonials.json'), raw['testimonials.json'])
     _check_home_quotes(checker('home-quotes.json'), raw['home-quotes.json'], testimonial_ids)
     _check_strings(checker('recipe-staples.json'), raw['recipe-staples.json'], 'staple')
-    _check_team(checker('team.json'), raw['team.json'])
+    _check_team(checker('team.json'), raw['team.json'], data_dir.parent)
     _check_language_help(checker('language-help.json'), raw['language-help.json'])
     if errors:
         raise BuildError('the data files have problems:\n  ' + '\n  '.join(errors))

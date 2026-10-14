@@ -123,7 +123,7 @@ email template's buttons use the same form.
 | `data/testimonials.json` | The success stories, by category, in page order. Each category has an `id` (its anchor, as in `success-stories#back-pain`), a `label` (its chip and heading) and its `testimonials`, each with a stable `id` (category id plus the patient's name), the `quote` and the `author`. |
 | `data/home-quotes.json` | The testimonials shown on the home page, as a list of testimonial ids from `testimonials.json`. Each card's label line is its testimonial's category. |
 | `data/recipe-staples.json` | Staple ingredients on the recipe book page. |
-| `data/team.json` | Staff cards and professional memberships on the about page. |
+| `data/team.json` | The about page's team cards and professional memberships. Each person has a `name`, a `title` (such as "Chiropractic Assistant") and a `photo`: the path of their headshot in `assets/team/`, or `null` to show their initials in its place until there is one. `credentials` (shown after the name, like "LMT") and a short `bio` are optional. |
 | `data/language-help.json` | The notice of free language help in each language, word for word from the U.S. Department of Health and Human Services (see Legal pages). Each entry has the language's English `language` name, its `name` in its own script (the heading of its notice), its `lang` tag (`es`, `ar`, `zh-Hant`) and `dir` (`ltr`, or `rtl` for Arabic), the `edition` (`2024`, or `2016` where HHS has no 2024 translation), and its `text`, with `{phone}` where the phone number goes and `{tty}` for the relay number (711). |
 
 Rules for data files:
@@ -147,6 +147,21 @@ To add a page, create a module in `generator/pages/` with a `FILENAME` and a `re
 function, add it to `PAGES` in `generator/pages/__init__.py`, and add a menu entry to
 `data/nav.json` if it belongs in the menu. Every page in `PAGES` gets a canonical URL and
 link-preview tags and is listed in `sitemap.xml`; nothing else needs changing.
+
+## Team photos
+
+Each team card on the about page has a portrait photo area. Until a person has a headshot, it
+shows their initials.
+
+- Save the headshot in `assets/team/`, named after the person in lowercase with hyphens
+  (`assets/team/sybil-olson.jpg`), and set their `"photo"` in `data/team.json` to that path.
+  The build stops if the file is missing or the name doesn't fit that pattern.
+- Use a JPEG (or PNG), portrait, 4:5: 1000×1250 pixels is plenty, under about 200 KB. A photo
+  of another shape is cropped to 4:5 from the center, so keep the face in the middle.
+- Remove the photo's metadata before adding it: phone photos record where they were taken.
+  (For example `ffmpeg -i in.jpg -vf scale=1000:-2 -map_metadata -1 -q:v 3 sybil-olson.jpg`,
+  which also resizes it.)
+- All headshots should match: same framing and background, so the row looks even.
 
 ## New-patient forms
 
