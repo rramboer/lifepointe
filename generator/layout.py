@@ -112,7 +112,7 @@ def footer(site, base=''):
         <a class="site-footer__logo" href="{page_href('index.html', base)}" aria-label="{name} — home">
           <img src="{base}assets/logo-reversed.svg" alt="{name}" width="190" height="63">
         </a>
-        <p class="site-footer__tagline">Family wellness and chiropractic care for every age &mdash; serving Clarkston since 2001.</p>
+        <p class="site-footer__tagline">Family and sports chiropractic for every age &mdash; serving Clarkston since 2001.</p>
         <div class="social-row">
           <a href="{esc(p.social.facebook)}" aria-label="Lifepointe on Facebook">{svg('facebook')}</a>
           <a href="{esc(p.social.instagram)}" aria-label="Lifepointe on Instagram">{svg('instagram')}</a>
