@@ -117,7 +117,7 @@
      hidden under prefers-reduced-motion or without IntersectionObserver. */
   var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if ('IntersectionObserver' in window && !calm) {
-    var groups = '.grid-2, .grid-3, .grid-4, .quote-columns, .steps, .card-stack';
+    var groups = '.grid-2, .grid-3, .grid-4, .quote-columns, .steps, .card-stack, .team-grid';
     var targets = [];
     document.querySelectorAll('main .section:not(.hero) .wrap').forEach(function (wrap) {
       Array.prototype.forEach.call(wrap.children, function (child) {
