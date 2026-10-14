@@ -36,7 +36,7 @@ def render(site):
     <div class="grid-2 grid--top">
       <div>
         <p>I opened {esc(p.name)} in July of 2001. Our mission, in a nutshell, is to teach our community that all health comes from within &mdash; and that you already have everything it takes to be truly healthy, happy, and well. This inner health potential lacks its full expression when it&rsquo;s interfered with. That&rsquo;s where we fit into the picture: our role is to determine whether you have this interference, and if so, to help you reduce it for life.</p>
-        <p>Our practice is family based &mdash; we adjust people of all ages, from newborns just a few minutes old to the very wise and experienced members of our community. We also work with athletes at every level, from kids in their first season to adults who still compete. We love what we do, and we love to teach and share what we&rsquo;ve learned.</p>
+        <p>Our practice is family based &mdash; we adjust people of all ages, from newborns just a few minutes old to the very wise and experienced members of our community. We also work with athletes at every level, from rec-league kids to elite professionals. We love what we do, and we love to teach and share what we&rsquo;ve learned.</p>
       </div>
       <div class="card">
         <h3 class="display-3">Background</h3>
