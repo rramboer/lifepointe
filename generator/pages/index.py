@@ -35,7 +35,7 @@ def render(site):
 <section class="section hero" aria-labelledby="hero-h">
   <div class="wrap grid-2">
     <div>
-      <span class="eyebrow rise">Family chiropractic &middot; Clarkston, Michigan</span>
+      <span class="eyebrow rise">Family &amp; sports chiropractic &middot; Clarkston, Michigan</span>
       <h1 id="hero-h" class="display-1 rise rise-2">Health comes from within.<br>We clear the way.</h1>
       <p class="lede rise rise-3">Your body is built to heal itself &mdash; our job is to remove what&rsquo;s interfering. Since 2001, Lifepointe has cared for Clarkston families at every age, from newborns just minutes old to the most experienced members of our community.</p>
       <div class="btn-row rise rise-4 mt-15">
@@ -159,5 +159,5 @@ def render(site):
 
     return page(site, FILENAME,
                 f'{p.name} | Clarkston, MI',
-                'Family chiropractic and wellness care in Clarkston, MI since 2001. Gentle adjustments, massage therapy, digital X-ray, and nutrition — for every age.',
+                'Family & sports chiropractic and wellness care in Clarkston, MI since 2001. Gentle adjustments, massage therapy, digital X-ray, and nutrition — for every age.',
                 body, head_extra=local_business(site))
