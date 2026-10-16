@@ -32,9 +32,9 @@ then you'll see their alt text instead.
 | Logo, globe icon, footer text link | `https://lifepointechiro.com/` |
 | Request an Appointment button (HTML and Outlook VML) | `https://lifepointechiro.com/contact#appointment` |
 | New Patient Info button (HTML and Outlook VML) | `https://lifepointechiro.com/new-patients` |
-| Phone (Visit or Call, and the footer, in white) | `tel:+12486236107` (shown as 248-623-6107) |
+| Phone (Visit or Call; white in the footer) | `tel:+12486236107` (shown as 248-623-6107) |
 | Email | `mailto:office@lifepointechiro.com` |
-| Address | Google Maps listing |
+| Address (Visit or Call; white in the footer) | Google Maps listing |
 | Facebook / Instagram | `facebook.com/lifepointewellness/` / `instagram.com/lifepointe.chiropractic/` |
 
 Each button has two links, the normal `<a>` and the `href` on the `<v:roundrect>` that Outlook
@@ -227,8 +227,11 @@ address (and maybe a name) is not a patient list, but don't import the patient r
 - Every image has `alt` text, styled so it stays readable when images are blocked, and the
   footer repeats the icon links as text.
 - `role="presentation"` on layout tables so screen readers skip them.
-- Apple and Gmail auto-link detection is suppressed on plain-text phone numbers and addresses
-  (`.unstyle-auto-detected-links`). The class goes only on plain text, never on an element that
+- Every address is the template's own Google Maps link, and every phone number its own `tel:`
+  link, styled to match the text around them (white in the navy footer). Gmail turns a
+  plain-text address into a blue link of its own and ignores any reset, so an address is never
+  left as plain text. The `.unstyle-auto-detected-links` reset stays on the plain-text fax
+  number, for Apple Mail and iOS. The class goes only on plain text, never on an element that
   holds the template's own links, or its reset would strip their color, weight and underline.
 - Absolute URLs with `target="_blank"` on every link.
 - `tel:` and `mailto:` links for one-tap contact on phones.
@@ -322,9 +325,11 @@ Gmail HTML signatures that match the business card:
   (Gmail drops both).
 - Font stack `Lato, Helvetica, Arial, sans-serif`. Navy `#00205B` text, `#4A5470` for Dr. Greg's
   credentials (as on the card), and a short red `#EE2737` accent bar above the name.
-- Links: the logo and `lifepointechiro.com` go to `https://lifepointechiro.com`, and the phone
-  number is `tel:+12486236107`. The fax number isn't linked.
-- Under 400px wide, so it wraps on a narrow phone instead of scrolling. About 2,000 characters
+- Links: the logo and `lifepointechiro.com` go to `https://lifepointechiro.com`, the phone
+  number is `tel:+12486236107`, and the address goes to the Google Maps listing, in navy like the
+  line around it: left as plain text, Gmail turns an address into a blue link of its own. The
+  fax number isn't linked.
+- Under 400px wide, so it wraps on a narrow phone instead of scrolling. Under 3,000 characters
   each, well under Gmail's 10,000-character limit
   ([Google help](https://support.google.com/mail/answer/8395)).
 - No email address line: the sender's address is already in the From line.
