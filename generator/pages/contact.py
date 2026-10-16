@@ -23,9 +23,10 @@ def render(site):
     email = esc(p.email)
     email_link = esc('mailto:' + p.email)
     appointment_mail = esc(mailto(p.email, APPOINTMENT_SUBJECT, APPOINTMENT_BODY))
-    # In the narrow contact panel columns, the email may break only before the @, and the
+    # On a narrow screen, the email may break only before the @, and the
     # address keeps "Clarkston, MI 48346" together (practice.json's format is "street, city, ST 12345").
     email_wrapping = email.replace('@', '<wbr>@')
+    maps = esc(p.maps_url)
     street, city, state_zip = p.address.rsplit(', ', 2)
     address = f'{esc(street)}, <span class="nowrap">{esc(city)}, {esc(state_zip)}</span>'
     # With an online booking page, it is the one primary action; call and email follow it.
@@ -71,32 +72,38 @@ def render(site):
   <div class="wrap">
     <span class="eyebrow">Reach us</span>
     <h2 id="reach-h" class="display-2">Every way to say hello</h2>
-    <div class="reach-grid mt-15">
-      <div class="contact-panel">
-        <div class="contact-panel__item">
-          <div class="contact-panel__head">{icon('phone')}<h3 class="display-3">Call us</h3></div>
-          <p><a href="{tel}">{phone}</a></p>
-        </div>
-        <div class="contact-panel__item">
-          <div class="contact-panel__head">{icon('mail')}<h3 class="display-3">Email us</h3></div>
-          <p><a href="{email_link}">{email_wrapping}</a></p>
-          <p><button class="copy-btn" type="button" data-copy="{email}" hidden>Copy email address</button><span class="visually-hidden" role="status"></span></p>
-        </div>
-        <div class="contact-panel__item">
-          <div class="contact-panel__head">{icon('fax')}<h3 class="display-3">Fax</h3></div>
-          <p class="nowrap">{esc(p.fax)}</p>
-        </div>
-        <div class="contact-panel__item">
-          <div class="contact-panel__head">{icon('pin')}<h3 class="display-3">Find us</h3></div>
-          <p>{address}</p>
-          <p class="action-link"><a href="{esc(p.maps_url)}">Get directions{svg('arrow-right')}</a></p>
-        </div>
-      </div>
+    <div class="reach-card mt-15">
       <!-- A bigger target for "Get directions" with a mouse or finger. Keyboard and screen
-           reader users have that link already, so this copy is left out of both. -->
-      <a class="place-link" href="{esc(p.maps_url)}" tabindex="-1" aria-hidden="true">
+           reader users have that link in the list, so this copy is left out of both. -->
+      <a class="reach-card__place" href="{maps}" tabindex="-1" aria-hidden="true">
         {building(p.building_photo)}
       </a>
+      <ul class="reach-list">
+        <li class="reach-item">
+          {icon('phone')}
+          <div>
+            <h3 class="reach-item__label">Call us</h3>
+            <p class="reach-item__value"><a class="reach-item__link" href="{tel}">{phone}</a></p>
+          </div>
+          <span class="reach-item__go reach-item__go--arrow" aria-hidden="true">{svg('arrow-right')}</span>
+        </li>
+        <li class="reach-item">
+          {icon('mail')}
+          <div>
+            <h3 class="reach-item__label">Email us</h3>
+            <p class="reach-item__value"><a class="reach-item__link" href="{email_link}">{email_wrapping}</a></p>
+          </div>
+          <div class="reach-item__go"><button class="copy-btn" type="button" data-copy="{email}" hidden>Copy email address</button><span class="visually-hidden" role="status"></span></div>
+        </li>
+        <li class="reach-item">
+          {icon('pin')}
+          <div>
+            <h3 class="reach-item__label">Find us</h3>
+            <p class="reach-item__value">{address}</p>
+          </div>
+          <p class="reach-item__go action-link"><a class="reach-item__link" href="{maps}">Get directions{svg('arrow-right')}</a></p>
+        </li>
+      </ul>
     </div>
   </div>
 </section>

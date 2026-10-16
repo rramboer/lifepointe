@@ -130,7 +130,7 @@ that moves on its own, no counters.
 
 ## Icons
 Line icons on a 24-unit grid, 1.8 stroke, round ends, navy, in a 46px `--navy-tint` tile on
-cards (40px in the contact panel). Buttons and file links carry a small one before their text
+cards and in the contact card's rows. Buttons and file links carry a small one before their text
 (phone, mail, download, pin). Lucide first; Tabler where it has the clearer picture
 (massage, physiotherapist, apple, medical clipboard); the spine is drawn for the site in
 the same style. One picture per meaning: no icon repeats within a grid of cards. Sources and
@@ -166,12 +166,17 @@ booking card, a green "Call" button and a ghost "Email us" button (a mailto with
 and a name / phone / preferred times template filled in), with the office hours, their "Open
 now" line, and today's row marked with a red bar like the menu's current page. When practice.json has a
 `booking_url`, a green "Book online" button leads and Call turns ghost, so the card keeps one
-primary action. Then "Every way to say hello": one panel (`.contact-panel`) of call, email
-(with "Copy email address", since a mailto does nothing on a computer with no email program),
-fax, and address, split by hairlines, 2×2 beside the office photo or its placeholder (a bigger
-"Get directions" target for mouse and touch only) on a desktop, the photo below it under
-1100px, one column below 641px. The email may break only before the @, and the address keeps
-"Clarkston, MI 48346" on one line. No form, no embed: nothing on the site collects health
+primary action. Then "Every way to say hello": one card (`.reach-card`), the office's photo (or
+the map drawing, a bigger "Get directions" target for mouse and touch only) on one side and a
+list on the other, one row each for call, email, and find us. A row is a small uppercase label
+over the value itself, biggest because it's what people came for, with the row's action at the
+far edge (an arrow, "Copy email address", since a mailto does nothing on a computer with no
+email program, or "Get directions"); the whole row is the link, like a link card. Rows fit their
+content, so a one-line phone number never sits in a box sized for the address. The fax number
+is only in the footer: patients don't fax. Below 1100px a row's button moves under its value;
+below 900px the picture becomes a banner over the list; on phones the arrow goes (the row is the
+target), and on the smallest the values switch to the narrower body font. The email may break
+only before the @, and the address keeps "Clarkston, MI 48346" on one line. No form, no embed: nothing on the site collects health
 information or loads a third-party widget.
 Shared header (sticky; see The funnel) + footer (navy-ink, white logo; its Explore list has
 every page, the recipe book too). The menu is About, Services & products, New patients,
