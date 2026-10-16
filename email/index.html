@@ -252,8 +252,10 @@
               <div style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:24px; font-weight:700; letter-spacing:0.2px; color:#ffffff; padding-bottom:6px;">
                 Lifepointe Chiropractic &amp; Wellness Center
               </div>
-              <div class="unstyle-auto-detected-links" style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px; line-height:21px; color:#CCD2DE; padding-bottom:20px;">
-                5896 Dixie Hwy, Ste A, Clarkston, MI 48346 &nbsp;&bull;&nbsp; <span style="white-space:nowrap;">248-623-6107</span>
+              <!-- The phone is the template's own white tel: link, so mail apps don't turn it into a blue
+                   link of their own; the class (plain text only) keeps the address from being linked. -->
+              <div style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px; line-height:21px; color:#CCD2DE; padding-bottom:20px;">
+                <span class="unstyle-auto-detected-links">5896 Dixie Hwy, Ste A, Clarkston, MI 48346</span> &nbsp;&bull;&nbsp; <a href="tel:+12486236107" style="color:#ffffff; text-decoration:none; white-space:nowrap;">248-623-6107</a>
               </div>
 
               <!-- ---- Social icons ---- -->
