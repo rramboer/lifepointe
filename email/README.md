@@ -325,9 +325,11 @@ Gmail HTML signatures that match the business card:
   (Gmail drops both).
 - Font stack `Lato, Helvetica, Arial, sans-serif`. Navy `#00205B` text, `#4A5470` for Dr. Greg's
   credentials (as on the card), and a short red `#EE2737` accent bar above the name.
-- Links: the logo and `lifepointechiro.com` go to `https://lifepointechiro.com`, and the phone
-  number is `tel:+12486236107`. The fax number isn't linked.
-- Under 400px wide, so it wraps on a narrow phone instead of scrolling. About 2,000 characters
+- Links: the logo and `lifepointechiro.com` go to `https://lifepointechiro.com`, the phone
+  number is `tel:+12486236107`, and the address goes to the Google Maps listing, in navy like the
+  line around it: left as plain text, Gmail turns an address into a blue link of its own. The
+  fax number isn't linked.
+- Under 400px wide, so it wraps on a narrow phone instead of scrolling. Under 3,000 characters
   each, well under Gmail's 10,000-character limit
   ([Google help](https://support.google.com/mail/answer/8395)).
 - No email address line: the sender's address is already in the From line.
