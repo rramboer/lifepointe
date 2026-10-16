@@ -33,6 +33,7 @@ then you'll see their alt text instead.
 | Request an Appointment button (HTML and Outlook VML) | `https://lifepointechiro.com/contact#appointment` |
 | New Patient Info button (HTML and Outlook VML) | `https://lifepointechiro.com/new-patients` |
 | Phone (Visit or Call; white in the footer) | `tel:+12486236107` (shown as 248-623-6107) |
+| Fax (Visit or Call) | `tel:+12486236443` (shown as 248-623-6443), styled like the text around it |
 | Email | `mailto:office@lifepointechiro.com` |
 | Address (Visit or Call; white in the footer) | Google Maps listing |
 | Facebook / Instagram | `facebook.com/lifepointewellness/` / `instagram.com/lifepointe.chiropractic/` |
@@ -227,12 +228,13 @@ address (and maybe a name) is not a patient list, but don't import the patient r
 - Every image has `alt` text, styled so it stays readable when images are blocked, and the
   footer repeats the icon links as text.
 - `role="presentation"` on layout tables so screen readers skip them.
-- Every address is the template's own Google Maps link, and every phone number its own `tel:`
-  link, styled to match the text around them (white in the navy footer). Gmail turns a
-  plain-text address into a blue link of its own and ignores any reset, so an address is never
-  left as plain text. The `.unstyle-auto-detected-links` reset stays on the plain-text fax
-  number, for Apple Mail and iOS. The class goes only on plain text, never on an element that
-  holds the template's own links, or its reset would strip their color, weight and underline.
+- Every address is the template's own Google Maps link, and every phone and fax number its own
+  `tel:` link, styled to match the text around them (white in the navy footer). Gmail turns a
+  plain-text address or number into a blue link of its own and ignores any reset, so none is
+  ever left as plain text. The `.unstyle-auto-detected-links` reset is kept for anything else a
+  mail app might detect in campaign text; put the class only on plain text, never on an element
+  that holds the template's own links, or its reset would strip their color, weight and
+  underline.
 - No emoji, in the template or in campaign text. Gmail swaps an emoji (▶ ✅ ☎ ❤ …) for a small
   image, and the image reset in `<head>` (`img { display:block }`, which keeps real images
   clean) puts that image on a line of its own. Use plain text symbols that aren't emoji, such as
@@ -331,8 +333,8 @@ Gmail HTML signatures that match the business card:
   credentials (as on the card), and a short red `#EE2737` accent bar above the name.
 - Links: the logo and `lifepointechiro.com` go to `https://lifepointechiro.com`, the phone
   number is `tel:+12486236107`, and the address goes to the Google Maps listing, in navy like the
-  line around it: left as plain text, Gmail turns an address into a blue link of its own. The
-  fax number isn't linked.
+  line around it, and so is the fax number, `tel:+12486236443`: left as plain text, Gmail turns
+  an address or a number into a blue link of its own.
 - Under 400px wide, so it wraps on a narrow phone instead of scrolling. Under 3,000 characters
   each, well under Gmail's 10,000-character limit
   ([Google help](https://support.google.com/mail/answer/8395)).
