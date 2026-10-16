@@ -2,7 +2,7 @@
 from ..errors import BuildError
 from ..helpers import esc
 from ..icons import svg
-from ..layout import V, cta_band, page, page_hero
+from ..layout import V, cta_band, page, page_hero, quote
 
 FILENAME = 'success-stories.html'
 TOPICS = 'topics'  # id of the chip list; each section links back to it
@@ -25,11 +25,7 @@ def _check_ids(categories):
 def _section(category, alt):
     anchor = esc(category.id)
     count = len(category.testimonials)
-    quotes = '\n'.join(
-        f'''<figure class="quote">
-        <blockquote><p>{esc(t.quote)}</p></blockquote>
-        <footer>{esc(t.author)}</footer>
-      </figure>''' for t in category.testimonials)
+    quotes = '\n'.join(quote(t) for t in category.testimonials)
     cls = 'section section--card' if alt else 'section'
     return f'''
 <section class="{cls}" id="{anchor}" aria-labelledby="{anchor}-h">

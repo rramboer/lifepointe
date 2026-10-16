@@ -25,9 +25,12 @@ SITE_URL = re.compile(r'https://[a-z0-9-]+(\.[a-z0-9-]+)+')
 MAP_PIN = re.compile(r'!3d(-?[0-9]+(?:\.[0-9]+)?)!4d(-?[0-9]+(?:\.[0-9]+)?)')
 # https://, a domain with at least one dot, an optional port, then any path, query or fragment.
 WEB_ADDRESS = re.compile(r'https://[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+(:[0-9]+)?([/?#]\S*)?')
-# A team member's headshot in the repo's assets/team/ folder (published with assets/), named
-# after the person in lowercase letters, digits and hyphens.
-TEAM_PHOTO = re.compile(r'assets/team/[a-z0-9]+(-[a-z0-9]+)*\.(jpg|png)')
+# Photos in the repo's assets/ folder (published with it), each kind in its own folder and named
+# in lowercase letters, digits and hyphens: headshots (the team and the doctor) in assets/team/,
+# the office in assets/office/, products in assets/products/. Until a photo exists its field is
+# null, and the page shows a placeholder of the same size in its place.
+PHOTO_FOLDERS = {'team': 'assets/team/sybil-olson.jpg', 'office': 'assets/office/building.jpg',
+                 'products': 'assets/products/biofreeze.jpg'}
 # A PDF in the repo's forms/ folder, which is published as-is; pages link to it by this path.
 FORM_PATH = re.compile(r'forms/[a-z0-9]+(-[a-z0-9]+)*\.pdf')
 TOP = '(top level)'
@@ -100,6 +103,22 @@ class Checker:
         if name and name not in ICON_NAMES:
             self.fail(_at(where, key), f'unknown icon "{name}" (known: {", ".join(sorted(ICON_NAMES))})')
 
+    def photo(self, obj, key, where, folder, root):
+        """A photo field: null until there is a photo, then a JPEG or PNG in assets/<folder>/."""
+        field = _at(where, key)
+        example = PHOTO_FOLDERS[folder]
+        if key not in obj:
+            self.fail(field, 'missing (use null until there is a photo)')
+            return
+        value = obj[key]
+        if value is None:
+            return
+        if not isinstance(value, str) or not re.fullmatch(rf'assets/{folder}/[a-z0-9]+(-[a-z0-9]+)*\.(jpg|png)', value):
+            self.fail(field, f'must be null or a JPEG or PNG in assets/{folder}/, named in lowercase letters, '
+                             f'digits and hyphens, like {example} (got {json.dumps(value, ensure_ascii=False)})')
+        elif not (root / value).is_file():
+            self.fail(field, f'{value} does not exist; add the file to assets/{folder}/')
+
     def unique(self, values, where, what):
         seen = set()
         for value in values:
@@ -143,8 +162,8 @@ def _read(data_dir, filename):
 
 def _check_practice(c, raw, root):
     p = c.obj(raw, TOP, ('name', 'legal_name', 'opened', 'doctor', 'phone', 'fax', 'email', 'address', 'geo',
-                         'maps_url', 'social', 'recipe_book_url', 'site_url', 'booking_url', 'in_network',
-                         'forms'))
+                         'maps_url', 'building_photo', 'social', 'recipe_book_url', 'site_url', 'booking_url',
+                         'in_network', 'forms'))
     c.text(p, 'name', TOP)
     c.text(p, 'legal_name', TOP)
     # The month the practice opened, YYYY-MM: the home page counts the years from it.
@@ -178,9 +197,14 @@ def _check_practice(c, raw, root):
     email = c.text(p, 'email', TOP)
     if email and '@' not in email:
         c.fail('email', f'not an email address (got "{email}")')
-    doctor = c.obj(p.get('doctor'), 'doctor', ('name', 'credentials'))
+    # The front of the office (home page and contact page). Until there is one, both show a
+    # drawing of a map pin in its place.
+    c.photo(p, 'building_photo', TOP, 'office', root)
+    # The doctor's headshot (home and about pages), 4:5 like the team's; null shows his initials.
+    doctor = c.obj(p.get('doctor'), 'doctor', ('name', 'credentials', 'photo'))
     c.text(doctor, 'name', 'doctor')
     c.text(doctor, 'credentials', 'doctor')
+    c.photo(doctor, 'photo', 'doctor', 'team', root)
     phone = c.obj(p.get('phone'), 'phone', ('display', 'tel'))
     display = c.text(phone, 'display', 'phone')
     if display and not SHOWN_NUMBER.fullmatch(display):
@@ -230,9 +254,12 @@ def _check_nav(c, raw, pages):
     hrefs = []
     for i, entry in enumerate(c.items(raw, TOP)):
         where = f'[{i}]'
-        entry = c.obj(entry, where, ('label', 'footer_label', 'href'))
+        entry = c.obj(entry, where, ('label', 'footer_label', 'href', 'header'))
         c.text(entry, 'label', where)
         c.text(entry, 'footer_label', where, optional=True)
+        # "header": false keeps a page out of the header menu; the footer lists every entry.
+        if 'header' in entry and not isinstance(entry['header'], bool):
+            c.fail(f'{where}.header', 'must be true or false (leave it out for true)')
         href = c.text(entry, 'href', where)
         if href and href.split('#')[0] not in pages:
             c.fail(f'{where}.href', f'"{href}" is not a page this build generates ({", ".join(sorted(pages))})')
@@ -267,22 +294,45 @@ def _check_hours(c, raw):
             previous_close = closes
 
 
-def _check_services(c, raw):
+def _check_services(c, raw, root):
     s = c.obj(raw, TOP, ('home_cards', 'services', 'products'))
-    for list_key in ('home_cards', 'services'):
-        entries = c.items(s.get(list_key), list_key)
-        for i, entry in enumerate(entries):
-            where = f'{list_key}[{i}]'
-            entry = c.obj(entry, where, ('icon', 'title', 'summary'))
-            c.icon(entry, 'icon', where)
-            c.text(entry, 'title', where)
-            c.text(entry, 'summary', where)
-        c.unique([e.get('title') for e in entries if isinstance(e, dict)], list_key, 'title')
+    # Each service has an id, its card's anchor on the services page (services#massage); each
+    # home page card links to one of them with "service".
+    services = c.items(s.get('services'), 'services')
+    service_ids = []
+    for i, entry in enumerate(services):
+        where = f'services[{i}]'
+        entry = c.obj(entry, where, ('id', 'icon', 'title', 'summary'))
+        sid = c.text(entry, 'id', where)
+        if sid and not SLUG.fullmatch(sid):
+            c.fail(f'{where}.id', f'use lowercase letters, digits and hyphens (got "{sid}")')
+        service_ids.append(sid)
+        c.icon(entry, 'icon', where)
+        c.text(entry, 'title', where)
+        c.text(entry, 'summary', where)
+    c.unique(service_ids, 'services', 'id')
+    c.unique([e.get('title') for e in services if isinstance(e, dict)], 'services', 'title')
+    cards = c.items(s.get('home_cards'), 'home_cards')
+    for i, entry in enumerate(cards):
+        where = f'home_cards[{i}]'
+        entry = c.obj(entry, where, ('icon', 'title', 'summary', 'service'))
+        c.icon(entry, 'icon', where)
+        c.text(entry, 'title', where)
+        c.text(entry, 'summary', where)
+        target = c.text(entry, 'service', where)
+        if target and target not in service_ids:
+            c.fail(f'{where}.service', f'"{target}" is not the id of a service in "services" '
+                                       f'({", ".join(i for i in service_ids if isinstance(i, str))})')
+    c.unique([e.get('title') for e in cards if isinstance(e, dict)], 'home_cards', 'title')
+    # Products: a name, an optional short note (what it is) and a photo, null until there is one.
     products = c.items(s.get('products'), 'products')
     for i, product in enumerate(products):
-        if not isinstance(product, str) or not product.strip():
-            c.fail(f'products[{i}]', 'must be non-empty text')
-    c.unique([p for p in products if isinstance(p, str)], 'products', 'product')
+        where = f'products[{i}]'
+        product = c.obj(product, where, ('name', 'note', 'photo'))
+        c.text(product, 'name', where)
+        c.text(product, 'note', where, optional=True)
+        c.photo(product, 'photo', where, 'products', root)
+    c.unique([p.get('name') for p in products if isinstance(p, dict)], 'products', 'name')
 
 
 def _check_testimonials(c, raw):
@@ -344,15 +394,7 @@ def _check_team(c, raw, root):
         c.text(person, 'title', where)
         c.text(person, 'bio', where, optional=True)
         # The headshot; null shows the person's initials in its place until there is one.
-        if 'photo' not in person:
-            c.fail(_at(where, 'photo'), 'missing (use null until there is a headshot)')
-        elif person['photo'] is not None:
-            photo = person['photo']
-            if not isinstance(photo, str) or not TEAM_PHOTO.fullmatch(photo):
-                c.fail(_at(where, 'photo'), f'must be null or a JPEG or PNG in assets/team/, like '
-                                            f'assets/team/sybil-olson.jpg (got {json.dumps(photo, ensure_ascii=False)})')
-            elif not (root / photo).is_file():
-                c.fail(_at(where, 'photo'), f'{photo} does not exist; add the file to assets/team/')
+        c.photo(person, 'photo', where, 'team', root)
     c.unique([p.get('name') for p in staff if isinstance(p, dict)], 'staff', 'name')
     for i, membership in enumerate(c.items(t.get('memberships'), 'memberships')):
         where = f'memberships[{i}]'
@@ -416,7 +458,7 @@ def load(data_dir, pages):
     _check_practice(checker('practice.json'), raw['practice.json'], data_dir.parent)
     _check_nav(checker('nav.json'), raw['nav.json'], pages)
     _check_hours(checker('hours.json'), raw['hours.json'])
-    _check_services(checker('services.json'), raw['services.json'])
+    _check_services(checker('services.json'), raw['services.json'], data_dir.parent)
     testimonial_ids = _check_testimonials(checker('testimonials.json'), raw['testimonials.json'])
     _check_home_quotes(checker('home-quotes.json'), raw['home-quotes.json'], testimonial_ids)
     _check_strings(checker('recipe-staples.json'), raw['recipe-staples.json'], 'staple')

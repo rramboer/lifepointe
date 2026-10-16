@@ -2,21 +2,31 @@
 (function () {
   'use strict';
 
-  /* Mobile navigation */
+  /* Mobile navigation: the Menu button opens and closes the menu. Escape closes it and returns
+     to the button. A tap outside it closes it too, and so does choosing one of its links
+     (which may only jump within the page). */
   var toggle = document.querySelector('.nav-toggle');
   var nav = document.getElementById('site-nav');
   if (toggle && nav) {
-    toggle.addEventListener('click', function () {
-      var open = nav.classList.toggle('is-open');
+    var setOpen = function (open) {
+      nav.classList.toggle('is-open', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    toggle.addEventListener('click', function () {
+      setOpen(!nav.classList.contains('is-open'));
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && nav.classList.contains('is-open') &&
           (nav.contains(document.activeElement) || toggle === document.activeElement)) {
-        nav.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
+        setOpen(false);
         toggle.focus();
       }
+    });
+    document.addEventListener('click', function (e) {
+      if (nav.classList.contains('is-open') && !nav.contains(e.target) && !toggle.contains(e.target)) setOpen(false);
+    });
+    nav.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setOpen(false);
     });
   }
 
@@ -117,7 +127,7 @@
      hidden under prefers-reduced-motion or without IntersectionObserver. */
   var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if ('IntersectionObserver' in window && !calm) {
-    var groups = '.grid-2, .grid-3, .grid-4, .quote-columns, .steps, .card-stack, .team-grid';
+    var groups = '.grid-2, .grid-3, .grid-4, .quote-columns, .steps, .card-stack, .team-grid, .product-grid, .reach-grid, .doctor';
     var targets = [];
     document.querySelectorAll('main .section:not(.hero) .wrap').forEach(function (wrap) {
       Array.prototype.forEach.call(wrap.children, function (child) {
@@ -147,16 +157,106 @@
     });
   }
 
-  /* Highlight today's row in the office-hours table */
-  var day = new Date().getDay(); /* 0 = Sunday */
-  document.querySelectorAll('.hours-table [data-days]').forEach(function (row) {
-    if (row.getAttribute('data-days').split(',').indexOf(String(day)) !== -1) {
+  /* Phones: slide the bottom action bar (Call, Request an appointment) away while the closing
+     call-to-action band or the contact page's appointment section is on screen, since they
+     show the same two actions. */
+  var bar = document.querySelector('.action-bar');
+  var sameActions = document.querySelectorAll('.cta-band, #appointment');
+  if (bar && sameActions.length && 'IntersectionObserver' in window) {
+    var onScreen = [];
+    var barWatch = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var at = onScreen.indexOf(e.target);
+        if (e.isIntersecting && at === -1) onScreen.push(e.target);
+        if (!e.isIntersecting && at !== -1) onScreen.splice(at, 1);
+      });
+      bar.classList.toggle('is-away', onScreen.length > 0);
+    }, { rootMargin: '0px 0px -12% 0px' });
+    sameActions.forEach(function (el) { barWatch.observe(el); });
+  }
+
+  /* Office hours, in the office's own time zone, so a visitor elsewhere still sees Clarkston's
+     day and time. Each hours table row has data-days (0 = Sunday) and data-hours
+     ("07:30-11:30 14:30-18:00", empty when closed). This marks today's row, and fills the
+     [data-open-status] line above the table: "Open now · until 11:30am" or "Closed now · opens
+     Monday at 7:30am". It goes by the regular hours, as Google's listing does. */
+  var DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  function officeNow() {
+    try {
+      var parts = {};
+      new Intl.DateTimeFormat('en-US', { timeZone: 'America/Detroit', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' })
+        .formatToParts(new Date()).forEach(function (part) { parts[part.type] = part.value; });
+      var day = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(parts.weekday);
+      if (day === -1) throw new Error('weekday');
+      return { day: day, minutes: (Number(parts.hour) % 24) * 60 + Number(parts.minute) };
+    } catch (err) {
+      var local = new Date();
+      return { day: local.getDay(), minutes: local.getHours() * 60 + local.getMinutes() };
+    }
+  }
+  function clock(minutes) {
+    var h = Math.floor(minutes / 60), m = minutes % 60;
+    return (h % 12 || 12) + (m ? ':' + (m < 10 ? '0' : '') + m : '') + (h < 12 ? 'am' : 'pm');
+  }
+  var now = officeNow();
+  var week = [[], [], [], [], [], [], []];
+  var rows = document.querySelectorAll('.hours-table [data-days]');
+  rows.forEach(function (row) {
+    var days = row.getAttribute('data-days').split(',').map(Number);
+    var sessions = (row.getAttribute('data-hours') || '').split(' ').filter(Boolean).map(function (span) {
+      var t = span.split('-').map(function (hhmm) { var x = hhmm.split(':'); return Number(x[0]) * 60 + Number(x[1]); });
+      return { open: t[0], close: t[1] };
+    });
+    days.forEach(function (d) { week[d] = sessions; });
+    if (days.indexOf(now.day) !== -1) {
       row.classList.add('is-today');
       row.setAttribute('aria-current', 'date');
       var th = row.querySelector('th');
       if (th) th.insertAdjacentHTML('beforeend', ' <span class="visually-hidden">(today)</span>');
     }
   });
+  var status = null, open = false;
+  if (rows.length) {
+    week[now.day].forEach(function (s) {
+      if (now.minutes >= s.open && now.minutes < s.close) { open = true; status = 'Open now · until ' + clock(s.close); }
+    });
+    for (var ahead = 0; status === null && ahead < 7; ahead++) {
+      var d = (now.day + ahead) % 7;
+      var next = week[d].filter(function (s) { return ahead > 0 || s.open > now.minutes; })[0];
+      if (next) {
+        var when = ahead === 0 ? 'today' : ahead === 1 ? 'tomorrow' : DAY_NAMES[d];
+        status = 'Closed now · opens ' + when + ' at ' + clock(next.open);
+      }
+    }
+  }
+  if (status) {
+    document.querySelectorAll('[data-open-status]').forEach(function (el) {
+      el.textContent = status;
+      el.classList.toggle('is-open', open);
+      el.hidden = false;
+    });
+  }
+
+  /* "Copy email address" (contact page): shown only where the browser can copy. The button
+     reads "Copied" for a moment, and the status line after it tells screen readers. */
+  if (navigator.clipboard && window.isSecureContext) {
+    document.querySelectorAll('[data-copy]').forEach(function (button) {
+      var label = button.textContent;
+      var said = button.nextElementSibling && button.nextElementSibling.getAttribute('role') === 'status'
+        ? button.nextElementSibling : null;
+      button.hidden = false;
+      button.addEventListener('click', function () {
+        navigator.clipboard.writeText(button.getAttribute('data-copy')).then(function () {
+          button.textContent = 'Copied';
+          if (said) said.textContent = 'Email address copied';
+          window.setTimeout(function () {
+            button.textContent = label;
+            if (said) said.textContent = '';
+          }, 2500);
+        }, function () { /* the address is on the screen to copy by hand */ });
+      });
+    });
+  }
 
   /* Years since the practice opened (home page photo chip, data-since="YYYY-MM"). The build
      writes the same number; this keeps it right if the site isn't rebuilt for a while. */

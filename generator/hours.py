@@ -1,6 +1,8 @@
 """Office hours, rendered from data/hours.json as the full table and the footer summary.
 
-Table: one row per open day; a run of closed days shares one row ("Fri–Sun  Closed").
+Table: one row per open day; a run of closed days shares one row ("Fri–Sun  Closed"). Each row
+carries its days and hours as data attributes, for site.js: it marks today's row and, above
+the table, says whether the office is open now and when it next opens.
 Summary: days with identical hours share a line ("Mon, Wed, Thu: ..."); a run of three
 or more days is written as a range ("Fri–Sun: closed").
 """
@@ -42,8 +44,11 @@ def hours_table(days, cls='hours-table'):
         first, last = group[0][1], group[-1][1]
         label = esc(first.day) if len(group) == 1 else f'{esc(first.day[:3])}&ndash;{esc(last.day[:3])}'
         nums = ','.join(str(_js_day(index)) for index, _ in group)
-        times = ' &nbsp;&bull;&nbsp; '.join(_span(s, True) for s in first.hours) or 'Closed'
-        rows.append(f'        <tr data-days="{nums}"><th scope="row">{label}</th><td>{times}</td></tr>')
+        times = ' &nbsp;&bull; '.join(f'<span>{_span(s, True)}</span>' for s in first.hours) or 'Closed'
+        # data-hours ("07:30-11:30 14:30-18:00", empty when closed) lets site.js say whether the
+        # office is open now.
+        sessions = ' '.join(f'{s.open}-{s.close}' for s in first.hours)
+        rows.append(f'        <tr data-days="{nums}" data-hours="{sessions}"><th scope="row">{label}</th><td>{times}</td></tr>')
     rows_html = '\n'.join(rows)
     return f'''<table class="{cls}">
         <caption class="visually-hidden">Office hours by day</caption>
@@ -62,6 +67,6 @@ def hours_summary(days):
         short = [esc(days[i].day[:3]) for i in indexes]
         consecutive = indexes == list(range(indexes[0], indexes[0] + len(indexes)))
         label = f'{short[0]}&ndash;{short[-1]}' if len(indexes) >= 3 and consecutive else ', '.join(short)
-        times = ', '.join(_span(s, False) for s in days[indexes[0]].hours) or 'closed'
+        times = ', '.join(f'<span class="nowrap">{_span(s, False)}</span>' for s in days[indexes[0]].hours) or 'closed'
         lines.append(f'{label}: {times}')
     return lines

@@ -45,6 +45,7 @@ def render(site):
         <li>Images have text descriptions. Purely decorative icons are hidden from screen readers.</li>
         <li>Icon-only links, such as Facebook and Instagram, have text labels for screen readers, and links to PDF files say &ldquo;(PDF)&rdquo;.</li>
         <li>The menu button tells screen readers whether the menu is open, and the Escape key closes it.</li>
+        <li>On phones, the Call and &ldquo;Request an appointment&rdquo; buttons stay at the bottom of the screen, and the page scrolls so they never cover the link or button you&rsquo;re on.</li>
         <li>The office hours tables tell screen readers which day is today.</li>
         <li>If your device is set to reduce motion, the site&rsquo;s animations and smooth scrolling are turned off.</li>
         <li>Pages fit screens as narrow as 320 pixels without scrolling sideways. In a desktop browser window 1280 pixels wide, that means you can zoom in up to 400%.</li>
