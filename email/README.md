@@ -233,6 +233,10 @@ address (and maybe a name) is not a patient list, but don't import the patient r
   left as plain text. The `.unstyle-auto-detected-links` reset stays on the plain-text fax
   number, for Apple Mail and iOS. The class goes only on plain text, never on an element that
   holds the template's own links, or its reset would strip their color, weight and underline.
+- No emoji, in the template or in campaign text. Gmail swaps an emoji (▶ ✅ ☎ ❤ …) for a small
+  image, and the image reset in `<head>` (`img { display:block }`, which keeps real images
+  clean) puts that image on a line of its own. Use plain text symbols that aren't emoji, such as
+  → for a link, • for a bullet, and ► for a video link.
 - Absolute URLs with `target="_blank"` on every link.
 - `tel:` and `mailto:` links for one-tap contact on phones.
 
