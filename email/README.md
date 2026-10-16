@@ -238,6 +238,30 @@ Send yourself a test before any real send. Gmail (web, iOS and Android), Outlook
 Apple Mail cover most readers. Litmus or Email on Acid will render all of them at once if you
 want to be thorough.
 
+### Sending a test
+`tools/send-test.py` emails `index.html` exactly as written, from the office@ mailbox:
+
+```
+python3 email/tools/send-test.py you@gmail.com
+```
+
+It asks for office@'s **app password** and keeps it in memory only (or set
+`LIFEPOINTE_SMTP_PASSWORD` for that one command). `--dry-run` prints the message instead of
+sending it. More addresses can follow the first, and `--subject`, `--file` and `--from`
+are optional.
+
+To make the app password: sign in to Google as office@, turn on **2-Step Verification**
+(myaccount.google.com → Security; if Google won't allow it, the Admin console needs Security →
+Authentication → 2-step verification → "Allow users to turn on 2-Step Verification"), then go to
+myaccount.google.com/apppasswords, name it and click Create. Google shows the 16 characters
+once. The app password opens the whole mailbox, which holds patient email: never save it in a
+file or the repository, and delete it on the same page when it's no longer needed.
+
+Don't test by pasting the page into Gmail's compose window, or by sending it through a tool
+that cleans up HTML: they drop the images, the `<style>` block and the `tel:` links, so the
+test shows a different email. Putsmail (putsmail.com) sends pasted HTML as written if the
+script isn't an option.
+
 ## Signatures
 Gmail HTML signatures that match the business card:
 

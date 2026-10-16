@@ -85,8 +85,8 @@ The build stops with a non-zero exit and a message naming the file and field whe
   old website's address, the practice's old Gmail address or a Google Fonts address (see
   Fonts), or writes the practice's phone or fax number any other way than `practice.json`
   does (such as `248.623.6107` or `(248) 623-6107`);
-- any text file in `email/` (the template, the signatures, `email/README.md` and the icon
-  script) contains that same text, such as the old website's address, its vendor's hosts or
+- any text file in `email/` (the template, the signatures, `email/README.md` and the two
+  scripts in `email/tools/`) contains that same text, such as the old website's address, its vendor's hosts or
   a banned name, or writes the phone or fax number another way. Only `email/images/` is
   published, but the rest is pasted into email platforms and Gmail, so it is checked where it
   is. No other folder outside the finished site is checked, so notes elsewhere in the
