@@ -34,6 +34,9 @@ BANNED = [
     # template loads no web font. A request to Google sends the reader's IP address to a third
     # party, and the privacy policy says the pages load nothing from other sites.
     r'fonts\.(?:googleapis|gstatic)\.com',
+    # The practice's old consumer Gmail address. Patients now write to the Google Workspace
+    # mailbox in data/practice.json (office@lifepointechiro.com, live 2026-10-16).
+    r'lifepointechiro@gmail\.com',
     # The brand name is written with "&", and phone numbers as 248-623-6107 (data/practice.json),
     # not the old site's "Chiropractic and Wellness Center" or "(248) 623-6107". scan() also
     # catches the practice's own numbers written any other way, such as 248.623.6107.
