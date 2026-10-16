@@ -50,7 +50,7 @@ palette. Shadows and glows are navy or green at low opacity, never black. The pa
 |---|---|---|---|
 | Navy, Pantone 281 C | `#00205B` | Primary. Headings, body text, links, dark sections, footer | Does most of the work (~28% of a page) |
 | Green, Pantone 376 C | `#84BD00` | Action. Primary buttons, lit rail nodes, eyebrows and focus ring on dark | Always with navy text (6.8:1). White on green fails (2.3:1) |
-| Red, Pantone 1788 C | `#EE2737` | Accent marks. The heart, active-nav underline, quote marks, eyebrow tick | Never text: white on red is 4.2:1, large text only |
+| Red, Pantone 1788 C | `#EE2737` | Accent marks. The heart, active-nav underline, today's row in the hours, quote marks, eyebrow tick | Never text: white on red is 4.2:1, large text only |
 
 Rule of thumb: **green means "do something", red means "this is Lifepointe"**.
 
@@ -162,9 +162,9 @@ square photo (or the placeholder) and the name, with what it is under it (`.prod
 across on phones, up to five on a desktop), then a link card to the recipe book, which left the
 header menu for the footer.
 contact: the first section (`#appointment`, where every Request button lands) pairs the
-booking card, a green "Call" button, a ghost "Email us" button (a mailto with the subject and a
-name / phone / preferred times template filled in) and a note to leave health details out of
-email, with the office hours and their "Open now" line. When practice.json has a
+booking card, a green "Call" button and a ghost "Email us" button (a mailto with the subject
+and a name / phone / preferred times template filled in), with the office hours, their "Open
+now" line, and today's row marked with a red bar like the menu's current page. When practice.json has a
 `booking_url`, a green "Book online" button leads and Call turns ghost, so the card keeps one
 primary action. Then "Every way to say hello": one panel (`.contact-panel`) of call, email
 (with "Copy email address", since a mailto does nothing on a computer with no email program),

@@ -56,7 +56,6 @@ def render(site):
           {book_online}<a class="btn {call_style}" href="{tel}">{svg('phone')}Call {phone}</a>
           <a class="btn btn--ghost" href="{appointment_mail}">{svg('mail')}Email us</a>
         </div>
-        <p class="muted mt-15">Emailing <a href="{appointment_mail}">{email}</a>? Please share only your name, phone number, and preferred days and times, and leave out any health details.</p>
       </div>
     </div>
     <div class="card hours-card">

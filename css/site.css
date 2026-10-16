@@ -783,7 +783,8 @@ h1, h2, h3 { overflow-wrap: break-word; }
 .hours-table .is-today th, .hours-table .is-today td { color: var(--navy); font-weight: 700; }
 /* A narrow table puts the afternoon under the morning, never splitting a time range */
 .hours-table td span { white-space: nowrap; }
-.hours-table .is-today th { box-shadow: inset 3px 0 0 var(--green); padding-left: .65rem; }
+/* Today is marked like the current page in the menu: a red bar (red = "you are here") */
+.hours-table .is-today th { box-shadow: inset 3px 0 0 var(--red); padding-left: .65rem; }
 /* "Open now · until 6pm" / "Closed now · opens Monday at 7:30am", from site.js. The dot only
    repeats what the words say. */
 .open-status {
