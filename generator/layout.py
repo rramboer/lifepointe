@@ -9,7 +9,6 @@ from . import seo
 from .helpers import esc, page_href
 from .hours import hours_summary
 from .icons import svg
-from .media import initials
 
 V = '<span class="vertebra" aria-hidden="true"></span>'
 # The footer's legal links, as (page, link text). The build stops if a page here isn't one it makes.
@@ -123,12 +122,13 @@ def page_hero(eyebrow, h1, lede='', meta='', actions=''):
 
 
 def quote(testimonial, note=''):
-    """A testimonial card: the patient's words, then their name beside their initials (a
-    decorative avatar). note is a line under the name, such as the category; plain text."""
+    """A testimonial card: the patient's words, then their name. note is a line under the name,
+    such as the category; plain text. No avatar: there will never be patient photos, and initials
+    in a circle would look like one of the site's photo placeholders."""
     note_html = f'<span class="quote__note">{esc(note)}</span>' if note else ''
     return f'''<figure class="quote">
         <blockquote><p>{esc(testimonial.quote)}</p></blockquote>
-        <figcaption class="quote__by"><span class="quote__avatar" aria-hidden="true">{esc(initials(testimonial.author))}</span><span class="quote__name">{esc(testimonial.author)}{note_html}</span></figcaption>
+        <figcaption class="quote__by">{esc(testimonial.author)}{note_html}</figcaption>
       </figure>'''
 
 

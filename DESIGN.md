@@ -195,8 +195,9 @@ Photos the practice doesn't have yet keep their place (generator/media.py): a he
 the person's initials on the navy tint; the office (home and contact, 16:10) shows a drawing
 of streets and a map pin in the inks; a product shows the Lifepointe heart mark, faint
 (`assets/mark.svg`, the favicon's mark in one color, used as a mask). Each turns into the
-photo when its data field gets a path (README.md, Photos). Testimonials show the patient's
-initials, decorative, beside their name.
+photo when its data field gets a path (README.md, Photos). Initials in a tile or circle mean
+only that: a photo is coming. Testimonials show just the patient's name, since there will
+never be patient photos.
 the legal pages (privacy, the Notice of Privacy Practices, accessibility, nondiscrimination,
 Good Faith Estimate) omit it too: they are reference text, not sales pages. Each is plain prose
 in a `.measure` column (h2 per section, `.display-3` h3 per topic, `.display-4` h4 inside a

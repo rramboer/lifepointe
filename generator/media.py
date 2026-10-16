@@ -14,9 +14,8 @@ from .helpers import esc
 
 
 def initials(name):
-    """'Sybil Olson' -> 'SO', 'Megan R. (age 11)' -> 'MR', 'Duke and Marge S.' -> 'DS',
-    'Dr. Greg Ramboer' -> 'GR', 'Alyssa' -> 'A'. Titles, lowercase words and anything in
-    brackets are skipped."""
+    """'Sybil Olson' -> 'SO', 'Dr. Greg Ramboer' -> 'GR', 'Cher' -> 'C'. Titles, lowercase
+    words and anything in brackets are skipped."""
     words = [w for w in name.split('(')[0].split() if w[:1].isupper() and w.rstrip('.') not in ('Dr', 'Mr', 'Mrs', 'Ms')]
     if not words:
         return name[:1].upper()
