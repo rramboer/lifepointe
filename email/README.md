@@ -28,7 +28,7 @@ then you'll see their alt text instead.
 | Logo, globe icon, footer text link | `https://lifepointechiro.com/` |
 | Request an Appointment button (HTML and Outlook VML) | `https://lifepointechiro.com/contact#appointment` |
 | New Patient Info button (HTML and Outlook VML) | `https://lifepointechiro.com/new-patients` |
-| Phone | `tel:+12486236107` (shown as 248-623-6107) |
+| Phone (Visit or Call, and the footer, in white) | `tel:+12486236107` (shown as 248-623-6107) |
 | Email | `mailto:office@lifepointechiro.com` |
 | Address | Google Maps listing |
 | Facebook / Instagram | `facebook.com/lifepointewellness/` / `instagram.com/lifepointe.chiropractic/` |
