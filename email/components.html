@@ -477,7 +477,9 @@
                 <img class="fluid" src="https://lifepointechiro.com/assets/photo-posture-check.jpg" width="520" height="347" alt="Example: watch the video" style="width:520px; max-width:100%; height:auto; display:block; border:0; border-radius:8px; font-family:Arial,Helvetica,sans-serif; font-size:14px; color:#4A5470;" />
               </a>
               <p style="margin:10px 0 0 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:15px; line-height:22px;">
-                <a href="https://lifepointechiro.com/" target="_blank" style="color:#00205B; text-decoration:underline; font-weight:bold;">&#9654;&#xFE0E; Example: watch the video</a>
+                <!-- &#9658; is a text pointer, not the emoji play button (U+25B6): Gmail swaps emoji for
+                     images, which the img reset in <head> puts on a line of their own. -->
+                <a href="https://lifepointechiro.com/" target="_blank" style="color:#00205B; text-decoration:none; font-weight:bold;">&#9658;&nbsp;<span style="text-decoration:underline;">Example: watch the video</span></a>
               </p>
             </td>
           </tr>
