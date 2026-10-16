@@ -286,17 +286,23 @@ python3 email/tools/send-test.py you@gmail.com
 python3 email/tools/send-test.py you@gmail.com --file email/components.html --subject "Test: email components"
 ```
 
-It asks for office@'s **app password** and keeps it in memory only (or set
-`LIFEPOINTE_SMTP_PASSWORD` for that one command). `--dry-run` prints the message instead of
-sending it. More addresses can follow the first, and `--subject`, `--file` and `--from`
-are optional.
+It asks for the sending account's **app password** and keeps it in memory only. `--dry-run`
+prints the message instead of sending it. More addresses can follow the first, and
+`--subject`, `--file` and `--from` are optional.
+
+To skip the prompt, copy `.env.example` (at the repo root) to `.env`, fill in
+`LIFEPOINTE_SMTP_FROM` (the Google account that sends, which can be your own Gmail) and
+`LIFEPOINTE_SMTP_PASSWORD` (its app password), and run `chmod 600 .env`. Git ignores `.env`, the
+script refuses to read one that git tracks, and it warns if other users can read it. A
+`--from` on the command line, then environment variables, override the file.
 
 To make the app password: sign in to Google as office@, turn on **2-Step Verification**
 (myaccount.google.com → Security; if Google won't allow it, the Admin console needs Security →
 Authentication → 2-step verification → "Allow users to turn on 2-Step Verification"), then go to
 myaccount.google.com/apppasswords, name it and click Create. Google shows the 16 characters
-once. The app password opens the whole mailbox, which holds patient email: never save it in a
-file or the repository, and delete it on the same page when it's no longer needed.
+once. An app password opens the whole mailbox (office@'s holds patient email): keep it only in
+`.env` or type it at the prompt, never in another file or the repository, and delete it on the
+same page when it's no longer needed or if it's ever exposed.
 
 Don't test by pasting the page into Gmail's compose window, or by sending it through a tool
 that cleans up HTML: they drop the images, the `<style>` block and the `tel:` links, so the
