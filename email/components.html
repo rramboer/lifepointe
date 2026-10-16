@@ -1,0 +1,596 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+  <meta name="color-scheme" content="light" />
+  <meta name="supported-color-schemes" content="light" />
+  <title>Lifepointe email components</title>
+
+  <!--
+    COMPONENT GALLERY, NOT A CAMPAIGN. Every block a Lifepointe email can use, in the same
+    email-safe markup as index.html (same head, resets, widths, colors and Outlook buttons), each
+    under a small grey label. Send it to yourself to see how every kind of content renders:
+
+        python3 email/tools/send-test.py you@gmail.com --file email/components.html
+
+    To build a campaign, copy the blocks you need from here into a copy of index.html and drop the
+    labels. Text marked "Example" is made up to show the layout; everything else is the practice's
+    own wording from the website. Never send this file to patients.
+  -->
+
+  <!--[if mso]>
+  <noscript><xml>
+    <o:OfficeDocumentSettings>
+      <o:PixelsPerInch>96</o:PixelsPerInch>
+    </o:OfficeDocumentSettings>
+  </xml></noscript>
+  <style type="text/css">
+    * { font-family: Arial, Helvetica, sans-serif !important; }
+  </style>
+  <![endif]-->
+
+  <style type="text/css">
+    /* ---- Client resets (same as index.html) ---- */
+    html, body { margin:0 !important; padding:0 !important; height:100% !important; width:100% !important; }
+    * { -ms-text-size-adjust:100%; -webkit-text-size-adjust:100%; }
+    table, td { mso-table-lspace:0pt !important; mso-table-rspace:0pt !important; border-collapse:collapse !important; }
+    img { -ms-interpolation-mode:bicubic; border:0; outline:none; text-decoration:none; display:block; }
+    a { text-decoration:none; }
+    a[x-apple-data-detectors], .unstyle-auto-detected-links a, .aBn {
+      color:inherit !important; text-decoration:none !important; font-size:inherit !important;
+      font-family:inherit !important; font-weight:inherit !important; line-height:inherit !important;
+      border-bottom:0 !important;
+    }
+    .ExternalClass { width:100%; }
+    .ExternalClass, .ExternalClass p, .ExternalClass span,
+    .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height:100%; }
+
+    /* ---- Mobile ---- */
+    @media screen and (max-width:600px) {
+      .wrapper { width:100% !important; }
+      .p-side { padding-left:24px !important; padding-right:24px !important; }
+      .stack { display:block !important; width:100% !important; max-width:100% !important; }
+      .stack-pad { padding:0 0 20px 0 !important; }
+      .stack-flush { padding-left:0 !important; padding-right:0 !important; }
+      .h1 { font-size:26px !important; line-height:34px !important; }
+      .h2 { font-size:20px !important; line-height:28px !important; }
+      .hero-pad { padding-top:36px !important; padding-bottom:36px !important; }
+      .btn a { display:block !important; width:auto !important; }
+      .btn-cell { display:block !important; padding:0 0 12px 0 !important; }
+      .fluid { width:100% !important; max-width:100% !important; height:auto !important; }
+    }
+  </style>
+</head>
+
+<body style="margin:0; padding:0; width:100%; background-color:#F0F2F5;">
+
+  <!-- 1 · PREHEADER: shown in the inbox preview, hidden in the body. Write one per campaign. -->
+  <div style="display:none; font-size:1px; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden; mso-hide:all; font-family:Arial,sans-serif; color:#F0F2F5;">
+    Every block a Lifepointe email can use, in one test message.
+    &#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;&#8203;&#847;
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#F0F2F5;">
+    <tr>
+      <td align="center" style="padding:24px 12px;">
+
+        <!--[if mso]>
+        <table role="presentation" align="center" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td>
+        <![endif]-->
+
+        <table role="presentation" class="wrapper" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px; background-color:#ffffff;">
+
+          <!-- ============ 2 · TOP BAR ============ -->
+          <tr>
+            <td class="p-side" style="padding:12px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">Component gallery, test only &middot; 1 &middot; Preheader: the inbox preview line &middot; 2 &middot; Top bar, below</td>
+          </tr>
+          <tr>
+            <td class="p-side" align="center" style="padding:10px 32px; background-color:#00205B; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:12px; line-height:18px; color:#CCD2DE; letter-spacing:0.4px;">
+              Clarkston, Michigan &nbsp;&bull;&nbsp; Since 2001
+            </td>
+          </tr>
+
+          <!-- ============ 3 · LOGO HEADER ============ -->
+          <tr>
+            <td class="p-side" style="padding:16px 40px 0 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">3 &middot; Logo header, with a text line that stays when images are off</td>
+          </tr>
+          <tr>
+            <td class="p-side" align="center" style="padding:16px 32px 20px 32px; background-color:#ffffff;">
+              <a href="https://lifepointechiro.com/" target="_blank" style="text-decoration:none;">
+                <img src="https://lifepointechiro.com/email/images/lifepointe-logo.png" width="220" height="74" alt="Lifepointe Chiropractic &amp; Wellness Center" style="width:220px; max-width:100%; height:auto; display:block; margin:0 auto; border:0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:22px; font-weight:bold; color:#00205B;" />
+              </a>
+              <div style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:11px; line-height:16px; font-weight:700; color:#00205B; letter-spacing:2.5px; text-transform:uppercase; padding-top:12px;">
+                Family &amp; Sports Chiropractic
+              </div>
+            </td>
+          </tr>
+
+          <!-- ============ 4 · HERO ============ -->
+          <tr>
+            <td class="p-side" style="padding:8px 40px 8px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">4 &middot; Hero: headline, paragraph, primary button</td>
+          </tr>
+          <tr>
+            <td class="p-side hero-pad" align="center" style="padding:40px 40px 36px 40px; background-color:#00205B;">
+              <h1 class="h1" style="margin:0 0 14px 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:33px; line-height:41px; font-weight:700; letter-spacing:-0.5px; color:#ffffff;">
+                Health comes from within.<br />We clear the way.
+              </h1>
+              <p style="margin:0 0 26px 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:26px; color:#CCD2DE;">
+                Your body is built to heal itself &mdash; our job is to remove what&rsquo;s interfering.
+              </p>
+              <table role="presentation" class="btn" cellpadding="0" cellspacing="0" border="0" align="center">
+                <tr>
+                  <td align="center" bgcolor="#84BD00" style="border-radius:4px;">
+                    <!--[if mso]>
+                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
+                      href="https://lifepointechiro.com/contact#appointment" style="height:48px;v-text-anchor:middle;width:250px;" arcsize="9%" stroke="f" fillcolor="#84BD00">
+                      <w:anchorlock/>
+                      <center style="color:#00205B;font-family:Arial,sans-serif;font-size:16px;font-weight:bold;">Request an Appointment</center>
+                    </v:roundrect>
+                    <![endif]-->
+                    <!--[if !mso]><!-- -->
+                    <a href="https://lifepointechiro.com/contact#appointment" target="_blank"
+                       style="display:inline-block; padding:15px 30px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:18px; font-weight:bold; color:#00205B; text-decoration:none; border-radius:4px; background-color:#84BD00;">
+                      Request an Appointment
+                    </a>
+                    <!--<![endif]-->
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ============ 5 · FULL-WIDTH IMAGE WITH CAPTION ============ -->
+          <!-- Images must be on lifepointechiro.com. Campaign photos belong in email/images/ (their
+               URLs must never change once sent); this test borrows the website's photo. -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">5 &middot; Full-width image with caption</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px;">
+              <img class="fluid" src="https://lifepointechiro.com/assets/photo-adjustment.jpg" width="520" height="346" alt="A chiropractor examining a patient&rsquo;s spine and posture by hand" style="width:520px; max-width:100%; height:auto; display:block; border:0; border-radius:8px; font-family:Arial,Helvetica,sans-serif; font-size:14px; color:#4A5470;" />
+              <p style="margin:10px 0 0 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px; line-height:20px; color:#4A5470;">
+                Caption: a short line under a photo.
+              </p>
+            </td>
+          </tr>
+
+          <!-- ============ 6 · TEXT STYLES ============ -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">6 &middot; Text: heading, subheading, paragraph, bold, link, small print</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px;">
+              <h2 class="h2" style="margin:0 0 12px 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:23px; line-height:31px; font-weight:700; letter-spacing:-0.3px; color:#00205B;">
+                More than back-pain doctors
+              </h2>
+              <p style="margin:0 0 16px 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:15px; line-height:25px; color:#4A5470;">
+                Chiropractic is a <strong style="color:#00205B;">drug-free healthcare profession</strong> focused on the musculoskeletal and nervous systems. Your nervous system &mdash; brain, spinal cord, and the nerves branching to every cell, tissue, and organ &mdash; just happens to be housed inside your spine. <a href="https://lifepointechiro.com/about#chiropractic-care" target="_blank" style="color:#00205B; text-decoration:underline; font-weight:bold;">Learn about chiropractic care</a>.
+              </p>
+              <h3 style="margin:0 0 8px 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:17px; line-height:24px; font-weight:700; color:#00205B;">
+                A subheading inside a section
+              </h3>
+              <p style="margin:0 0 12px 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:15px; line-height:25px; color:#4A5470;">
+                We&rsquo;re highly specialized in analyzing joint mobility and correcting subluxations (misalignments) in the spine, using gentle techniques that restore proper joint function and, more importantly, nervous system communication.
+              </p>
+              <p style="margin:0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:12px; line-height:18px; color:#4A5470;">
+                Small print: for footnotes, dates, or fine print under a section.
+              </p>
+            </td>
+          </tr>
+
+          <!-- ============ 7 · BULLETED LIST ============ -->
+          <!-- Lists are tables, so every client, Outlook included, lines up the bullets the same. -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">7 &middot; Bulleted list</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+              <p style="margin:0 0 10px 0; font-size:15px; line-height:25px; color:#4A5470;">We&rsquo;re in-network with:</p>
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="font-size:15px; line-height:25px; color:#4A5470;">
+                <tr><td valign="top" style="padding:0 10px 4px 4px; color:#84BD00; font-weight:bold;">&bull;</td><td style="padding:0 0 4px 0;">Aetna</td></tr>
+                <tr><td valign="top" style="padding:0 10px 4px 4px; color:#84BD00; font-weight:bold;">&bull;</td><td style="padding:0 0 4px 0;">Blue Cross Blue Shield and Blue Care Network</td></tr>
+                <tr><td valign="top" style="padding:0 10px 4px 4px; color:#84BD00; font-weight:bold;">&bull;</td><td style="padding:0 0 4px 0;">Medicare and Medicare Advantage</td></tr>
+                <tr><td valign="top" style="padding:0 10px 4px 4px; color:#84BD00; font-weight:bold;">&bull;</td><td style="padding:0 0 4px 0;">Veterans Affairs</td></tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ============ 8 · NUMBERED STEPS ============ -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">8 &middot; Numbered steps</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td valign="top" width="36" style="padding:0 12px 16px 0;">
+                    <div style="width:28px; height:28px; line-height:28px; border-radius:14px; background-color:#00205B; color:#ffffff; font-size:14px; font-weight:bold; text-align:center;">1</div>
+                  </td>
+                  <td valign="top" style="padding:0 0 16px 0;">
+                    <div style="font-size:15px; line-height:22px; font-weight:bold; color:#00205B;">Forms before you arrive</div>
+                    <div style="font-size:14px; line-height:22px; color:#4A5470;">Download your forms below and email them back to us &mdash; and skip the waiting room.</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top" width="36" style="padding:0 12px 16px 0;">
+                    <div style="width:28px; height:28px; line-height:28px; border-radius:14px; background-color:#00205B; color:#ffffff; font-size:14px; font-weight:bold; text-align:center;">2</div>
+                  </td>
+                  <td valign="top" style="padding:0 0 16px 0;">
+                    <div style="font-size:15px; line-height:22px; font-weight:bold; color:#00205B;">Spinal &amp; nervous system exam</div>
+                    <div style="font-size:14px; line-height:22px; color:#4A5470;">Hands-on palpation plus specialized tests: balance scales, posture evaluation, range-of-motion measurements, and orthopedic tests.</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td valign="top" width="36" style="padding:0 12px 0 0;">
+                    <div style="width:28px; height:28px; line-height:28px; border-radius:14px; background-color:#00205B; color:#ffffff; font-size:14px; font-weight:bold; text-align:center;">3</div>
+                  </td>
+                  <td valign="top">
+                    <div style="font-size:15px; line-height:22px; font-weight:bold; color:#00205B;">Your Report of Findings</div>
+                    <div style="font-size:14px; line-height:22px; color:#4A5470;">We sit down and explain what every test means, what we found, and the care plan we recommend &mdash; before any treatment begins.</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ============ 9 · BUTTONS ============ -->
+          <!-- Green = the one main action. Navy = a second action. Outline = a quiet third.
+               Each has its Outlook (VML) twin; change both links together. -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">9 &middot; Buttons: primary, secondary, outline, text link</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px;">
+              <table role="presentation" class="btn" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="btn-cell" style="padding:0 12px 12px 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+                      <td align="center" bgcolor="#84BD00" style="border-radius:4px;">
+                        <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
+                          href="https://lifepointechiro.com/contact#appointment" style="height:44px;v-text-anchor:middle;width:150px;" arcsize="9%" stroke="f" fillcolor="#84BD00">
+                          <w:anchorlock/>
+                          <center style="color:#00205B;font-family:Arial,sans-serif;font-size:15px;font-weight:bold;">Primary</center>
+                        </v:roundrect>
+                        <![endif]-->
+                        <!--[if !mso]><!-- -->
+                        <a href="https://lifepointechiro.com/contact#appointment" target="_blank" style="display:inline-block; padding:13px 26px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:15px; line-height:18px; font-weight:bold; color:#00205B; text-decoration:none; border-radius:4px; background-color:#84BD00;">Primary</a>
+                        <!--<![endif]-->
+                      </td>
+                    </tr></table>
+                  </td>
+                  <td class="btn-cell" style="padding:0 12px 12px 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+                      <td align="center" bgcolor="#00205B" style="border-radius:4px;">
+                        <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
+                          href="https://lifepointechiro.com/new-patients" style="height:44px;v-text-anchor:middle;width:150px;" arcsize="9%" stroke="f" fillcolor="#00205B">
+                          <w:anchorlock/>
+                          <center style="color:#ffffff;font-family:Arial,sans-serif;font-size:15px;font-weight:bold;">Secondary</center>
+                        </v:roundrect>
+                        <![endif]-->
+                        <!--[if !mso]><!-- -->
+                        <a href="https://lifepointechiro.com/new-patients" target="_blank" style="display:inline-block; padding:13px 26px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:15px; line-height:18px; font-weight:bold; color:#ffffff; text-decoration:none; border-radius:4px; background-color:#00205B;">Secondary</a>
+                        <!--<![endif]-->
+                      </td>
+                    </tr></table>
+                  </td>
+                  <td class="btn-cell" style="padding:0 0 12px 0;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+                      <td align="center" bgcolor="#ffffff" style="border-radius:4px; border:2px solid #00205B;">
+                        <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
+                          href="https://lifepointechiro.com/services" style="height:44px;v-text-anchor:middle;width:150px;" arcsize="9%" strokecolor="#00205B" strokeweight="2px" fillcolor="#ffffff">
+                          <w:anchorlock/>
+                          <center style="color:#00205B;font-family:Arial,sans-serif;font-size:15px;font-weight:bold;">Outline</center>
+                        </v:roundrect>
+                        <![endif]-->
+                        <!--[if !mso]><!-- -->
+                        <a href="https://lifepointechiro.com/services" target="_blank" style="display:inline-block; padding:11px 24px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:15px; line-height:18px; font-weight:bold; color:#00205B; text-decoration:none; border-radius:4px; background-color:#ffffff;">Outline</a>
+                        <!--<![endif]-->
+                      </td>
+                    </tr></table>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:4px 0 0 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:15px; line-height:25px;">
+                <a href="https://lifepointechiro.com/services" target="_blank" style="color:#00205B; text-decoration:underline; font-weight:bold;">Text link with an arrow &rarr;</a>
+              </p>
+            </td>
+          </tr>
+
+          <!-- ============ 10 · TWO COLUMNS (stack on phones) ============ -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">10 &middot; Two columns (stack on phones)</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="stack stack-pad" width="50%" valign="top" style="padding:0 12px 0 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+                    <div style="font-size:15px; line-height:22px; font-weight:bold; color:#00205B; padding-bottom:6px;">Chiropractic Adjustments</div>
+                    <div style="font-size:14px; line-height:22px; color:#4A5470;">A variety of techniques, including Diversified, Activator, Logan Basic, Thompson, and Webster.</div>
+                  </td>
+                  <td class="stack stack-flush" width="50%" valign="top" style="padding:0 0 0 12px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+                    <div style="font-size:15px; line-height:22px; font-weight:bold; color:#00205B; padding-bottom:6px;">Traction &amp; Custom Orthotics</div>
+                    <div style="font-size:14px; line-height:22px; color:#4A5470;">Cervical and lumbar traction, and custom-made foot orthotics designed to fit the specific contours of your feet.</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ============ 11 · IMAGE BESIDE TEXT (stacks on phones) ============ -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">11 &middot; Image beside text (stacks on phones)</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="stack stack-pad" width="240" valign="top" style="padding:0 20px 0 0;">
+                    <img class="fluid" src="https://lifepointechiro.com/assets/photo-posture-check.jpg" width="240" height="160" alt="A chiropractor&rsquo;s hands on a patient&rsquo;s shoulder and upper back, checking posture" style="width:240px; max-width:100%; height:auto; display:block; border:0; border-radius:8px; font-family:Arial,Helvetica,sans-serif; font-size:13px; color:#4A5470;" />
+                  </td>
+                  <td class="stack" valign="top" style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+                    <div style="font-size:17px; line-height:24px; font-weight:bold; color:#00205B; padding-bottom:6px;">Your first visit</div>
+                    <div style="font-size:14px; line-height:22px; color:#4A5470; padding-bottom:10px;">Your first visit is a thorough spinal and nervous system exam, and we explain everything at your Report of Findings.</div>
+                    <a href="https://lifepointechiro.com/new-patients" target="_blank" style="font-size:14px; line-height:22px; color:#00205B; text-decoration:underline; font-weight:bold;">What to expect &rarr;</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ============ 12 · THREE COLUMNS (stack on phones) ============ -->
+          <!-- Each card is a table inside its column, so stacking on phones never changes a card's
+               width: the column only loses its gap. -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">12 &middot; Three columns (stack on phones)</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="stack stack-pad" width="33%" valign="top" style="padding:0 6px 0 0;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+                      <td align="center" style="padding:16px 8px; background-color:#F0F2F5; border-radius:6px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+                        <div style="font-size:12px; line-height:18px; font-weight:bold; letter-spacing:1.2px; text-transform:uppercase; color:#00205B; padding-bottom:4px;">Call</div>
+                        <a href="tel:+12486236107" style="font-size:15px; line-height:22px; font-weight:bold; color:#00205B; text-decoration:none; white-space:nowrap;">248-623-6107</a>
+                      </td>
+                    </tr></table>
+                  </td>
+                  <td class="stack stack-pad" width="34%" valign="top" style="padding:0 3px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+                      <td align="center" style="padding:16px 8px; background-color:#F0F2F5; border-radius:6px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+                        <div style="font-size:12px; line-height:18px; font-weight:bold; letter-spacing:1.2px; text-transform:uppercase; color:#00205B; padding-bottom:4px;">Email</div>
+                        <a href="mailto:office@lifepointechiro.com" style="font-size:13px; line-height:22px; font-weight:bold; color:#00205B; text-decoration:underline;">office@<wbr />lifepointechiro.com</a>
+                      </td>
+                    </tr></table>
+                  </td>
+                  <td class="stack stack-flush" width="33%" valign="top" style="padding:0 0 0 6px;">
+                    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+                      <td align="center" style="padding:16px 8px; background-color:#F0F2F5; border-radius:6px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+                        <div style="font-size:12px; line-height:18px; font-weight:bold; letter-spacing:1.2px; text-transform:uppercase; color:#00205B; padding-bottom:4px;">Visit</div>
+                        <span class="unstyle-auto-detected-links" style="font-size:14px; line-height:22px; color:#4A5470;">5896 Dixie Hwy<br />Ste A, Clarkston</span>
+                      </td>
+                    </tr></table>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ============ 13 · TESTIMONIAL ============ -->
+          <!-- Patients' exact words, with their permission, as on the website. Red is only ever
+               the quote mark, never text. -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">13 &middot; Testimonial</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E0E4EB; border-radius:8px;">
+                <tr>
+                  <td style="padding:22px 24px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+                    <div style="font-family:Georgia,'Times New Roman',serif; font-size:44px; line-height:30px; font-weight:bold; color:#EE2737; padding-bottom:6px;">&ldquo;</div>
+                    <div style="font-size:15px; line-height:25px; color:#00205B; padding-bottom:12px;">I had migraine headaches that had me in bed for 1&ndash;2 days a week. After the first visit with Dr. Greg, he made me feel at ease. I was surprised that it actually felt good to be adjusted! After 3 weeks, my headaches are virtually gone! My head has not felt this clear in years!</div>
+                    <div style="font-size:14px; line-height:20px; font-weight:bold; color:#00205B;">Deb C.</div>
+                    <div style="font-size:12px; line-height:18px; color:#4A5470;">Headaches &amp; migraines &middot; Lifepointe patient</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ============ 14 · NOTICE BOX ============ -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">14 &middot; Notice box (example text)</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td width="4" style="background-color:#84BD00; font-size:0; line-height:0;">&nbsp;</td>
+                  <td style="padding:16px 20px; background-color:#F0F2F5; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+                    <div style="font-size:15px; line-height:22px; font-weight:bold; color:#00205B; padding-bottom:4px;">Example: holiday hours</div>
+                    <div style="font-size:14px; line-height:22px; color:#4A5470;">Example text for a short announcement, such as a closed day or a schedule change. Keep it to one or two sentences.</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ============ 15 · EVENT ============ -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">15 &middot; Event: date, time, place, button (example text)</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid #E0E4EB; border-radius:8px;">
+                <tr>
+                  <td width="72" valign="top" align="center" style="padding:20px 0 20px 20px;">
+                    <table role="presentation" width="64" cellpadding="0" cellspacing="0" border="0" style="border-radius:6px;">
+                      <tr><td align="center" style="padding:6px 0 0 0; background-color:#00205B; border-radius:6px 6px 0 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:11px; line-height:14px; font-weight:bold; letter-spacing:1.5px; color:#84BD00;">MAR</td></tr>
+                      <tr><td align="center" style="padding:0 0 8px 0; background-color:#00205B; border-radius:0 0 6px 6px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:26px; line-height:32px; font-weight:bold; color:#ffffff;">12</td></tr>
+                    </table>
+                  </td>
+                  <td valign="top" style="padding:20px 20px 20px 16px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+                    <div style="font-size:16px; line-height:22px; font-weight:bold; color:#00205B; padding-bottom:4px;">Example event title</div>
+                    <div class="unstyle-auto-detected-links" style="font-size:14px; line-height:22px; color:#4A5470; padding-bottom:12px;">Thursday, 6:30&ndash;7:30pm &middot; at the office, 5896 Dixie Hwy, Ste A</div>
+                    <a href="tel:+12486236107" style="font-size:14px; line-height:22px; font-weight:bold; color:#00205B; text-decoration:underline;">Call to save a spot &rarr;</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ============ 16 · RECIPE CARD ============ -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">16 &middot; Feature card on navy (recipe book)</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#00205B; border-radius:8px;">
+                <tr>
+                  <td style="padding:24px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+                    <div style="font-size:11px; line-height:16px; font-weight:bold; letter-spacing:1.5px; text-transform:uppercase; color:#84BD00; padding-bottom:8px;">Healthy recipe book</div>
+                    <div style="font-size:20px; line-height:27px; font-weight:bold; color:#ffffff; padding-bottom:8px;">From our kitchen to yours</div>
+                    <div style="font-size:14px; line-height:22px; color:#CCD2DE; padding-bottom:16px;">Simple, tasty, and wholesome recipes that promote vibrant health and healing &mdash; from Dr.&nbsp;Greg.</div>
+                    <a href="https://lifepointechiro.com/recipe-book" target="_blank" style="font-size:14px; line-height:22px; font-weight:bold; color:#ffffff; text-decoration:underline;">Open the recipe book &rarr;</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ============ 17 · IMAGE AS A LINK (a video) ============ -->
+          <!-- Email can't play video: link a still image to the video page instead. -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">17 &middot; Image as a link, for a video (example text)</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px;">
+              <a href="https://lifepointechiro.com/" target="_blank" style="text-decoration:none;">
+                <img class="fluid" src="https://lifepointechiro.com/assets/photo-posture-check.jpg" width="520" height="347" alt="Example: watch the video" style="width:520px; max-width:100%; height:auto; display:block; border:0; border-radius:8px; font-family:Arial,Helvetica,sans-serif; font-size:14px; color:#4A5470;" />
+              </a>
+              <p style="margin:10px 0 0 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:15px; line-height:22px;">
+                <a href="https://lifepointechiro.com/" target="_blank" style="color:#00205B; text-decoration:underline; font-weight:bold;">&#9654;&#xFE0E; Example: watch the video</a>
+              </p>
+            </td>
+          </tr>
+
+          <!-- ============ 18 · DIVIDER AND SPACER ============ -->
+          <tr>
+            <td class="p-side" style="padding:28px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">18 &middot; Divider, then a 24px spacer</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr><td height="1" style="height:1px; line-height:1px; font-size:0; background-color:#E0E4EB;">&nbsp;</td></tr>
+              </table>
+            </td>
+          </tr>
+          <tr><td height="24" style="height:24px; line-height:24px; font-size:0;">&nbsp;</td></tr>
+
+          <!-- ============ 19 · HOURS AND CONTACT ============ -->
+          <tr>
+            <td class="p-side" style="padding:4px 40px 10px 40px; font-family:Arial,Helvetica,sans-serif; font-size:10px; line-height:14px; letter-spacing:1.2px; text-transform:uppercase; color:#9EAAC1;">19 &middot; Hours and contact (same as index.html)</td>
+          </tr>
+          <tr>
+            <td class="p-side" style="padding:0 40px 8px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td class="stack stack-pad" width="56%" valign="top" style="padding:0 12px 0 0; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+                    <div style="font-size:12px; line-height:18px; font-weight:bold; letter-spacing:1.2px; text-transform:uppercase; color:#00205B; padding-bottom:10px;">Office Hours</div>
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:14px; line-height:22px; color:#4A5470;">
+                      <tr><td style="padding-right:12px; white-space:nowrap;">Mon</td><td><span style="white-space:nowrap;">7:30&ndash;11:30am,</span> <span style="white-space:nowrap;">2:30&ndash;6:00pm</span></td></tr>
+                      <tr><td style="padding-right:12px; white-space:nowrap;">Tue</td><td style="white-space:nowrap;">2:30&ndash;6:00pm</td></tr>
+                      <tr><td style="padding-right:12px; white-space:nowrap;">Wed</td><td><span style="white-space:nowrap;">7:30&ndash;11:30am,</span> <span style="white-space:nowrap;">2:30&ndash;6:00pm</span></td></tr>
+                      <tr><td style="padding-right:12px; white-space:nowrap;">Thu</td><td><span style="white-space:nowrap;">7:30&ndash;11:30am,</span> <span style="white-space:nowrap;">2:30&ndash;6:00pm</span></td></tr>
+                      <tr><td style="padding-right:12px; white-space:nowrap;">Fri&ndash;Sun</td><td>Closed</td></tr>
+                    </table>
+                  </td>
+                  <td class="stack stack-flush" width="44%" valign="top" style="padding:0 0 0 12px; font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif;">
+                    <div style="font-size:12px; line-height:18px; font-weight:bold; letter-spacing:1.2px; text-transform:uppercase; color:#00205B; padding-bottom:10px;">Visit or Call</div>
+                    <div style="font-size:14px; line-height:23px; color:#4A5470;">
+                      <a href="https://www.google.com/maps/place/Lifepointe+Chiropractic+and+Wellness+Center/@42.7066913,-83.4049681,15z/data=!4m5!3m4!1s0x0:0xa9dd54196a5af191!8m2!3d42.7066913!4d-83.4049681" target="_blank" style="color:#4A5470; text-decoration:none;">5896 Dixie Hwy, Ste A<br />Clarkston, MI 48346</a><br /><br />
+                      <a href="tel:+12486236107" style="color:#00205B; text-decoration:none; font-weight:bold; white-space:nowrap;">248-623-6107</a><br />
+                      <span class="unstyle-auto-detected-links" style="color:#4A5470; white-space:nowrap;">Fax 248-623-6443</span><br />
+                      <a href="mailto:office@lifepointechiro.com" style="color:#00205B; text-decoration:underline;">office@lifepointechiro.com</a>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr><td height="32" style="height:32px; line-height:32px; font-size:0;">&nbsp;</td></tr>
+
+          <!-- ============ 20 · FOOTER (same as index.html) ============ -->
+          <tr>
+            <td class="p-side" align="center" style="padding:32px 40px; background-color:#00205B;">
+
+              <div style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:16px; line-height:24px; font-weight:700; letter-spacing:0.2px; color:#ffffff; padding-bottom:6px;">
+                Lifepointe Chiropractic &amp; Wellness Center
+              </div>
+              <div style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:13px; line-height:21px; color:#CCD2DE; padding-bottom:20px;">
+                <span class="unstyle-auto-detected-links">5896 Dixie Hwy, Ste A, Clarkston, MI 48346</span> &nbsp;&bull;&nbsp; <a href="tel:+12486236107" style="color:#ffffff; text-decoration:none; white-space:nowrap;">248-623-6107</a>
+              </div>
+
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin:0 auto;">
+                <tr>
+                  <td style="padding:0 8px;">
+                    <a href="https://www.facebook.com/lifepointewellness/" target="_blank" style="text-decoration:none;">
+                      <img src="https://lifepointechiro.com/email/images/icon-facebook.png" width="30" height="30" alt="Facebook" title="Facebook" style="width:30px; height:30px; display:block; border:0; font-family:Arial,Helvetica,sans-serif; font-size:10px; color:#E6E9EF;" />
+                    </a>
+                  </td>
+                  <td style="padding:0 8px;">
+                    <a href="https://www.instagram.com/lifepointe.chiropractic/" target="_blank" style="text-decoration:none;">
+                      <img src="https://lifepointechiro.com/email/images/icon-instagram.png" width="30" height="30" alt="Instagram" title="Instagram" style="width:30px; height:30px; display:block; border:0; font-family:Arial,Helvetica,sans-serif; font-size:10px; color:#E6E9EF;" />
+                    </a>
+                  </td>
+                  <td style="padding:0 8px;">
+                    <a href="https://lifepointechiro.com/" target="_blank" style="text-decoration:none;">
+                      <img src="https://lifepointechiro.com/email/images/icon-website.png" width="30" height="30" alt="Website" title="Website" style="width:30px; height:30px; display:block; border:0; font-family:Arial,Helvetica,sans-serif; font-size:10px; color:#E6E9EF;" />
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <div style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:12px; line-height:20px; color:#9EAAC1; padding-top:18px;">
+                <a href="https://www.facebook.com/lifepointewellness/" target="_blank" style="color:#E6E9EF; text-decoration:none;">Facebook</a>
+                &nbsp;&middot;&nbsp;
+                <a href="https://www.instagram.com/lifepointe.chiropractic/" target="_blank" style="color:#E6E9EF; text-decoration:none;">Instagram</a>
+                &nbsp;&middot;&nbsp;
+                <a href="https://lifepointechiro.com/" target="_blank" style="color:#E6E9EF; text-decoration:none;">lifepointechiro.com</a>
+              </div>
+
+              <div style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:11px; line-height:18px; color:#9EAAC1; padding-top:22px;">
+                You&rsquo;re receiving this email because you&rsquo;re on the mailing list for
+                Lifepointe Chiropractic &amp; Wellness Center.<br />
+                <a href="{{UnsubscribeURL}}" target="_blank" style="color:#9EAAC1; text-decoration:underline;">Unsubscribe</a>
+                &nbsp;&middot;&nbsp;
+                <a href="{{PreferencesURL}}" target="_blank" style="color:#9EAAC1; text-decoration:underline;">Update preferences</a>
+              </div>
+
+              <div style="font-family:'Lato','Helvetica Neue',Helvetica,Arial,sans-serif; font-size:11px; line-height:18px; color:#9EAAC1; padding-top:12px;">
+                &copy; 2026 Lifepointe Chiropractic Center. All rights reserved.
+              </div>
+
+            </td>
+          </tr>
+
+        </table>
+
+        <!--[if mso]>
+        </td></tr></table>
+        <![endif]-->
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
