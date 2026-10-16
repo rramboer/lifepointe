@@ -24,6 +24,8 @@ generator/         the generator itself
   card.py          the /card redirect behind the business-card QR code (see below)
   hours.py         office-hours table and footer summary
   icons.py         inline SVG icons, by name, drawn from the files in icons/ (see Icons)
+  media.py         photos (headshots, the office, products) and the placeholders that hold
+                   their place until there is one (see Photos)
   helpers.py       esc(), which escapes every data value placed into HTML,
                    page_href(), which writes a link to a page without .html, and
                    mailto() for links that open a new email with the subject and
@@ -64,7 +66,10 @@ The build stops with a non-zero exit and a message naming the file and field whe
 
 - a data file is not valid JSON, or repeats a key;
 - a required field is missing or empty;
-- an id is used twice, or a home-page quote names a testimonial that doesn't exist;
+- an id is used twice, a home-page quote names a testimonial that doesn't exist, or a home
+  page card's `service` isn't the id of a service;
+- a photo path isn't a JPEG or PNG in its folder under `assets/`, or the file isn't there (see
+  Photos);
 - an icon name is unknown, or a menu entry points at a page the build doesn't make;
 - a link in the footer's legal row points at a page the build doesn't make (see Legal pages);
 - a language-help notice has a bad `lang` tag, `dir` or `edition`, a repeated language, or
@@ -116,10 +121,10 @@ email template's buttons use the same form.
 
 | File | What it holds |
 |---|---|
-| `data/practice.json` | Practice name and legal name (`legal_name`, used in the footer's copyright line and the privacy policy; the email template's copyright line repeats it), `opened` (the month the practice opened, `YYYY-MM`: the home page's photo chip counts the years from it, at build time and again in the browser, so "Serving Clarkston for 25 years" stays right), the doctor's name and credentials, phone (`display`, written `248-555-0123`, and the `tel` dialing number), fax (written `248-555-0123`), email, address (`street, city, ST 12345`), map link and the coordinates of its pin (`geo`), social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `in_network` lists the insurance plans the practice is in-network with, in the order the pages show them: the "In-network with" row at the bottom of the home page's hero and the new patients page's Insurance card. `booking_url` is the online booking page: when it is set, the contact page's appointment section leads with a "Book online" button and the business-card QR code goes there (see below); `null` means the QR code goes to the contact page. `forms` holds the paths of the adult and child new-patient PDFs (see New-patient forms). |
-| `data/nav.json` | The header menu, in order. `footer_label` changes an entry's text in the footer's Explore list. |
+| `data/practice.json` | Practice name and legal name (`legal_name`, used in the footer's copyright line and the privacy policy; the email template's copyright line repeats it), `opened` (the month the practice opened, `YYYY-MM`: the home page's photo chip counts the years from it, at build time and again in the browser, so "Serving Clarkston for 25 years" stays right), the doctor's name, credentials and headshot (`photo`, see Photos), phone (`display`, written `248-555-0123`, and the `tel` dialing number), fax (written `248-555-0123`), email, address (`street, city, ST 12345`), map link and the coordinates of its pin (`geo`), a photo of the front of the office (`building_photo`, see Photos), social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `in_network` lists the insurance plans the practice is in-network with, in the order the pages show them: the "In-network with" row at the bottom of the home page's hero and the new patients page's Insurance card. `booking_url` is the online booking page: when it is set, the contact page's appointment section leads with a "Book online" button and the business-card QR code goes there (see below); `null` means the QR code goes to the contact page. `forms` holds the paths of the adult and child new-patient PDFs (see New-patient forms). |
+| `data/nav.json` | The site's pages, in menu order: the header menu and the footer's Explore list. `footer_label` changes an entry's text in the footer. `"header": false` keeps an entry out of the header menu (the recipe book), so the menu stays short; the footer lists every entry. |
 | `data/hours.json` | Office hours, Monday through Sunday, in 24-hour `HH:MM`. `"hours": []` means closed. This one list feeds both hours tables (home and contact) and the footer summary. |
-| `data/services.json` | `home_cards` (home page "What we do"), `services` (services page) and `products`. |
+| `data/services.json` | `services` (services page cards), each with an `id` (its anchor, as in `services#massage`), an `icon`, a `title` and a `summary`; `home_cards` (home page "What we do"), each linking to one service with `service` (that service's `id`); and `products`, each with a `name`, an optional `note` (what it is, shown under the name) and a `photo` (see Photos). |
 | `data/testimonials.json` | The success stories, by category, in page order. Each category has an `id` (its anchor, as in `success-stories#back-pain`), a `label` (its chip and heading) and its `testimonials`, each with a stable `id` (category id plus the patient's name), the `quote` and the `author`. |
 | `data/home-quotes.json` | The testimonials shown on the home page, as a list of testimonial ids from `testimonials.json`. Each card's label line is its testimonial's category. |
 | `data/recipe-staples.json` | Staple ingredients on the recipe book page. |
@@ -148,20 +153,43 @@ function, add it to `PAGES` in `generator/pages/__init__.py`, and add a menu ent
 `data/nav.json` if it belongs in the menu. Every page in `PAGES` gets a canonical URL and
 link-preview tags and is listed in `sitemap.xml`; nothing else needs changing.
 
-## Team photos
+## Photos
 
-Each team card on the about page has a portrait photo area. Until a person has a headshot, it
-shows their initials.
+Every photo the practice is still gathering has its place on the pages already, held by a
+placeholder of the same size, so adding one never moves anything. Each is a field that is
+`null` until its file exists; then it is the file's path. The build stops if the file is
+missing, isn't a JPEG or PNG, or isn't named in lowercase letters, digits and hyphens in its
+folder.
+
+| Photo | Field | Folder | Shape | Until then |
+|---|---|---|---|---|
+| Team headshots (about page; their faces on the home page) | `"photo"` of each person in `data/team.json` | `assets/team/` | 4:5 portrait | the person's initials |
+| Dr. Greg's headshot (home and about pages) | `doctor.photo` in `data/practice.json` | `assets/team/` | 4:5 portrait | his initials |
+| The front of the office (home and contact pages) | `building_photo` in `data/practice.json` | `assets/office/` | 16:10 landscape | a drawing of streets and a map pin |
+| Products (services page) | `"photo"` of each product in `data/services.json` | `assets/products/` | square | the Lifepointe heart mark, faint |
+
+Headshots:
 
 - Save the headshot in `assets/team/`, named after the person in lowercase with hyphens
-  (`assets/team/sybil-olson.jpg`), and set their `"photo"` in `data/team.json` to that path.
-  The build stops if the file is missing or the name doesn't fit that pattern.
+  (`assets/team/sybil-olson.jpg`, `assets/team/greg-ramboer.jpg`), and set its `"photo"` to
+  that path.
 - Use a JPEG (or PNG), portrait, 4:5: 1000×1250 pixels is plenty, under about 200 KB. A photo
   of another shape is cropped to 4:5 from the center, so keep the face in the middle.
 - Remove the photo's metadata before adding it: phone photos record where they were taken.
   (For example `ffmpeg -i in.jpg -vf scale=1000:-2 -map_metadata -1 -q:v 3 sybil-olson.jpg`,
   which also resizes it.)
 - All headshots should match: same framing and background, so the row looks even.
+
+The office and products:
+
+- The office: one landscape photo of the front, about 1600×1000 pixels (16:10; another shape
+  is cropped from the center), under about 300 KB, such as `assets/office/building.jpg`. It is
+  the one photo with a description for screen readers ("The front of the Lifepointe office"),
+  since it shows what to look for when you arrive.
+- Products: square, about 800×800 pixels, under about 150 KB, the product on a plain light
+  background, such as `assets/products/biofreeze.jpg`. Keep them alike, so the grid looks even.
+- Remove the metadata from these too (the `ffmpeg` line above, with `scale=1600:-2` or
+  `scale=800:-2`).
 
 ## New-patient forms
 

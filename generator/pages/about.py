@@ -2,6 +2,7 @@
 from ..helpers import esc
 from ..icons import svg
 from ..layout import V, cta_band, page, page_hero
+from ..media import headshot
 
 FILENAME = 'about.html'
 
@@ -16,16 +17,10 @@ def _team_card(person):
     (data/team.json "photo": null), then name, title and any bio. The photo area is the same
     4:5 box either way, so adding a headshot doesn't change the card. The name is the heading
     right below, so the picture is decorative (alt="")."""
-    photo = getattr(person, 'photo', None)
-    if photo:
-        picture = f'<img src="{esc(photo)}" alt="" width="400" height="500" loading="lazy">'
-    else:
-        words = person.name.split()
-        picture = f'<span class="team-card__initials">{esc(words[0][0] + words[-1][0])}</span>'
     bio = getattr(person, 'bio', None)
     bio_html = f'\n          <p>{esc(bio)}</p>' if bio else ''
     return f'''<div class="card team-card">
-        <div class="team-card__photo" aria-hidden="true">{picture}</div>
+        {headshot(person.photo, person.name, 'headshot team-card__photo')}
         <div class="team-card__body">
           <h3 class="display-3">{_name(person)}</h3>
           <p class="team-card__title">{esc(person.title)}</p>{bio_html}
@@ -47,29 +42,32 @@ def render(site):
 
 <section class="section" aria-labelledby="greg-h">
   {V}
-  <div class="wrap">
-    <span class="eyebrow">Meet the doctor</span>
-    <h2 id="greg-h" class="display-2">{_name(p.doctor)}</h2>
-    <div class="grid-2 grid--top">
-      <div>
-        <p>I opened {esc(p.name)} in July of 2001. Our mission, in a nutshell, is to teach our community that all health comes from within &mdash; and that you already have everything it takes to be truly healthy, happy, and well. This inner health potential lacks its full expression when it&rsquo;s interfered with. That&rsquo;s where we fit into the picture: our role is to determine whether you have this interference, and if so, to help you reduce it for life.</p>
-        <p>We adjust people of all ages, from newborns just a few minutes old to the wisest members of our community. We also work with athletes at every level, from students to elite professionals. We love what we do, and we love to teach and share what we&rsquo;ve learned.</p>
-      </div>
-      <div class="card">
-        <h3 class="display-3">Background</h3>
-        <ul class="list-tight">
-          <li>Originally from Ridgetown, Ontario, Canada</li>
-          <li>Bachelor of Human Kinetics with Honors in Applied Kinesiology, University of Windsor</li>
-          <li>Doctor of Chiropractic, Logan College of Chiropractic, 2000</li>
-          <li>Founded Lifepointe in Clarkston, July 2001</li>
-          <li>Certified Chiropractic Wellness Practitioner (CCWP), 2013</li>
-        </ul>
+  <div class="wrap doctor">
+    {headshot(p.doctor.photo, p.doctor.name, 'headshot doctor__photo', eager=True)}
+    <div class="doctor__text">
+      <span class="eyebrow">Meet the doctor</span>
+      <h2 id="greg-h" class="display-2">{_name(p.doctor)}</h2>
+      <div class="doctor__columns">
+        <div>
+          <p>I opened {esc(p.name)} in July of 2001. Our mission, in a nutshell, is to teach our community that all health comes from within &mdash; and that you already have everything it takes to be truly healthy, happy, and well. This inner health potential lacks its full expression when it&rsquo;s interfered with. That&rsquo;s where we fit into the picture: our role is to determine whether you have this interference, and if so, to help you reduce it for life.</p>
+          <p>We adjust people of all ages, from newborns just a few minutes old to the wisest members of our community. We also work with athletes at every level, from students to elite professionals. We love what we do, and we love to teach and share what we&rsquo;ve learned.</p>
+        </div>
+        <div class="card">
+          <h3 class="display-3">Background</h3>
+          <ul class="list-tight">
+            <li>Originally from Ridgetown, Ontario, Canada</li>
+            <li>Bachelor of Human Kinetics with Honors in Applied Kinesiology, University of Windsor</li>
+            <li>Doctor of Chiropractic, Logan College of Chiropractic, 2000</li>
+            <li>Founded Lifepointe in Clarkston, July 2001</li>
+            <li>Certified Chiropractic Wellness Practitioner (CCWP), 2013</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section section--card" aria-labelledby="team-h">
+<section class="section section--card" id="team" aria-labelledby="team-h">
   {V}
   <div class="wrap">
     <span class="eyebrow">The team</span>

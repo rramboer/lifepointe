@@ -8,6 +8,7 @@ from ..helpers import esc, mailto
 from ..hours import hours_table
 from ..icons import icon, svg
 from ..layout import V, page, page_hero
+from ..media import building
 
 FILENAME = 'contact.html'
 # The new email the "Email us" button opens.
@@ -30,7 +31,7 @@ def render(site):
     # With an online booking page, it is the one primary action; call and email follow it.
     if p.booking_url:
         heading = 'Book online, call, or email us'
-        book_online = f'<a class="btn btn--primary" href="{esc(p.booking_url)}">Book online</a>\n        '
+        book_online = f'<a class="btn btn--primary" href="{esc(p.booking_url)}">{svg("calendar")}Book online</a>\n          '
         call_style = 'btn--ghost'
     else:
         heading = 'Call or email us to book'
@@ -41,50 +42,62 @@ def render(site):
                      'Call, email, stop by, or send a request &mdash; a member of our team will reach out to you soon.') + f'''
 <div class="rail-wrap">
 
-<section class="section" aria-labelledby="reach-h">
-  {V}
-  <div class="wrap">
-    <span class="eyebrow">Reach us</span>
-    <h2 id="reach-h" class="display-2">Every way to say hello</h2>
-    <div class="contact-panel mt-15">
-      <div class="contact-panel__item">
-        <div class="contact-panel__head">{icon('phone')}<h3 class="display-3">Call us</h3></div>
-        <p><a href="{tel}">{phone}</a></p>
-      </div>
-      <div class="contact-panel__item">
-        <div class="contact-panel__head">{icon('mail')}<h3 class="display-3">Email us</h3></div>
-        <p><a href="{email_link}">{email_wrapping}</a></p>
-      </div>
-      <div class="contact-panel__item">
-        <div class="contact-panel__head">{icon('fax')}<h3 class="display-3">Fax</h3></div>
-        <p class="nowrap">{esc(p.fax)}</p>
-      </div>
-      <div class="contact-panel__item">
-        <div class="contact-panel__head">{icon('pin')}<h3 class="display-3">Find us</h3></div>
-        <p>{address}</p>
-        <p class="action-link"><a href="{esc(p.maps_url)}">Get directions{svg('arrow-right')}</a></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section section--card" id="appointment" aria-labelledby="appt-h">
+<section class="section" id="appointment" aria-labelledby="appt-h">
   {V}
   <div class="wrap grid-2 grid--top">
     <div>
       <span class="eyebrow">Request an appointment</span>
       <h2 id="appt-h" class="display-2">We&rsquo;d love to hear from you</h2>
       <p>Send us a message, and a member of our team will reach out to you soon. Prefer the phone? <a href="{tel}">Call {phone}</a> during office hours.</p>
-      {hours_table(site.hours, 'hours-table mt-15')}
-    </div>
-    <div class="card">
-      {icon('calendar')}
-      <h3 class="display-3">{heading}</h3>
-      <div class="btn-row mt-15">
-        {book_online}<a class="btn {call_style}" href="{tel}">Call {phone}</a>
-        <a class="btn btn--ghost" href="{appointment_mail}">Email us</a>
+      <div class="card booking-card mt-15">
+        {icon('calendar')}
+        <h3 class="display-3">{heading}</h3>
+        <div class="btn-row mt-15">
+          {book_online}<a class="btn {call_style}" href="{tel}">{svg('phone')}Call {phone}</a>
+          <a class="btn btn--ghost" href="{appointment_mail}">{svg('mail')}Email us</a>
+        </div>
+        <p class="muted mt-15">Emailing <a href="{appointment_mail}">{email}</a>? Please share only your name, phone number, and preferred days and times, and leave out any health details.</p>
       </div>
-      <p class="muted mt-15">Emailing <a href="{appointment_mail}">{email}</a>? Please share only your name, phone number, and preferred days and times, and leave out any health details.</p>
+    </div>
+    <div class="card hours-card">
+      <h3 class="display-3">Office hours</h3>
+      <p class="open-status" data-open-status hidden></p>
+      {hours_table(site.hours)}
+    </div>
+  </div>
+</section>
+
+<section class="section section--card" aria-labelledby="reach-h">
+  {V}
+  <div class="wrap">
+    <span class="eyebrow">Reach us</span>
+    <h2 id="reach-h" class="display-2">Every way to say hello</h2>
+    <div class="reach-grid mt-15">
+      <div class="contact-panel">
+        <div class="contact-panel__item">
+          <div class="contact-panel__head">{icon('phone')}<h3 class="display-3">Call us</h3></div>
+          <p><a href="{tel}">{phone}</a></p>
+        </div>
+        <div class="contact-panel__item">
+          <div class="contact-panel__head">{icon('mail')}<h3 class="display-3">Email us</h3></div>
+          <p><a href="{email_link}">{email_wrapping}</a></p>
+          <p><button class="copy-btn" type="button" data-copy="{email}" hidden>Copy email address</button><span class="visually-hidden" role="status"></span></p>
+        </div>
+        <div class="contact-panel__item">
+          <div class="contact-panel__head">{icon('fax')}<h3 class="display-3">Fax</h3></div>
+          <p class="nowrap">{esc(p.fax)}</p>
+        </div>
+        <div class="contact-panel__item">
+          <div class="contact-panel__head">{icon('pin')}<h3 class="display-3">Find us</h3></div>
+          <p>{address}</p>
+          <p class="action-link"><a href="{esc(p.maps_url)}">Get directions{svg('arrow-right')}</a></p>
+        </div>
+      </div>
+      <!-- A bigger target for "Get directions" with a mouse or finger. Keyboard and screen
+           reader users have that link already, so this copy is left out of both. -->
+      <a class="place-link" href="{esc(p.maps_url)}" tabindex="-1" aria-hidden="true">
+        {building(p.building_photo)}
+      </a>
     </div>
   </div>
 </section>

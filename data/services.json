@@ -3,91 +3,139 @@
     {
       "icon": "spine",
       "title": "Specific spinal adjustments",
-      "summary": "Gentle, precise adjustments to improve function and help the body express optimal health."
+      "summary": "Gentle, precise adjustments to improve function and help the body express optimal health.",
+      "service": "adjustments"
     },
     {
       "icon": "massage",
       "title": "Licensed massage therapy",
-      "summary": "Improved circulation, reduced stress, and adjustments that hold longer."
+      "summary": "Improved circulation, reduced stress, and adjustments that hold longer.",
+      "service": "massage"
     },
     {
       "icon": "scan",
       "title": "On-premise digital X-ray",
-      "summary": "High-quality digital X-ray, right in the office, when your exam calls for it."
+      "summary": "High-quality digital X-ray, right in the office, when your exam calls for it.",
+      "service": "x-ray"
     },
     {
       "icon": "apple",
       "title": "Nutrition & sensitivity testing",
-      "summary": "Personal nutritional consultations plus food allergy, microbiome, and metabolic testing."
+      "summary": "Personal nutritional consultations plus food allergy, microbiome, and metabolic testing.",
+      "service": "nutrition"
     },
     {
       "icon": "traction",
       "title": "Cervical & lumbar traction",
-      "summary": "Relieves pressure on the spine and helps align the vertebrae."
+      "summary": "Relieves pressure on the spine and helps align the vertebrae.",
+      "service": "traction"
     },
     {
       "icon": "footprints",
       "title": "Custom-made foot orthotics",
-      "summary": "Designed to fit the specific contours of your feet."
+      "summary": "Designed to fit the specific contours of your feet.",
+      "service": "orthotics"
     }
   ],
   "services": [
     {
+      "id": "adjustments",
       "icon": "spine",
       "title": "Specific spinal adjustments",
       "summary": "To improve function and help the body express optimal health."
     },
     {
+      "id": "techniques",
       "icon": "physio",
       "title": "A variety of techniques",
       "summary": "Including Diversified, Activator, Logan Basic, Thompson, and Webster."
     },
     {
+      "id": "traction",
       "icon": "traction",
       "title": "Cervical & lumbar traction",
       "summary": "Relieves pressure on the spine and helps to align the vertebrae."
     },
     {
+      "id": "x-ray",
       "icon": "scan",
       "title": "On-premise digital X-ray facility",
       "summary": "High-quality digital X-ray services for a variety of purposes."
     },
     {
+      "id": "health-assessments",
       "icon": "report",
       "title": "Complete computerized health assessments",
       "summary": "A comprehensive picture of your health."
     },
     {
+      "id": "nutrition",
       "icon": "apple",
       "title": "Personal nutritional consultations",
       "summary": "Diabetes, autoimmune conditions, autism spectrum disorders, weight loss, and more."
     },
     {
+      "id": "food-sensitivity",
       "icon": "test-tube",
       "title": "Food allergy & sensitivity testing",
       "summary": "Individualized microbiome and metabolic testing."
     },
     {
+      "id": "massage",
       "icon": "massage",
       "title": "Licensed massage therapy",
       "summary": "Improved circulation, reduced stress levels, and more."
     },
     {
+      "id": "orthotics",
       "icon": "footprints",
       "title": "Custom-made foot orthotics",
       "summary": "Designed to fit the specific contours of your feet."
     }
   ],
   "products": [
-    "Innate Choice D Sufficiency (Vitamin D3)",
-    "Innate Choice Probiotic Sufficiency",
-    "Innate Choice Omega Sufficiency (professional-grade fish oil)",
-    "Innate Choice Vita Sufficiency (multivitamin)",
-    "Whole-food-based Vitamin C",
-    "Lumbar (low back) support pillows",
-    "Cervical (neck) support pillows",
-    "Biofreeze",
-    "Ice packs",
-    "Challenge boards"
+    {
+      "name": "Innate Choice D Sufficiency",
+      "note": "Vitamin D3",
+      "photo": null
+    },
+    {
+      "name": "Innate Choice Probiotic Sufficiency",
+      "photo": null
+    },
+    {
+      "name": "Innate Choice Omega Sufficiency",
+      "note": "Professional-grade fish oil",
+      "photo": null
+    },
+    {
+      "name": "Innate Choice Vita Sufficiency",
+      "note": "Multivitamin",
+      "photo": null
+    },
+    {
+      "name": "Whole-food-based Vitamin C",
+      "photo": null
+    },
+    {
+      "name": "Lumbar (low back) support pillows",
+      "photo": null
+    },
+    {
+      "name": "Cervical (neck) support pillows",
+      "photo": null
+    },
+    {
+      "name": "Biofreeze",
+      "photo": null
+    },
+    {
+      "name": "Ice packs",
+      "photo": null
+    },
+    {
+      "name": "Challenge boards",
+      "photo": null
+    }
   ]
 }
