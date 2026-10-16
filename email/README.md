@@ -32,9 +32,9 @@ then you'll see their alt text instead.
 | Logo, globe icon, footer text link | `https://lifepointechiro.com/` |
 | Request an Appointment button (HTML and Outlook VML) | `https://lifepointechiro.com/contact#appointment` |
 | New Patient Info button (HTML and Outlook VML) | `https://lifepointechiro.com/new-patients` |
-| Phone (Visit or Call, and the footer, in white) | `tel:+12486236107` (shown as 248-623-6107) |
+| Phone (Visit or Call; white in the footer) | `tel:+12486236107` (shown as 248-623-6107) |
 | Email | `mailto:office@lifepointechiro.com` |
-| Address | Google Maps listing |
+| Address (Visit or Call; white in the footer) | Google Maps listing |
 | Facebook / Instagram | `facebook.com/lifepointewellness/` / `instagram.com/lifepointe.chiropractic/` |
 
 Each button has two links, the normal `<a>` and the `href` on the `<v:roundrect>` that Outlook
@@ -227,8 +227,11 @@ address (and maybe a name) is not a patient list, but don't import the patient r
 - Every image has `alt` text, styled so it stays readable when images are blocked, and the
   footer repeats the icon links as text.
 - `role="presentation"` on layout tables so screen readers skip them.
-- Apple and Gmail auto-link detection is suppressed on plain-text phone numbers and addresses
-  (`.unstyle-auto-detected-links`). The class goes only on plain text, never on an element that
+- Every address is the template's own Google Maps link, and every phone number its own `tel:`
+  link, styled to match the text around them (white in the navy footer). Gmail turns a
+  plain-text address into a blue link of its own and ignores any reset, so an address is never
+  left as plain text. The `.unstyle-auto-detected-links` reset stays on the plain-text fax
+  number, for Apple Mail and iOS. The class goes only on plain text, never on an element that
   holds the template's own links, or its reset would strip their color, weight and underline.
 - Absolute URLs with `target="_blank"` on every link.
 - `tel:` and `mailto:` links for one-tap contact on phones.
