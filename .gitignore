@@ -1,2 +1,4 @@
 dist/
 __pycache__/
+# Local secrets, such as the app password for email/tools/send-test.py. Never commit.
+.env
