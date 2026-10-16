@@ -5,6 +5,10 @@ Wellness Center. Paste its source into your email platform as a custom-HTML camp
 [Unsubscribe and preference links](#unsubscribe-and-preference-links) and the
 [HIPAA note](#hipaa-note) before picking a platform).
 
+`components.html` is a gallery of every block a Lifepointe email can use, each under a small grey
+label: send it to yourself to see how every kind of content renders, and copy blocks from it into
+a campaign (see [Components](#components)). It's a test file; never send it to patients.
+
 `signatures/` holds the Gmail signatures for the office mailbox and Dr. Greg (see
 [Signatures](#signatures)).
 
@@ -238,11 +242,48 @@ Send yourself a test before any real send. Gmail (web, iOS and Android), Outlook
 Apple Mail cover most readers. Litmus or Email on Acid will render all of them at once if you
 want to be thorough.
 
+### Components
+`components.html` holds every block, numbered and labeled, in the same markup as `index.html`
+(same head, resets, 600px width, colors and Outlook buttons):
+
+| # | Block | Notes |
+|---|---|---|
+| 1 | Preheader | The inbox preview line; write one per campaign |
+| 2 | Top bar | Navy strip with "Clarkston, Michigan • Since 2001" |
+| 3 | Logo header | With a text line that stays when images are off |
+| 4 | Hero | Headline, paragraph, green button |
+| 5 | Full-width image with caption | 520px wide, rounded corners |
+| 6 | Text | Heading, subheading, paragraph, bold, inline link, small print |
+| 7 | Bulleted list | Table-based, so Outlook lines the bullets up too |
+| 8 | Numbered steps | Navy number badges |
+| 9 | Buttons | Green (the one main action), navy (a second), outline (a quiet third), text link with an arrow |
+| 10 | Two columns | Stack on phones |
+| 11 | Image beside text | Stacks on phones, image on top |
+| 12 | Three columns | Tinted cards; stack on phones |
+| 13 | Testimonial | Patients' exact words with permission; red only for the quote mark |
+| 14 | Notice box | Green edge on a tinted box, for closures and schedule changes |
+| 15 | Event | Date badge, time and place, a link |
+| 16 | Feature card on navy | Here the recipe book |
+| 17 | Image as a link | For a video: email can't play one, so a still links to it |
+| 18 | Divider and spacer | |
+| 19 | Hours and contact | Same as `index.html` |
+| 20 | Footer | Same as `index.html` |
+
+Text marked "Example" is made up to show the layout; the rest is the practice's own wording from
+the website. To build a campaign, copy the blocks you need into a copy of `index.html` and drop
+the grey labels. Photos for a real campaign go in `images/` (their URLs must never change once
+sent): the gallery borrows the website's photos from `/assets/`.
+
+Columns stack on phones with the `.stack` class. A column that has side padding also gets
+`.stack-pad` (padding becomes a gap below it) or, if it's the last one, `.stack-flush` (padding
+removed), or it stays indented once stacked.
+
 ### Sending a test
 `tools/send-test.py` emails `index.html` exactly as written, from the office@ mailbox:
 
 ```
 python3 email/tools/send-test.py you@gmail.com
+python3 email/tools/send-test.py you@gmail.com --file email/components.html --subject "Test: email components"
 ```
 
 It asks for office@'s **app password** and keeps it in memory only (or set
