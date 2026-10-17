@@ -42,6 +42,9 @@ BANNED = [
     # catches the practice's own numbers written any other way, such as 248.623.6107.
     r'chiropractic(?:\s|&nbsp;|&#160;|&#xa0;)+and(?:\s|&nbsp;|&#160;|&#xa0;)+wellness(?:\s|&nbsp;|&#160;|&#xa0;)+center',
     r'\(248\)',
+    # Dr. Greg's credentials are written "DC, CCWP", without periods (decided 2026-10-16), like
+    # CCWP itself. "D.C." on its own stays allowed: it is also Washington, D.C.
+    r'd\.c\.,(?:\s|&nbsp;|&#160;|&#xa0;)*ccwp',
 ]
 
 # What might sit between the parts of a phone number: hyphens and dashes, dots, slashes, a

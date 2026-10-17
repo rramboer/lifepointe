@@ -324,7 +324,7 @@ Gmail HTML signatures that match the business card:
 | File | For | Shows |
 |---|---|---|
 | `signatures/office.html` | The office mailbox | Logo · Lifepointe Chiropractic & Wellness Center · phone and fax · address · website |
-| `signatures/dr-greg.html` | Dr. Greg | Logo · Dr. Greg Ramboer, D.C., CCWP · Lifepointe Chiropractic & Wellness Center · phone and fax · address · website |
+| `signatures/dr-greg.html` | Dr. Greg | Logo · Dr. Greg Ramboer, DC, CCWP · Lifepointe Chiropractic & Wellness Center · phone and fax · address · website |
 
 - Each file is a standalone page that holds only the signature table, so it can be opened in a
   browser and copied. Everything is inline styles on tables, with no classes and no `<style>`
