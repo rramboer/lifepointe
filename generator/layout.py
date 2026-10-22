@@ -5,6 +5,10 @@ page, so a copy of the site works in any folder (such as the github.io preview).
 them root-absolute, for the 404 page, which GitHub Pages serves at whatever address was
 missing, at any depth. Links to pages go through helpers.page_href, which leaves out .html.
 """
+import hashlib
+from functools import cache
+from pathlib import Path
+
 from . import seo
 from .helpers import esc, page_href
 from .hours import hours_summary
@@ -17,6 +21,19 @@ LEGAL_LINKS = (('privacy.html', 'Privacy policy'),
                ('accessibility.html', 'Accessibility statement'),
                ('nondiscrimination.html', 'Nondiscrimination notice'),
                ('good-faith-estimate.html', 'Good Faith Estimate'))
+
+
+ROOT = Path(__file__).resolve().parent.parent
+
+
+@cache
+def versioned(path):
+    """'css/site.css' -> 'css/site.css?v=<first 10 hex digits of the file's SHA-256>'. GitHub
+    Pages lets browsers keep a file for 10 minutes, so right after a deploy a returning visitor
+    could get the new page with the old stylesheet or script. The version changes whenever the
+    file does, so the new page always fetches its own; a file that hasn't changed stays cached."""
+    digest = hashlib.sha256((ROOT / path).read_bytes()).hexdigest()[:10]
+    return f'{path}?v={digest}'
 
 
 # The latin font files every page draws its first screen with, fetched alongside the stylesheet
@@ -44,7 +61,7 @@ def head(title, description, base='', extra=''):
   <link rel="icon" type="image/svg+xml" href="{base}assets/favicon.svg">
   <link rel="apple-touch-icon" href="{base}assets/apple-touch-icon.png">
 {_preloads(base)}
-  <link rel="stylesheet" href="{base}css/site.css">{extra_html}
+  <link rel="stylesheet" href="{base}{versioned('css/site.css')}">{extra_html}
 </head>'''
 
 
@@ -216,4 +233,4 @@ def page(site, filename, title, description, body, *, head_extra='', base='', in
     extra = tags + (f'\n  {head_extra}' if head_extra else '')
     return (head(title, description, base, extra) + '\n<body>' + header(site, filename, base)
             + f'\n<main id="main">{body}</main>' + footer(site, base) + action_bar(site, base)
-            + f'\n<script src="{base}js/site.js"></script>\n</body>\n</html>')
+            + f'\n<script src="{base}{versioned('js/site.js')}"></script>\n</body>\n</html>')

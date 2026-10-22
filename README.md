@@ -418,6 +418,11 @@ committed. The workflow is `.github/workflows/deploy.yml`.
 
 The upload leaves out hidden files, such as the `.site-build` marker.
 
+Pages link the stylesheet and script with a version code, `css/site.css?v=…` (the start of
+the file's SHA-256, `versioned()` in `generator/layout.py`). GitHub Pages lets browsers keep
+a file for 10 minutes, so without it a returning visitor could see a new page with the old
+stylesheet right after a deploy. The code changes only when the file does.
+
 Repository settings:
 
 - **Settings > Pages > Source** must be **GitHub Actions**. With "Deploy from a branch", Pages
