@@ -182,10 +182,12 @@ Headshots:
 
 The office and products:
 
-- The office: one landscape photo of the front, about 1600×1000 pixels (16:10; another shape
-  is cropped from the center), under about 300 KB, such as `assets/office/building.jpg`. It is
-  the one photo with a description for screen readers ("The front of the Lifepointe office"),
-  since it shows what to look for when you arrive.
+- The office: one landscape photo of the front, 16:10 (another shape is cropped from the
+  center), about 1280×800 pixels, under about 300 KB: `assets/office/building.jpg` (the summer
+  photo, added October 2026). It is the one photo with a description for screen readers, in
+  `generator/media.py`, since it shows what to look for when you arrive; a new photo of the
+  office may need its description updated. Where a page shows it wider than 16:10, it keeps the
+  lower part (the sign and door) in view (`.place-photo img` in css/site.css).
 - Products: square, about 800×800 pixels, under about 150 KB, the product on a plain light
   background, such as `assets/products/biofreeze.jpg`. Keep them alike, so the grid looks even.
 - Remove the metadata from these too (the `ffmpeg` line above, with `scale=1600:-2` or
