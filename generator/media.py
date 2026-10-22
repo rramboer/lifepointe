@@ -61,8 +61,9 @@ def building(photo, cls='place-photo', base=''):
     """The front of the office, 16:10, or the map drawing. The photo has a description, since
     it shows what to look for when you arrive."""
     if photo:
-        return (f'<figure class="{cls}"><img src="{base}{esc(photo)}" alt="The front of the Lifepointe office" '
-                f'width="1600" height="1000" loading="lazy"></figure>')
+        return (f'<figure class="{cls}"><img src="{base}{esc(photo)}" alt="The front of the Lifepointe office: a '
+                f'brick building with the Lifepointe sign beside the front door" width="1280" height="800" '
+                f'loading="lazy"></figure>')
     return f'<div class="{cls} {cls}--placeholder">{MAP_ART}</div>'
 
 
