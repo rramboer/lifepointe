@@ -21,7 +21,7 @@ generator/         the generator itself
                    are the footer's legal pages, see Legal pages)
   seo.py           canonical URLs, link-preview tags, the home page's JSON-LD,
                    sitemap.xml and robots.txt (see Search engines and link previews)
-  card.py          the /card redirect behind the business-card QR code (see below)
+  redirects.py     the /card and /review redirects behind printed QR codes (see below)
   hours.py         office-hours table and footer summary
   icons.py         inline SVG icons, by name, drawn from the files in icons/ (see Icons)
   media.py         photos (headshots, the office, products) and the placeholders that hold
@@ -55,7 +55,7 @@ python3 preview.py
 Then open <http://localhost:8000>. `preview.py` serves `dist/` the way GitHub Pages does
 (Python's own `http.server` doesn't): `/about` loads `about.html`, and an address with no
 page gets `404.html`. Only this computer can connect; Ctrl+C stops it. Each build empties `dist/` and writes it again: the nine
-pages, `404.html`, `sitemap.xml`, `robots.txt` and the `/card` redirect, plus copies of `css/`,
+pages, `404.html`, `sitemap.xml`, `robots.txt` and the `/card` and `/review` redirects, plus copies of `css/`,
 `js/`, `assets/`, `email/images/` and `forms/`. The email template itself isn't published: it
 is pasted into an email platform, and opening the file previews it.
 `--out DIR` builds somewhere else. It uses a new or empty folder, or empties one that an
@@ -121,7 +121,7 @@ email template's buttons use the same form.
 
 | File | What it holds |
 |---|---|
-| `data/practice.json` | Practice name and legal name (`legal_name`, used in the footer's copyright line and the privacy policy; the email template's copyright line repeats it), `opened` (the month the practice opened, `YYYY-MM`: the home page's photo chip counts the years from it, at build time and again in the browser, so "Serving Clarkston for 25 years" stays right), the doctor's name, credentials and headshot (`photo`, see Photos), phone (`display`, written `248-555-0123`, and the `tel` dialing number), fax (written `248-555-0123`), email, address (`street, city, ST 12345`), map link and the coordinates of its pin (`geo`), `review_url` (Google's page for leaving the practice a review: the success stories page's "Leave a review on Google" button), a photo of the front of the office (`building_photo`, see Photos), social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `in_network` lists the insurance plans the practice is in-network with, in the order the pages show them: the "In-network with" row at the bottom of the home page's hero and the new patients page's Insurance card. `booking_url` is the online booking page: when it is set, the contact page's appointment section leads with a "Book online" button and the business-card QR code goes there (see below); `null` means the QR code goes to the contact page. `forms` holds the paths of the adult and child new-patient PDFs (see New-patient forms). |
+| `data/practice.json` | Practice name and legal name (`legal_name`, used in the footer's copyright line and the privacy policy; the email template's copyright line repeats it), `opened` (the month the practice opened, `YYYY-MM`: the home page's photo chip counts the years from it, at build time and again in the browser, so "Serving Clarkston for 25 years" stays right), the doctor's name, credentials and headshot (`photo`, see Photos), phone (`display`, written `248-555-0123`, and the `tel` dialing number), fax (written `248-555-0123`), email, address (`street, city, ST 12345`), map link and the coordinates of its pin (`geo`), `review_url` (Google's page for leaving the practice a review: the success stories page's "Leave a review on Google" button, and where the `/review` QR code goes; see Review QR code), a photo of the front of the office (`building_photo`, see Photos), social links, recipe book link. `site_url` is the site's own address (`https://` and the domain only). `in_network` lists the insurance plans the practice is in-network with, in the order the pages show them: the "In-network with" row at the bottom of the home page's hero and the new patients page's Insurance card. `booking_url` is the online booking page: when it is set, the contact page's appointment section leads with a "Book online" button and the business-card QR code goes there (see below); `null` means the QR code goes to the contact page. `forms` holds the paths of the adult and child new-patient PDFs (see New-patient forms). |
 | `data/nav.json` | The site's pages, in menu order: the header menu and the footer's Explore list. `footer_label` changes an entry's text in the footer. `"header": false` keeps an entry out of the header menu (the recipe book), so the menu stays short; the footer lists every entry. |
 | `data/hours.json` | Office hours, Monday through Sunday, in 24-hour `HH:MM`. `"hours": []` means closed. This one list feeds both hours tables (home and contact) and the footer summary. |
 | `data/services.json` | `services` (services page cards), each with an `id` (its anchor, as in `services#massage`), an `icon`, a `title` and a `summary`; `home_cards` (home page "What we do"), each linking to one service with `service` (that service's `id`); and `products`, each with a `name`, an optional `note` (what it is, shown under the name) and a `photo` (see Photos). |
@@ -303,7 +303,7 @@ file that isn't there. The email template isn't part of the published site (see
   Syriac font. It is Google Fonts' "syriac" file (14 KB, weight 400), with its
   `unicode-range` cut to the Syriac blocks so it never draws Arabic, and only those two pages
   download it. License: `OFL-notosanssyriaceastern.txt`.
-- The `/card` redirect loads no fonts: it shows for a moment at most.
+- The `/card` and `/review` redirects load no fonts: they show for a moment at most.
 
 ## Icons
 
@@ -375,11 +375,28 @@ Printed cards last for years, so that address must always work.
   button to the contact page's appointment section. While `booking_url` is `null`,
   it goes to the contact page's appointment section, `/contact#appointment`, so keep
   `id="appointment"` on that section; the build stops if it is gone. The page itself is
-  `generator/card.py`, and no other page may use the file name `card.html`.
+  `generator/redirects.py`, and no other page may use the file name `card.html`.
 - Its links start with `/`, so they only work at the root of a domain. On the temporary
   `rramboer.github.io/lifepointe/` address it redirects to a page that doesn't exist; test it
   on `lifepointechiro.com`, or at `/card` in `preview.py`.
 - After changing it, open `/card` on the live site on a phone, and scan a printed card.
+
+## Review QR code (/review)
+
+A QR code that asks patients for a review, on a sign at the front desk or a card handed out
+after a visit, opens `https://lifepointechiro.com/review`, never Google's own link. If
+Google's link ever changes, only `review_url` changes, and every printed code keeps working.
+
+- The build writes it to `review.html` from the same code as `/card` (above), and it works the
+  same way: it isn't in the menu, nothing on the site links to it, it asks search engines not
+  to index it, and it sends people on at once, with a button as the fallback. **Never delete
+  or rename it,** and no other page may use the file name `review.html`.
+- **To change where it goes, set `review_url`** in `data/practice.json` to Google's new review
+  link (the Google Business Profile's "Ask for reviews" gives it). The success stories page's
+  "Leave a review on Google" button follows it too. The build stops if it isn't an `https://`
+  address.
+- Test it on `lifepointechiro.com`, or at `/review` in `preview.py`. After changing it, scan a
+  printed code.
 
 ## Deploy
 

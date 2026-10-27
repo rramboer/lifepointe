@@ -205,8 +205,8 @@ def offsite_loads(out, site_url):
     """'file:line: ...' for each thing in the output's pages, stylesheets and SVGs that makes a
     browser fetch something from another site as the page opens (a script, image, font,
     stylesheet, preconnect, frame or embed), and for each form or form field. Links people
-    click, the canonical link, link-preview tags and the /card meta refresh may point anywhere.
-    What a script does once it runs can't be checked here."""
+    click, the canonical link, link-preview tags and the QR-code redirects' meta refresh may
+    point anywhere. What a script does once it runs can't be checked here."""
     problems = []
     for path in sorted(p for p in out.rglob('*') if p.is_file()):
         suffix = path.suffix.lower()

@@ -38,7 +38,7 @@ def render(site):
     notice_link = esc(page_href(privacy_notice.FILENAME))
     # With a booking_url, the contact page links to an online booking service: another
     # company's site that collects what people type into it. Name it among the outside links.
-    # The /card redirect (generator/card.py) goes there too.
+    # The /card redirect (generator/redirects.py) goes there too.
     if p.booking_url:
         how_to_book = ('To book a visit, you call, email, or use our online booking service, which is another '
                        'company&rsquo;s website. To ask a question, you call or email us.')
