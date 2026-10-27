@@ -4,7 +4,7 @@ import shutil
 import sys
 from pathlib import Path
 
-from . import card, checks, data, layout, seo, static
+from . import checks, data, layout, redirects, seo, static
 from .errors import BuildError
 from .pages import PAGES, not_found
 
@@ -48,9 +48,10 @@ def build(out_arg=None):
     filenames = [page.FILENAME for page in PAGES]
     if len(set(filenames)) != len(filenames):
         raise BuildError('two page modules share a FILENAME')
-    if set(filenames) & set(card.FILES):
-        raise BuildError(f'{", ".join(card.FILES)} is reserved for the business-card '
-                         f'/card redirect (generator/card.py); give the page another FILENAME')
+    taken = set(filenames) & set(redirects.FILES)
+    if taken:
+        raise BuildError(f'{" and ".join(sorted(taken))}: reserved for the QR-code redirects '
+                         f'(generator/redirects.py); give the page another FILENAME')
     reserved = set(filenames) & {not_found.FILENAME, *seo.FILES}
     if reserved:
         raise BuildError(f'{" and ".join(sorted(reserved))}: made by the build itself (404 page or '
@@ -62,13 +63,12 @@ def build(out_arg=None):
     seo.check_images(ROOT)
     site = data.load(ROOT / 'data', set(filenames))
     rendered = [(page.FILENAME, page.render(site)) for page in PAGES]
-    card.check_target(site, dict(rendered))
-    card_html = card.render(site)
+    redirects.check_targets(site, dict(rendered))
     files = rendered + [
         (not_found.FILENAME, not_found.render(site)),
         (seo.SITEMAP, seo.sitemap(site, filenames)),
         (seo.ROBOTS, seo.robots(site)),
-    ] + [(filename, card_html) for filename in card.FILES]
+    ] + redirects.render(site)
 
     out = _output_dir(out_arg)
     if out.exists():
@@ -101,8 +101,8 @@ def build(out_arg=None):
     if broken:
         raise BuildError(f'links on the pages keep .html or lead nowhere ({len(broken)} found):\n  '
                          + '\n  '.join(broken))
-    print(f'built {len(rendered)} pages, {not_found.FILENAME}, {seo.SITEMAP}, {seo.ROBOTS} and the /card '
-          f'redirect into {_shown(out)}/ (copied {", ".join(copied)}; {scanned} text files checked, '
+    print(f'built {len(rendered)} pages, {not_found.FILENAME}, {seo.SITEMAP}, {seo.ROBOTS} and the /card and '
+          f'/review redirects into {_shown(out)}/ (copied {", ".join(copied)}; {scanned} text files checked, '
           f'plus {email_scanned} in email/)')
 
 

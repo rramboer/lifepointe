@@ -162,7 +162,7 @@ def _read(data_dir, filename):
 
 def _check_practice(c, raw, root):
     p = c.obj(raw, TOP, ('name', 'legal_name', 'opened', 'doctor', 'phone', 'fax', 'email', 'address', 'geo',
-                         'maps_url', 'building_photo', 'social', 'recipe_book_url', 'site_url', 'booking_url',
+                         'maps_url', 'review_url', 'building_photo', 'social', 'recipe_book_url', 'site_url', 'booking_url',
                          'in_network', 'forms'))
     c.text(p, 'name', TOP)
     c.text(p, 'legal_name', TOP)
@@ -194,6 +194,12 @@ def _check_practice(c, raw, root):
             abs(float(pin[i + 1]) - coordinates[i]) > 1e-6 for i in range(2)):
         c.fail('geo', f'does not match the pin in maps_url ({pin[1]}, {pin[2]}); copy those numbers '
                       f'into latitude and longitude')
+    # Google's page for leaving the practice a review: the success stories page's button, and
+    # where the /review redirect (a printed QR code) sends people.
+    review = c.url(p, 'review_url', TOP)
+    if review and not WEB_ADDRESS.fullmatch(review):
+        c.fail('review_url', f'must be an https:// address with a domain and no spaces, like '
+                             f'https://g.page/r/abc123/review (got "{review}")')
     email = c.text(p, 'email', TOP)
     if email and '@' not in email:
         c.fail('email', f'not an email address (got "{email}")')

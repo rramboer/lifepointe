@@ -23,7 +23,7 @@ GITHUB_PRIVACY = 'https://docs.github.com/en/site-policy/privacy-policies/github
 GITHUB_PAGES_DATA = ('https://docs.github.com/en/pages/getting-started-with-github-pages/'
                      'what-is-github-pages#data-collection')
 # The policies of the other sites the pages link to: Facebook and Instagram (Meta), and
-# Google Maps and Google Drive (Google).
+# Google Maps, Google reviews and Google Drive (Google).
 META_PRIVACY = 'https://www.facebook.com/privacy/policy/'
 GOOGLE_PRIVACY = 'https://policies.google.com/privacy'
 
@@ -38,7 +38,7 @@ def render(site):
     notice_link = esc(page_href(privacy_notice.FILENAME))
     # With a booking_url, the contact page links to an online booking service: another
     # company's site that collects what people type into it. Name it among the outside links.
-    # The /card redirect (generator/card.py) goes there too.
+    # The /card redirect (generator/redirects.py) goes there too.
     if p.booking_url:
         how_to_book = ('To book a visit, you call, email, or use our online booking service, which is another '
                        'company&rsquo;s website. To ask a question, you call or email us.')
@@ -77,7 +77,7 @@ def render(site):
       <p>Regular email isn&rsquo;t a fully secure way to send health information. When you email us to book, please share only your name, phone number, and preferred days and times. If you&rsquo;d rather not email your completed new patient forms, print them and bring them to your first visit. Health information you give us as a patient is covered by our Notice of Privacy Practices.</p>
 
       <h3 class="display-3 mt-2">Links to other websites</h3>
-      <p>Some links take you to other companies&rsquo; websites: our Facebook and Instagram pages{booking_link}, directions in Google Maps, and our recipe book in Google Drive. Once you follow one of those links, that company&rsquo;s own privacy policy applies. Facebook and Instagram are covered by the <a href="{esc(META_PRIVACY)}">Meta Privacy Policy</a>, and Google Maps and Google Drive by the <a href="{esc(GOOGLE_PRIVACY)}">Google Privacy Policy</a>.</p>
+      <p>Some links take you to other companies&rsquo; websites: our Facebook and Instagram pages{booking_link}, directions in Google Maps, our reviews on Google, and our recipe book in Google Drive. Once you follow one of those links, that company&rsquo;s own privacy policy applies. Facebook and Instagram are covered by the <a href="{esc(META_PRIVACY)}">Meta Privacy Policy</a>, and Google Maps, Google reviews, and Google Drive by the <a href="{esc(GOOGLE_PRIVACY)}">Google Privacy Policy</a>.</p>
 
       <h3 class="display-3 mt-2">Children</h3>
       <p>This website doesn&rsquo;t collect personal information from anyone, children included. Information about a child&rsquo;s care that a parent or guardian gives us is covered by our Notice of Privacy Practices.</p>

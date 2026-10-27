@@ -208,8 +208,9 @@ Good Faith Estimate) omit it too: they are reference text, not sales pages. Each
 in a `.measure` column (h2 per section, `.display-3` h3 per topic, `.display-4` h4 inside a
 topic, `.mt-2` between topics), with the "Last updated", "Last reviewed" or "Effective" date in
 the hero (`.page-hero__meta`).
-`/card` (the business-card QR code) is an unlisted redirect, not a page: logo, one line and a
-green button with navy text, its few styles inline, nothing loaded from other sites (README.md).
+`/card` (the business-card QR code) and `/review` (the review QR code) are unlisted redirects,
+not pages: logo, one line and a green button with navy text, their few styles inline, nothing
+loaded from other sites (README.md).
 `404.html` uses the shared header and footer with a short hero and two buttons, home (green)
 and contact; its links start with `/` because GitHub Pages serves it at any depth.
 Every page opens with a light hero: white, a soft green glow in the top corner and a navy one
@@ -236,7 +237,7 @@ accessibility.html tells visitors about this floor; keep it in step.
 
 ## Building
 `python3 build.py` builds the nine pages, the 404 page, `sitemap.xml`, `robots.txt` and the
-`/card` redirect into `dist/` (see README.md). GitHub Actions runs the same build on every
+`/card` and `/review` redirects into `dist/` (see README.md). GitHub Actions runs the same build on every
 pull request and every push to `main`, and deploys `main` to GitHub Pages (README.md,
 Deploy). The generated HTML is never committed. Edit content in `data/*.json`, page markup
 in `generator/pages/`, the shared header, footer and CTA band in `generator/layout.py`,
