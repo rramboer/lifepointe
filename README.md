@@ -190,6 +190,9 @@ The office and products:
   lower part (the sign and door) in view (`.place-photo img` in css/site.css).
 - Products: square, about 800×800 pixels, under about 150 KB, the product on a plain light
   background, such as `assets/products/biofreeze.jpg`. Keep them alike, so the grid looks even.
+  The Innate Choice photos are the brand's own product shots (October 2026), each centered on
+  the photo spot's tint (`#EEF1F6`, `--navy-tint`) with the bottle about four-fifths of the
+  height. Make another brand's photo the same way.
 - Remove the metadata from these too (the `ffmpeg` line above, with `scale=1600:-2` or
   `scale=800:-2`).
 
