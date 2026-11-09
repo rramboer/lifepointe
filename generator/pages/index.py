@@ -162,6 +162,7 @@ def render(site):
       <ul class="link-list">
         <li><a class="file-link" href="{esc(p.forms.adult)}">{svg('download')}<span>Download adult new patient forms (PDF)</span></a></li>
         <li><a class="file-link" href="{esc(p.forms.child)}">{svg('download')}<span>Download child new patient forms (under 12) (PDF)</span></a></li>
+        <li><a class="file-link" href="{esc(p.forms.acknowledgment)}">{svg('download')}<span>Download privacy notice acknowledgment (PDF)</span></a></li>
       </ul>
     </div>
   </div>

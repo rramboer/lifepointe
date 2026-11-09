@@ -245,9 +245,10 @@ def _check_practice(c, raw, root):
     social = c.obj(p.get('social'), 'social', ('facebook', 'instagram'))
     c.url(social, 'facebook', 'social')
     c.url(social, 'instagram', 'social')
-    # The new-patient intake PDFs, kept in forms/ and linked from the home and new-patients pages.
-    forms = c.obj(p.get('forms'), 'forms', ('adult', 'child'))
-    for key in ('adult', 'child'):
+    # The new-patient intake PDFs and the privacy notice acknowledgment, kept in forms/ and
+    # linked from the home and new-patients pages.
+    forms = c.obj(p.get('forms'), 'forms', ('adult', 'child', 'acknowledgment'))
+    for key in ('adult', 'child', 'acknowledgment'):
         path = c.text(forms, key, 'forms')
         if path and not FORM_PATH.fullmatch(path):
             c.fail(f'forms.{key}', f'must be a PDF in the forms/ folder, like forms/new-patient-adult.pdf, '

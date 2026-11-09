@@ -858,6 +858,7 @@ h1, h2, h3 { overflow-wrap: break-word; }
 .mt-15 { margin-top: 1.5rem; }   /* post-heading gap */
 .mt-2 { margin-top: 2rem; }      /* pre-CTA / group gap */
 .link-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .6rem; }
+.link-list + p { margin-top: 1em; }  /* a note under the links, spaced like the text above them */
 /* A link to a file, with its download icon in front */
 .file-link { display: inline-flex; align-items: flex-start; gap: .5rem; padding-block: .15rem; }
 .file-link svg { width: 1.1em; height: 1.1em; flex: none; margin-top: .22em; }

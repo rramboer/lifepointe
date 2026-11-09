@@ -198,10 +198,15 @@ The office and products:
 
 ## New-patient forms
 
-The home and new-patients pages link to two fillable PDFs in `forms/`:
-`new-patient-adult.pdf` and `new-patient-child.pdf`. They are the practice's intake forms,
-copied in unchanged. `forms` in `data/practice.json` gives their paths, relative to the
-pages, so the links work on any address the site is served from.
+The home and new-patients pages link to three fillable PDFs in `forms/`: the practice's
+intake forms, `new-patient-adult.pdf` and `new-patient-child.pdf`, and
+`privacy-acknowledgment.pdf`, the acknowledgment of the Notice of Privacy Practices that every
+new patient signs (a parent or guardian signs for a child). All three are the practice's own,
+copied in unchanged. The acknowledgment replaced the privacy paragraph that used to be on page
+3 of the intake forms (November 2026). `forms` in `data/practice.json` gives their paths
+(`adult`, `child` and `acknowledgment`), relative to the pages, so the links work on any
+address the site is served from. Every field in all three has a tooltip, added for the
+accessibility statement (see below).
 
 To update a form, replace the file and keep its name, so the links stay the same. Check the
 new file before committing it: its fields should still fill in, and they should all be blank,
