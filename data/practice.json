@@ -40,6 +40,7 @@
   ],
   "forms": {
     "adult": "forms/new-patient-adult.pdf",
-    "child": "forms/new-patient-child.pdf"
+    "child": "forms/new-patient-child.pdf",
+    "acknowledgment": "forms/privacy-acknowledgment.pdf"
   }
 }

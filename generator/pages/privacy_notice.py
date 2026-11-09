@@ -239,7 +239,7 @@ def render(site):
       <p>For more information see: <a class="url" href="{esc(HHS_NOTICE_INFO)}">www.hhs.gov/ocr/privacy/hipaa/understanding/consumers/noticepp.html</a>.</p>
 
       <h3 class="display-3 mt-2">Changes to the Terms of this Notice</h3>
-      <p>We can change the terms of this notice, and the changes will apply to all information we have about you. The new notice will be available upon request, in our office, and on our web site.</p>
+      <p>We can change the terms of this notice, and the changes will apply to all information we have about you. The new notice will be available upon request, in our office, and on our website.</p>
       <p><strong>We never market or sell personal information.</strong></p>
       <p>Questions about this notice or your privacy? Contact our Privacy Officer at <a href="{tel}">{phone}</a> or <a href="{email_link}">{email}</a>, or write to us at {address}.</p>
     </div>
