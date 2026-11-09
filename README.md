@@ -203,9 +203,10 @@ intake forms, `new-patient-adult.pdf` and `new-patient-child.pdf`, and
 `privacy-acknowledgment.pdf`, the acknowledgment of the Notice of Privacy Practices that every
 new patient signs (a parent or guardian signs for a child). All three are the practice's own,
 copied in unchanged. The acknowledgment replaced the privacy paragraph that used to be on page
-3 of the intake forms (November 2026). `forms` in `data/practice.json` gives their paths
-(`adult`, `child` and `acknowledgment`), relative to the pages, so the links work on any
-address the site is served from. Every field in all three has a tooltip, added for the
+3 of the intake forms (November 2026). Page 3 of the intake forms also holds the practice's
+terms of acceptance, which used to be a separate form. `forms` in `data/practice.json` gives
+their paths (`adult`, `child` and `acknowledgment`), relative to the pages, so the links work
+on any address the site is served from. Every field in all three has a tooltip, added for the
 accessibility statement (see below).
 
 To update a form, replace the file and keep its name, so the links stay the same. Check the
